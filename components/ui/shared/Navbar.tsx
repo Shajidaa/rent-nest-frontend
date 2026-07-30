@@ -1,4 +1,4 @@
-
+"use client"
 
 import Link from "next/link"
 import { 
@@ -30,11 +30,37 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { IUser } from "@/lib/type"
+import { useRouter } from "next/navigation"
+import { logout } from "@/service/logout"
+import { toast } from "sonner"
 
 
 export default   function Navbar({...user}:IUser) {
 
+    const router = useRouter()
+  const handleUserMenuAction = async (action: string) => {
+   if(action === "dashboard" ){
+      if(user.data.profile.role === "TENANT"){
+        router.push("/tenant-dashboard")
+      }
+      else if(user.data.profile.role === "LANDLORD"){
+        router.push("/landlord-dashboard")
+      }
+      else if(user.data.profile.role === "ADMIN"){
+        router.push("/admin-dashboard")
+      }
+
+      return;
+    }
+
+    if(action === "logout"){
+        await logout();
+        toast.success(" Logged Out Successfully!");
+        router.push("/");
+    }
   
+  
+  };
 
   const navLinks = [
     { name: "Explore", href: "/explore", icon: Search },
@@ -103,7 +129,7 @@ export default   function Navbar({...user}:IUser) {
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col space-y-1">
                     <p className="text-sm font-medium leading-none">{user?.data?.profile?.name}</p>
-                    <p className="text-xs leading-none text-muted-foreground">alex@example.com</p>
+                    <p className="text-xs leading-none text-muted-foreground">{user?.data?.profile?.email}</p>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
@@ -119,7 +145,8 @@ export default   function Navbar({...user}:IUser) {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem 
                   className="text-red-600 focus:text-red-600 cursor-pointer"
-              
+              onClick={async () => {
+                await handleUserMenuAction("logout")}}
                 >
                   Log out
                 </DropdownMenuItem>
