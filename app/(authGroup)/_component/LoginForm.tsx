@@ -11,6 +11,7 @@ import { CardContent } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { loginAction } from "../_actions/authActions";
 import { useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 
 // 1. Define  Zod Schema
 const loginSchema = z.object({
@@ -44,10 +45,16 @@ export default function LoginForm() {
 
       const result = await loginAction(redirectTo, formData);
 
-      if (result && !result.success) {
+      if ( !result.success) {
         setServerError(result.message || "An unexpected error occurred");
       }
+      if (result.success) {
+        toast.success(`Login success!`)
+      }
+
     });
+
+    
   };
 
   return (
