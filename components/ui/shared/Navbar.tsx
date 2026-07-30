@@ -10,7 +10,11 @@ import {
   KeyRound, 
   PlusCircle, 
   Building2, 
-  Home
+  Home,
+  User,
+  LogOut,
+  LayoutDashboard,
+  Settings
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -67,7 +71,11 @@ export default   function Navbar({...user}:IUser) {
     { name: "Properties", href: "/properties", icon: Building2 },
     { name: "Saved", href: "/saved", icon: Heart },
   ]
-
+const userMenuItems = [
+  { label : "Dashboard", icon : LayoutDashboard, action : "dashboard"},
+  { label: "Profile", icon: User, action: "profile" },
+  { label: "Settings", icon: Settings, action: "settings" },
+];
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-8">
@@ -116,42 +124,48 @@ export default   function Navbar({...user}:IUser) {
 
           {/* Conditional Auth State */}
           {user?.data ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                  <Avatar className="h-10 w-10 border">
-                    <AvatarImage src="https://github.com/shadcn.png" alt="User" />
-                    <AvatarFallback>NR</AvatarFallback>
-                  </Avatar>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="end" forceMount>
-                <DropdownMenuLabel className="font-normal">
-                  <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">{user?.data?.profile?.name}</p>
-                    <p className="text-xs leading-none text-muted-foreground">{user?.data?.profile?.email}</p>
-                  </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/dashboard">Dashboard</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/dashboard/bookings">My Bookings</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/dashboard/settings">Settings</Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem 
-                  className="text-red-600 focus:text-red-600 cursor-pointer"
-              onClick={async () => {
-                await handleUserMenuAction("logout")}}
-                >
-                  Log out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+           <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <div className="cursor-pointer">
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                  <User className="w-4 h-4 text-primary" />
+                </div>
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuLabel className="font-normal">
+                <div className="flex flex-col gap-1">
+                  <p className="text-sm font-medium">
+                    {user.data?.profile.name}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {user.data?.profile.email}
+                  </p>
+                </div>
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {userMenuItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <DropdownMenuItem
+                    key={item.action}
+                   
+                    onClick={() => handleUserMenuAction(item.action)}
+                  >
+                    <Icon className="w-4 h-4 mr-2" />
+                    <span  className=" text-muted-foreground transition-colors hover:text-primary hover:bg-muted/50 ">{item.label}</span>
+                  </DropdownMenuItem>
+                );
+              })}
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={async () => {
+                await handleUserMenuAction("logout");
+              }}>
+                <LogOut className="w-4 h-4 mr-2" />
+                <span>Log out</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           ) : (
             <div className="flex items-center gap-2">
               <Button variant="ghost" size="sm" asChild>
