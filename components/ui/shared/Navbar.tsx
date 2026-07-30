@@ -1,6 +1,5 @@
-"use client"
 
-import React, { useState } from "react"
+
 import Link from "next/link"
 import { 
   Menu, 
@@ -30,9 +29,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { IUser } from "@/lib/type"
 
-export default function Navbar() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false) // Toggle to test logged-in state
+
+export default   function Navbar({...user}:IUser) {
+
+  
 
   const navLinks = [
     { name: "Explore", href: "/explore", icon: Search },
@@ -41,7 +43,7 @@ export default function Navbar() {
   ]
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-8">
         
         {/* Logo */}
@@ -87,7 +89,7 @@ export default function Navbar() {
           </Button>
 
           {/* Conditional Auth State */}
-          {isLoggedIn ? (
+          {user?.data ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-10 w-10 rounded-full">
@@ -100,7 +102,7 @@ export default function Navbar() {
               <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">Alex Morgan</p>
+                    <p className="text-sm font-medium leading-none">{user?.data?.profile?.name}</p>
                     <p className="text-xs leading-none text-muted-foreground">alex@example.com</p>
                   </div>
                 </DropdownMenuLabel>
@@ -117,7 +119,7 @@ export default function Navbar() {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem 
                   className="text-red-600 focus:text-red-600 cursor-pointer"
-                  onClick={() => setIsLoggedIn(false)}
+              
                 >
                   Log out
                 </DropdownMenuItem>
@@ -140,10 +142,10 @@ export default function Navbar() {
           <Button 
             variant="ghost" 
             size="sm" 
-            onClick={() => setIsLoggedIn(!isLoggedIn)} 
+  
             className="text-xs h-8 px-2 border border-dashed"
           >
-            {isLoggedIn ? "Switch Out" : "Switch In"}
+            {user ? "Switch Out" : "Switch In"}
           </Button>
 
           <Sheet>
@@ -153,7 +155,7 @@ export default function Navbar() {
                 <span className="sr-only">Toggle Menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-[350px] flex flex-col justify-between">
+            <SheetContent side="right" className="w-75 sm:w-87.5 flex flex-col justify-between">
               <div className="flex flex-col gap-6 py-4">
                 
                 {/* Mobile Header Logo */}
@@ -167,15 +169,15 @@ export default function Navbar() {
                 </Link>
 
                 {/* Mobile User Profile snippet if logged in */}
-                {isLoggedIn && (
+                {user && (
                   <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/50 border">
                     <Avatar className="h-9 w-9">
                       <AvatarImage src="https://github.com/shadcn.png" />
                       <AvatarFallback>NR</AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col overflow-hidden">
-                      <span className="text-sm font-medium truncate">Alex Morgan</span>
-                      <span className="text-xs text-muted-foreground truncate">alex@example.com</span>
+                      <span className="text-sm font-medium truncate">{user?.data?.profile?.name}</span>
+                      <span className="text-xs text-muted-foreground truncate">{user?.data?.profile?.email}</span>
                     </div>
                   </div>
                 )}
@@ -211,7 +213,7 @@ export default function Navbar() {
 
               {/* Mobile Footer Auth Actions */}
               <div className="flex flex-col gap-2 pt-4 border-t">
-                {isLoggedIn ? (
+                {user ? (
                   <>
                     <SheetClose asChild>
                       <Button variant="outline" asChild className="w-full justify-start">
@@ -221,7 +223,7 @@ export default function Navbar() {
                     <Button 
                       variant="destructive" 
                       className="w-full justify-start"
-                      onClick={() => setIsLoggedIn(false)}
+                
                     >
                       Log out
                     </Button>
