@@ -88,3 +88,83 @@ export const loginAction = async (
 
   return { success: true };
 };
+
+export const registerAction = async (
+  redirectTo: string,
+  formData: FormData,
+): Promise<ActionResponse> => {
+  const rawData = {
+    name: formData.get("name"),
+    role: formData.get("role"),
+    email: formData.get("email"),
+    password: formData.get("password"),
+  };
+
+  let redirectPath: string | null = null;
+
+  try {
+    const cookieStore = await cookies();
+    const response = await axios.post(
+      `${process.env.BACKEND_API_URL}/api/user/register`,
+      rawData,
+    );
+
+    const { success, data } = response.data;
+
+    if (success) {
+      cookieStore.set({
+        name: "accessToken",
+        value: data.accessToken,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        path: "/",
+        maxAge: 60 * 15,
+        sameSite: "lax",
+      });
+
+      if (data.refreshToken) {
+        cookieStore.set({
+          name: "refreshToken",
+          value: data.refreshToken,
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          path: "/",
+          maxAge: 60 * 60 * 24 * 7,
+          sameSite: "lax",
+        });
+      }
+    }
+
+    const decodedToken = jwt.decode(data.accessToken) as JwtPayload;
+
+    if (
+      redirectTo &&
+      redirectTo.startsWith("/") &&
+      !redirectTo.startsWith("//")
+    ) {
+      redirectPath = redirectTo;
+    } else if (decodedToken?.role === "TENANT") {
+      redirectPath = "/tenant-dashboard";
+    } else if (decodedToken?.role === "ADMIN") {
+      redirectPath = "/admin-dashboard";
+    } else if (decodedToken?.role === "LANDLORD") {
+      redirectPath = "/landlord-dashboard";
+    } else {
+      redirectPath = "/";
+    }
+  } catch (error: any) {
+    if (error?.message === "NEXT_REDIRECT") throw error;
+
+    console.error("Register  failed:", error.response?.data || error.message);
+    return {
+      success: false,
+      message: error.response?.data?.message || "Invalid email or password",
+    };
+  }
+
+  if (redirectPath) {
+    redirect(redirectPath);
+  }
+
+  return { success: true };
+};

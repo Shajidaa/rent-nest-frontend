@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -9,10 +9,14 @@ import { CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2,Eye, EyeOff} from "lucide-react";
+import { toast } from "sonner";
+import { registerAction } from "../_actions/authActions";
+import { useSearchParams } from "next/navigation";
 
 // Register Form Zod Schema
 const registerSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
+  name: z.string().min(2, "Name must be at least 4 characters"),
+  role: z.string().min(2, "Role Is required"),
   email: z.string().min(1, "Email is required").email("Please enter a valid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
   confirmPassword: z.string().min(1, "Please confirm your password"),
@@ -26,17 +30,37 @@ export default function RegisterForm() {
       const [serverError, setServerError] = useState<string | null>(null);
 const [showPassword, setShowPassword] = useState(false);
 const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const {
+   const [isPending, startTransition] = useTransition();
+   const searchParams = useSearchParams();
+   const redirectTo = searchParams.get("redirectTo") ?? "";
+ 
+const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
   });
 
   const onSubmit = async (data: RegisterFormData) => {
     setServerError(null);
-    console.log("Register Data:", data);
+      startTransition(async () => {
+         const formData = new FormData();
+         formData.append("name", data.name);
+         formData.append("role", data.role);
+         formData.append("email", data.email);
+         formData.append("password", data.password);
+   
+         const result = await registerAction(redirectTo, formData);
+   
+         if ( !result.success) {
+           setServerError(result.message || "An unexpected error occurred");
+         }
+         if (result.success) {
+           toast.success(`Register success!`)
+         }
+   
+       });
     
   };
   return (
@@ -76,6 +100,20 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
               />
               {errors.email && (
                 <p className="text-xs text-rose-500 font-medium">{errors.email.message}</p>
+              )}
+            </div>
+            {/* Role Field */}
+            <div className="space-y-2">
+              <Label htmlFor="email">Role</Label>
+              <Input
+                id="role"
+                type="text"
+                placeholder="role"
+                {...register("role")}
+                className="border-slate-300 focus-visible:ring-emerald-600"
+              />
+              {errors.role && (
+                <p className="text-xs text-rose-500 font-medium">{errors.role.message}</p>
               )}
             </div>
 
@@ -130,10 +168,10 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
             {/* Submit Button */}
             <Button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isPending}
               className="w-full bg-emerald-600 hover:bg-emerald-700 text-white transition-colors"
             >
-              {isSubmitting ? (
+              {isPending ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Creating account...
