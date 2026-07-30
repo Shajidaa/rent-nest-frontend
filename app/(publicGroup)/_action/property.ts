@@ -1,3 +1,4 @@
+import { IProperty } from "@/lib/type";
 import axios from "axios";
 
 export async function fetchProperties(
@@ -15,5 +16,16 @@ export async function fetchProperties(
   } catch (error) {
     console.error("Failed to fetch properties:", error);
     return [];
+  }
+}
+export async function getPropertyById(id: string): Promise<IProperty | null> {
+  try {
+    const response = await axios.get(
+      `${process.env.BACKEND_API_URL}/api/properties/${id}`,
+    );
+    return response.data?.data || response.data || null;
+  } catch (error) {
+    console.error("Failed to fetch property details:", error);
+    return null;
   }
 }
