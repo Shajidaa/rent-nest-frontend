@@ -69,15 +69,15 @@ export function PropertyFilters() {
 
       <form onSubmit={handleFilterSubmit} className="space-y-4">
         {/* Global Keyword Search */}
-        <div className="space-y-2">
+        {/* <div className="space-y-2">
           <Label htmlFor="search">Keyword Search</Label>
-          <Input
+          {/* <Input
             id="search"
             placeholder="Title, description..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
+          /> 
+        </div> */}
 
         {/* City Filter */}
         <div className="space-y-2">

@@ -4,6 +4,8 @@ import { PropertyFilters } from "../_components/property/property-filters";
 import { PropertyCard } from "../_components/property/property-card";
 import { fetchProperties } from "../_action/property";
 import { PropertyGridSkeleton } from "../_components/property/propertySkeleton";
+import { PropertySearchBar } from "../_components/property/property-search";
+import { IProperty } from "@/lib/type";
 
 interface PropertiesPageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -13,6 +15,7 @@ export default async function PropertiesPage({ searchParams }: PropertiesPagePro
   const resolvedParams = await searchParams;
   const properties = await fetchProperties(resolvedParams);
 const propertyList = Array.isArray(properties) ? properties : [];
+
 
 
   return (
@@ -25,7 +28,7 @@ const propertyList = Array.isArray(properties) ? properties : [];
           </p>
         </div>
       </div>
-
+<PropertySearchBar/>
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Sidebar Filter Component */}
         <aside className="lg:col-span-1 space-y-4">
@@ -44,7 +47,7 @@ const propertyList = Array.isArray(properties) ? properties : [];
               </div>
             ) : (
   <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-    {propertyList.map((property: any) => (
+    {propertyList.map((property: IProperty) => (
       <PropertyCard key={property.id} property={property} />
     ))}
   </div>

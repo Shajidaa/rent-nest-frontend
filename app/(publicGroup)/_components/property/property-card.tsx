@@ -2,9 +2,10 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge";
 import { Bed, Bath, Square, MapPin } from "lucide-react";
 import Link from "next/link";
+import { IProperty } from "@/lib/type";
 
 interface PropertyCardProps {
-  property: any;
+  property: IProperty;
 }
 
 export function PropertyCard({ property }: PropertyCardProps) {

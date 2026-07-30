@@ -21,3 +21,49 @@ export type IUser = {
     };
   };
 };
+
+export interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  description: string | null;
+  createdAt: string;
+  updatedAt?: string;
+}
+
+export interface Review {
+  [key: string]: string;
+}
+
+export interface IProperty {
+  id: string;
+  title: string;
+  description: string;
+  city: string;
+  area: string;
+  fullAddress: string;
+  amenities: string[];
+  utilities: string[];
+  images: string[];
+  video: string | null;
+  bedrooms: number;
+  bathrooms: number;
+  veranda: number;
+  size: number;
+  sizeUnit: string;
+  price_per_month: number;
+  securityDeposit: number;
+  parking: boolean;
+  isAvailable: boolean;
+  facing: string;
+  status: string;
+  preferredTenant: string;
+  categoryId: string;
+  category: Category;
+  landlordId: string;
+  user: IUser;
+  review: Review[];
+  views: number;
+  createdAt: string;
+  updatedAt: string;
+}
