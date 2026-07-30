@@ -1,4 +1,5 @@
 allowBuilds:
+  node-base64: false
   sharp: false
   unrs-resolver: false
 ignoredBuiltDependencies:
