@@ -71,7 +71,7 @@ const roleNav: Record<string, NavGroup[]> = {
             group: "Main",
             items: [
                 { label: "Overview", href: "/landlord-dashboard", icon: LayoutDashboard },
-                { label: "My Properties", href: "/landlord-dashboard/my-properties", icon: Building2 },
+                { label: "Create Properties", href: "/landlord-dashboard/create-property", icon: Building2 },
                 { label: "Requested Properties", href: "/landlord-dashboard/requests", icon: Building2 },
                 { label: "Applications", href: "/landlord-dashboard/applications", icon: ClipboardList },
             ],

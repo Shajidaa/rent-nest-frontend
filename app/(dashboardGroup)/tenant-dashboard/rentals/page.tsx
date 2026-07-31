@@ -70,7 +70,7 @@ function formatCurrency(amount: number) {
 export default async function RentalPage() {
   const result: RentalResponse = await fetchRental();
   const rentals: Rental[] = result?.data ?? [];
-  console.log(rentals);
+  // console.log(rentals);
 
   return (
     <div className="space-y-6">

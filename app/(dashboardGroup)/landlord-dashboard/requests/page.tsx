@@ -17,7 +17,7 @@ export default async function RequestedProperties() {
   
   // Extracting the array of properties safely based on your JSON structure
   const properties = response?.data || []
-console.log(response);
+// console.log(response);
 
   return (
     <div className="p-6 space-y-4">
