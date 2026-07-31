@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { fetchRentalRequest } from '../_action/rental-request'
 import {
   Table,

@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-
 import {
   Table,
   TableBody,
@@ -8,27 +7,28 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 import { fetchPropertyRequests } from "../../_action/rental-request";
-import { Button } from "@/components/ui/button";
+import RequestActionButtons from "./_components/RequestActionButtons";
 
-interface PropertyRequestsProps {
-  params: {
-    propertyId: string
-  }
-}
+const statusVariant: Record<string, string> = {
+  PENDING: "bg-yellow-50 text-yellow-700 border-yellow-200",
+  APPROVED: "bg-emerald-50 text-emerald-700 border-emerald-200",
+  CANCELLED: "bg-slate-100 text-slate-600 border-slate-200",
+  REJECTED: "bg-rose-50 text-rose-700 border-rose-200",
+};
 
-export default async function PropertyRequestsPage({ params }: PropertyRequestsProps) {
-  const { id} = await params;
-  const propertyId= id 
+export default async function PropertyRequestsPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id: propertyId } = await params;
   const response = await fetchPropertyRequests(propertyId);
-// console.log(response);
+  const requests = response?.data?.requests ?? [];
+  console.log(requests);
 
-  
-  
-  const requests = response.data.requests || [];
-console.log(requests)
   return (
     <div className="p-6 space-y-4">
       <div>
@@ -38,15 +38,16 @@ console.log(requests)
         </p>
       </div>
 
-      <div className="border rounded-md bg-white shadow-sm">
+      <div className="border rounded-xl bg-white shadow-sm overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow>
+            <TableRow className="bg-muted/50">
               <TableHead>Tenant Name</TableHead>
               <TableHead>Email</TableHead>
-              <TableHead>Request Status</TableHead>
-              <TableHead>Requested At</TableHead>
-              <TableHead>Action</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Start Date</TableHead>
+              <TableHead>Offered Rent</TableHead>
+              <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -54,33 +55,50 @@ console.log(requests)
               requests.map((item: any) => (
                 <TableRow key={item.id}>
                   <TableCell className="font-medium">
-                    {item.tenant?.name || 'N/A'}
+                    {item.tenant?.name ?? "N/A"}
                   </TableCell>
-                  
-                  <TableCell>
-                    {item.tenant?.email || 'N/A'}
+
+                  <TableCell className="text-muted-foreground">
+                    {item.tenant?.email ?? "N/A"}
                   </TableCell>
 
                   <TableCell>
-                    <Badge variant={item.status === "PENDING" ? "outline" : "default"}>
+                    <span
+                      className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold ${statusVariant[item.status] ?? statusVariant.PENDING
+                        }`}
+                    >
                       {item.status}
-                    </Badge>
+                    </span>
                   </TableCell>
 
-                  <TableCell className="text-muted-foreground text-sm">
-                    {new Date(item.startDate).toLocaleDateString()}
+                  <TableCell className="text-sm text-muted-foreground">
+                    {new Date(item.startDate).toLocaleDateString("en-US", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                    })}
                   </TableCell>
-                  <TableCell className="text-muted-foreground text-sm">
-                   <div className=" flex flex-row gap-3">
-                    <Button>Accept</Button>
-                    <Button>Cancel</Button>
-                   </div>
+
+                  <TableCell className="font-semibold">
+                    ${item.offeredRent?.toLocaleString() ?? "—"}
+                    <span className="text-xs font-normal text-muted-foreground">/mo</span>
+                  </TableCell>
+
+                  <TableCell>
+                    <RequestActionButtons
+                      requestId={item.id}
+                      propertyId={propertyId}
+                      currentStatus={item.status}
+                    />
                   </TableCell>
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={4} className="text-center h-24 text-muted-foreground">
+                <TableCell
+                  colSpan={6}
+                  className="text-center h-24 text-muted-foreground"
+                >
                   No requests found for this property.
                 </TableCell>
               </TableRow>
@@ -89,5 +107,5 @@ console.log(requests)
         </Table>
       </div>
     </div>
-  )
+  );
 }
