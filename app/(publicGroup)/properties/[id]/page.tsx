@@ -1,35 +1,27 @@
 import { notFound } from "next/navigation";
-import axios from "axios";
-import Image from "next/image";
+
 import Link from "next/link";
 
-import { Badge } from "@/components/ui/badge";
+
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+
 import { 
-  Bed, 
-  Bath, 
-  Square, 
-  MapPin, 
-  CheckCircle2, 
+
+
   ArrowLeft, 
-  Compass, 
-  Car, 
-  ShieldCheck, 
-  User, 
-  Mail, 
-  Phone, 
-  Calendar,
-  Layers
+ 
 } from "lucide-react";
 
 import { getPropertyById } from "../../_action/property";
 import PropertyLandDetails from "../../_components/property-details/propertyLandDetails";
-import PropertyLandLord from "../../_components/property-details/propertyLandlord";
+import { PropertyLandLord } from "../../_components/property-details/propertyLandlord";
+
+
+
 
 interface PropertyDetailsProps {
   params: Promise<{ id: string }>;
+ 
 }
 
 
@@ -58,7 +50,7 @@ export default async function PropertyDetails({ params }: PropertyDetailsProps) 
       <PropertyLandDetails {...property}/>
 
         {/* Right Side: Landlord / Host Details Card */}
-      <PropertyLandLord {...property} />
+      <PropertyLandLord {...property}  />
 </div>
 
 

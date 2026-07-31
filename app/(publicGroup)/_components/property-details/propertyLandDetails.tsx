@@ -25,6 +25,7 @@ import {
 
 
 export default function PropertyLandDetails({...property}) {
+  
   return (
     <div>
     {/* Header Info Section */}

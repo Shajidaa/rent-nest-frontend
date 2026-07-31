@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type IUser = {
   success: boolean;
   message: string;
@@ -61,9 +62,20 @@ export interface IProperty {
   categoryId: string;
   category: Category;
   landlordId: string;
-  user: IUser;
+  user: {
+    name: string;
+    email: string;
+  };
   review: Review[];
   views: number;
   createdAt: string;
   updatedAt: string;
+}
+export interface PropertyLandLordProps {
+  id?: string;
+  user?: {
+    name?: string;
+    email?: string;
+  };
+  [key: string]: any;
 }
