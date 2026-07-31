@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { fetchRental } from "../_action/rentalRequest";
+import PaymentButton from "../_components/PaymentButton";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -69,6 +70,7 @@ function formatCurrency(amount: number) {
 export default async function RentalPage() {
   const result: RentalResponse = await fetchRental();
   const rentals: Rental[] = result?.data ?? [];
+  console.log(rentals);
 
   return (
     <div className="space-y-6">
@@ -144,6 +146,11 @@ export default async function RentalPage() {
                   </span>
                 </div>
               </div>
+              {rental.status === "APPROVED" && (
+                <div className="px-4 pb-2">
+                  <PaymentButton rentalRequestId={rental.id} />
+                </div>
+              )}
 
               <CardContent className="p-4 space-y-3">
                 {/* Title & location */}
@@ -212,6 +219,7 @@ export default async function RentalPage() {
                   </Link>
                 </Button>
               </CardContent>
+
             </Card>
           );
         })}
