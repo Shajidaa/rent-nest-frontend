@@ -50,6 +50,7 @@ const roleNav: Record<string, NavGroup[]> = {
                 { label: "Overview", href: "/admin-dashboard", icon: LayoutDashboard },
                 { label: "Users", href: "/admin-dashboard/users", icon: Users },
                 { label: "Properties", href: "/admin-dashboard/properties", icon: Building2 },
+                { label: "Rentals", href: "/admin-dashboard/rentals", icon: Building2 },
             ],
         },
         {

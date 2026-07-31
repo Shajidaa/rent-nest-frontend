@@ -1,6 +1,10 @@
-import React from 'react'
+import { getAllProperty } from "../_actions/property"
 
-export default function AllProperties() {
+
+export default async function AllProperties() {
+  const properties=await getAllProperty()
+
+  
   return (
     <div>AllProperties</div>
   )
