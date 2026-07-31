@@ -9,6 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
+import Link from 'next/link'
 
 
 export default async function RequestedProperties() {
@@ -16,7 +17,7 @@ export default async function RequestedProperties() {
   
   // Extracting the array of properties safely based on your JSON structure
   const properties = response?.data || []
-// console.log(response);
+console.log(response);
 
   return (
     <div className="p-6 space-y-4">
@@ -46,7 +47,12 @@ export default async function RequestedProperties() {
               properties.map((property: any) => (
                 <TableRow key={property.id}>
                   <TableCell className="font-medium">
-                    <div className="font-semibold">{property.title}</div>
+                    <div className="font-semibold"><Link
+                      href={`/landlord-dashboard/requests/${property.id}`} 
+                      className="font-semibold hover:text-blue-600 hover:underline transition-colors"
+                    >
+                      {property.title}
+                    </Link></div>
                     <div className="text-xs text-muted-foreground truncate max-w-[250px]">
                       {property.fullAddress}
                     </div>

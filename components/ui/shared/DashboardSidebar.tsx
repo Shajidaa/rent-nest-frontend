@@ -72,7 +72,7 @@ const roleNav: Record<string, NavGroup[]> = {
             items: [
                 { label: "Overview", href: "/landlord-dashboard", icon: LayoutDashboard },
                 { label: "My Properties", href: "/landlord-dashboard/my-properties", icon: Building2 },
-                { label: "Requested Properties", href: "/landlord-dashboard/request-properties", icon: Building2 },
+                { label: "Requested Properties", href: "/landlord-dashboard/requests", icon: Building2 },
                 { label: "Applications", href: "/landlord-dashboard/applications", icon: ClipboardList },
             ],
         },
@@ -178,7 +178,7 @@ export default function DashboardSidebar({ ...user }: IUser) {
                 </Link>
             </div>
 
-        
+
 
             <Separator className="mb-2" />
 
