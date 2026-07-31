@@ -36,6 +36,31 @@ export interface Review {
   [key: string]: string;
 }
 
+export interface CreatePropertyInput {
+  title: string;
+  description: string;
+  city: string;
+  area: string;
+  fullAddress: string;
+  categoryId: string;
+  price_per_month: number;
+  securityDeposit: number;
+  bedrooms: number;
+  bathrooms: number;
+  veranda: number | null;
+  size: number;
+  sizeUnit: string;
+  images: string[];
+  video: string | null;
+  facing: string;
+  preferredTenant: string;
+  status: string;
+  parking: boolean;
+  isAvailable: boolean;
+  amenities: string[];
+  utilities: string[];
+}
+
 export interface IProperty {
   id: string;
   title: string;

@@ -1,7 +1,7 @@
+import React from 'react'
 
-
-export default function CreatedProperty() {
+export default function createdProperty() {
   return (
-    <div>CreatedProperty</div>
+    <div>createdProperty</div>
   )
 }
