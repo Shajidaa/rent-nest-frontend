@@ -40,6 +40,7 @@ export default async function RequestedProperties() {
               <TableHead>Price / Month</TableHead>
               <TableHead>Status</TableHead>
               <TableHead className="text-right">Views</TableHead>
+              <TableHead className="text-right">Edit</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -84,6 +85,22 @@ export default async function RequestedProperties() {
 
                   <TableCell className="text-right font-medium">
                     {property.views}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <Link
+                      href={`/landlord-dashboard/requests/${property.id}`}  
+                    className="text-blue-600 hover:underline"
+                    >
+                      View
+                    </Link>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <Link
+                      href={`/landlord-dashboard/requests/${property.id}/property-edit`}   
+                    className="text-blue-600 hover:underline"
+                    >
+                      Edit
+                    </Link>
                   </TableCell>
                 </TableRow>
               ))

@@ -10,11 +10,10 @@ import {
     Users,
     FileText,
     CreditCard,
-    ShieldCheck,
     KeyRound,
     BarChart3,
     MessageSquare,
-    Wrench,
+
     ClipboardList,
     Search,
     Star,
@@ -23,7 +22,7 @@ import {
     Settings,
     ChevronRight,
 } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { logout } from "@/service/logout";
@@ -60,13 +59,7 @@ const roleNav: Record<string, NavGroup[]> = {
                 { label: "Reports", href: "/admin-dashboard/reports", icon: BarChart3 },
                 { label: "Messages", href: "/admin-dashboard/messages", icon: MessageSquare },
             ],
-        },
-        {
-            group: "System",
-            items: [
-                { label: "Settings", href: "/admin-dashboard/settings", icon: Wrench },
-            ],
-        },
+        }
     ],
     LANDLORD: [
         {
@@ -74,7 +67,8 @@ const roleNav: Record<string, NavGroup[]> = {
             items: [
                 { label: "Overview", href: "/landlord-dashboard", icon: LayoutDashboard },
                 { label: "Create Properties", href: "/landlord-dashboard/create-property", icon: Building2 },
-                { label: "Requested Properties", href: "/landlord-dashboard/requests", icon: Building2 },
+                { label: "Properties", href: "/landlord-dashboard/requests", icon: Building2 },
+
                 { label: "Applications", href: "/landlord-dashboard/applications", icon: ClipboardList },
             ],
         },
@@ -84,13 +78,7 @@ const roleNav: Record<string, NavGroup[]> = {
                 { label: "Payments", href: "/landlord-dashboard/payments", icon: CreditCard },
                 { label: "Reviews", href: "/landlord-dashboard/reviews", icon: Star },
             ],
-        },
-        {
-            group: "Communication",
-            items: [
-                { label: "Messages", href: "/landlord-dashboard/messages", icon: MessageSquare },
-            ],
-        },
+        }
     ],
     TENANT: [
         {
@@ -107,13 +95,7 @@ const roleNav: Record<string, NavGroup[]> = {
                 { label: "Applications", href: "/tenant-dashboard/applications", icon: FileText },
                 { label: "Payments", href: "/tenant-dashboard/payments", icon: CreditCard },
             ],
-        },
-        {
-            group: "Communication",
-            items: [
-                { label: "Messages", href: "/tenant-dashboard/messages", icon: MessageSquare },
-            ],
-        },
+        }
     ],
 };
 
@@ -232,13 +214,7 @@ export default function DashboardSidebar({ ...user }: IUser) {
                     <User className="h-4 w-4" />
                     Profile
                 </Link>
-                <Link
-                    href={`/${role.toLowerCase()}-dashboard/settings`}
-                    className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
-                >
-                    <Settings className="h-4 w-4" />
-                    Settings
-                </Link>
+
                 <button
                     onClick={handleLogout}
                     className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-rose-600 hover:bg-rose-50 transition-colors"
