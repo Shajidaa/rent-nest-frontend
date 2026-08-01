@@ -19,10 +19,11 @@ export async function createProperty(data: CreatePropertyInput) {
         },
       },
     );
-
+    console.log("Creating property:", response);
     return { success: true, data: response.data };
   } catch (error: unknown) {
     console.error("Failed to create property:", error);
+    console.error("Full backend error response:", error);
     const err = error as { response?: { data?: { message?: string } } };
     return {
       success: false,

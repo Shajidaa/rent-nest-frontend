@@ -1,9 +1,15 @@
 import { KeyRound } from "lucide-react";
 import { CreatePropertyForm } from "../_component/CreatePropertyForm";
-import { fetchCategories } from "../_action/category-fetch";
+import { getCategories } from "../../admin-dashboard/_actions/adminAction";
+
+
+
 
 export default async function CreatePropertyPage() {
-  const categories = await fetchCategories();
+  const categories = await getCategories();
+// const property=await fetchProperties();
+// console.log(property);
+
 
   return (
     <div className="min-h-screen bg-[#FAFAF8] text-[#1C1C1A] p-6 md:p-10">
