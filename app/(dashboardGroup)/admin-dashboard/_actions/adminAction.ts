@@ -16,3 +16,8 @@ export async function getRentals(page: number = 1, limit: number = 10) {
     `${process.env.BACKEND_API_URL}/api/admin/rentals?page=${page}&limit=${limit}`,
   );
 }
+export async function getCategories(page: number = 1, limit: number = 10) {
+  return fetchWithAuth(
+    `${process.env.BACKEND_API_URL}/api/categories?page=${page}&limit=${limit}`,
+  );
+}

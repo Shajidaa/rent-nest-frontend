@@ -1,8 +1,8 @@
 "use server";
 
+import { CreatePropertyInput } from "../_schemas/property.schema";
 import axios from "axios";
 import { cookies } from "next/headers";
-import { CreatePropertyInput } from "@/lib/type";
 
 export async function createProperty(data: CreatePropertyInput) {
   const cookieStore = await cookies();
@@ -30,5 +30,3 @@ export async function createProperty(data: CreatePropertyInput) {
     };
   }
 }
-
-
