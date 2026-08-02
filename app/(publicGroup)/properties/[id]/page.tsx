@@ -15,6 +15,7 @@ import {
 import { getPropertyById } from "../../_action/property";
 import PropertyLandDetails from "../../_components/property-details/propertyLandDetails";
 import { PropertyLandLord } from "../../_components/property-details/propertyLandlord";
+import MyContainer from "@/components/ui/shared/MyContainer";
 
 
 
@@ -36,7 +37,7 @@ export default async function PropertyDetails({ params }: PropertyDetailsProps) 
   }
 
   return (
-    <div className="container mx-auto py-8 px-4 md:px-6 space-y-8">
+    <MyContainer className="container mx-auto  space-y-8">
       {/* Back Navigation */}
       <div>
         <Button variant="ghost" asChild className="pl-0 gap-2 text-muted-foreground hover:text-foreground">
@@ -54,7 +55,7 @@ export default async function PropertyDetails({ params }: PropertyDetailsProps) 
 </div>
 
 
-      </div>
+      </MyContainer>
    
   );
 }

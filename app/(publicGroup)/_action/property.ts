@@ -1,41 +1,25 @@
 import { IProperty } from "@/lib/type";
 import axios from "axios";
 
-// "mirpur dhaka" → "Mirpur Dhaka"
-function toTitleCase(str: string) {
-  return str
-    .trim()
-    .split(/[\s,]+/)
-    .filter(Boolean)
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
-    .join(" ");
-}
-
 export async function fetchProperties(
   params: Record<string, string | string[] | undefined>,
 ) {
-  // Normalize city to title case so "mirpur" matches "Mirpur"
-  const normalized: Record<string, string | string[] | undefined> = { ...params };
-
-  if (typeof normalized.city === "string" && normalized.city.trim()) {
-    const parts = normalized.city.trim().split(/[\s,]+/).filter(Boolean);
-    // Use first word as city, rest joined as searchTerm fallback
-    normalized.city = toTitleCase(parts[0]);
-    // If user typed "mirpur dhaka" treat full string as searchTerm too
-    if (!normalized.searchTerm) {
-      normalized.searchTerm = normalized.city;
-    }
-  }
-
   try {
+    const cleanParams: Record<string, string> = {};
+
+    // খালি বা undefined অবজেক্ট ক্লিন আপ করা হচ্ছে
+    Object.entries(params).forEach(([key, value]) => {
+      if (typeof value === "string" && value.trim() !== "") {
+        cleanParams[key] = value.trim();
+      }
+    });
+
     const response = await axios.get(
       `${process.env.BACKEND_API_URL}/api/properties`,
-      {
-        params: normalized,
-      },
+      { params: cleanParams },
     );
 
-    return response.data.data;
+    return response.data?.data || response.data || [];
   } catch (error) {
     console.error("Failed to fetch properties:", error);
     return [];
