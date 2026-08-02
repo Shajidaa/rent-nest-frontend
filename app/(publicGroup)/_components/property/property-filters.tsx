@@ -6,133 +6,227 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Search, RotateCcw } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { SlidersHorizontal, RotateCcw, Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+const BEDROOM_OPTIONS = [
+  { label: "Any", value: "" },
+  { label: "1", value: "1" },
+  { label: "2", value: "2" },
+  { label: "3", value: "3" },
+  { label: "4+", value: "4" },
+];
 
 export function PropertyFilters() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
 
-  const [searchTerm, setSearchTerm] = useState(searchParams.get("searchTerm") || "");
-  const [city, setCity] = useState(searchParams.get("city") || "");
-  const [minPrice, setMinPrice] = useState(searchParams.get("price_per_month") || "");
-  const [bedrooms, setBedrooms] = useState(searchParams.get("bedrooms") || "");
-  const [sortBy, setSortBy] = useState(searchParams.get("sortBy") || "createdAt");
+  const [city, setCity] = useState(searchParams.get("city") ?? "");
+  const [minPrice, setMinPrice] = useState(searchParams.get("minPrice") ?? "");
+  const [maxPrice, setMaxPrice] = useState(searchParams.get("maxPrice") ?? "");
+  const [bedrooms, setBedrooms] = useState(searchParams.get("bedrooms") ?? "");
+  const [sortBy, setSortBy] = useState(searchParams.get("sortBy") ?? "createdAt");
+  const [sortOrder, setSortOrder] = useState(searchParams.get("sortOrder") ?? "desc");
 
-  const handleFilterSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const params = new URLSearchParams(searchParams.toString());
+  const activeCount = [city, minPrice, maxPrice, bedrooms].filter(Boolean).length;
 
+  const applyFilters = (overrides?: Record<string, string>) => {
+    const state = { city, minPrice, maxPrice, bedrooms, sortBy, sortOrder, ...overrides };
+    const params = new URLSearchParams();
+
+    // preserve searchTerm from search bar
+    const searchTerm = searchParams.get("searchTerm");
     if (searchTerm) params.set("searchTerm", searchTerm);
-    else params.delete("searchTerm");
 
-    if (city) params.set("city", city);
-    else params.delete("city");
+    if (state.city) {
+      params.set("city", state.city);
+      // also drive searchTerm with city value so area/address partial matches work
+      if (!searchTerm) params.set("searchTerm", state.city);
+    }
+    if (state.minPrice) params.set("minPrice", state.minPrice);
+    if (state.maxPrice) params.set("maxPrice", state.maxPrice);
+    if (state.bedrooms) params.set("bedrooms", state.bedrooms);
+    if (state.sortBy) params.set("sortBy", state.sortBy);
+    if (state.sortOrder) params.set("sortOrder", state.sortOrder);
 
-    if (minPrice) params.set("price_per_month", minPrice);
-    else params.delete("price_per_month");
+    startTransition(() => router.push(`/properties?${params.toString()}`));
+  };
 
-    if (bedrooms) params.set("bedrooms", bedrooms);
-    else params.delete("bedrooms");
-
-    if (sortBy) params.set("sortBy", sortBy);
-
-    startTransition(() => {
-      router.push(`/properties?${params.toString()}`);
-    });
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    applyFilters();
   };
 
   const handleReset = () => {
-    setSearchTerm("");
     setCity("");
     setMinPrice("");
+    setMaxPrice("");
     setBedrooms("");
     setSortBy("createdAt");
-    startTransition(() => {
-      router.push("/properties");
-    });
+    setSortOrder("desc");
+    startTransition(() => router.push("/properties"));
+  };
+
+  const handleBedroomClick = (val: string) => {
+    setBedrooms(val);
+    applyFilters({ bedrooms: val });
+  };
+
+  const handleSortChange = (val: string) => {
+    setSortBy(val);
+    applyFilters({ sortBy: val });
+  };
+
+  const handleSortOrderChange = (val: string) => {
+    setSortOrder(val);
+    applyFilters({ sortOrder: val });
   };
 
   return (
-    <div className="bg-card border rounded-xl p-5 shadow-sm space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="font-semibold text-lg flex items-center gap-2">
-          <Search className="w-4 h-4" /> Filters
-        </h2>
-        <Button variant="ghost" size="sm" onClick={handleReset} className="h-8 px-2 text-muted-foreground">
-          <RotateCcw className="w-3.5 h-3.5 mr-1" /> Reset
-        </Button>
+    <div className="rounded-2xl border bg-card shadow-sm overflow-hidden">
+      {/* Header */}
+      <div className="flex items-center justify-between border-b bg-muted/30 px-5 py-4">
+        <div className="flex items-center gap-2">
+          <SlidersHorizontal className="h-4 w-4 text-primary" />
+          <span className="font-semibold text-sm">Filters</span>
+          {activeCount > 0 && (
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+              {activeCount}
+            </span>
+          )}
+        </div>
+        {(activeCount > 0 || searchParams.get("sortBy")) && (
+          <button
+            onClick={handleReset}
+            className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <RotateCcw className="h-3 w-3" /> Reset all
+          </button>
+        )}
       </div>
 
-      <Separator />
-
-      <form onSubmit={handleFilterSubmit} className="space-y-4">
-        {/* Global Keyword Search */}
-        {/* <div className="space-y-2">
-          <Label htmlFor="search">Keyword Search</Label>
-          {/* <Input
-            id="search"
-            placeholder="Title, description..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          /> 
-        </div> */}
-
-        {/* City Filter */}
-        <div className="space-y-2">
-          <Label htmlFor="city">City</Label>
+      <form onSubmit={handleSubmit} className="divide-y">
+        {/* City */}
+        <div className="p-5 space-y-2">
+          <Label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            City
+          </Label>
           <Input
-            id="city"
-            placeholder="e.g. Dhaka, New York"
+            placeholder="e.g. Dhaka, Chittagong"
             value={city}
             onChange={(e) => setCity(e.target.value)}
+            className="h-9 text-sm"
           />
         </div>
 
-        {/* Price Filter */}
-        <div className="space-y-2">
-          <Label htmlFor="price">Max Monthly Price ($)</Label>
-          <Input
-            id="price"
-            type="number"
-            placeholder="e.g. 1500"
-            value={minPrice}
-            onChange={(e) => setMinPrice(e.target.value)}
-          />
+        {/* Price Range */}
+        <div className="p-5 space-y-3">
+          <Label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            Price Range (৳/month)
+          </Label>
+          <div className="grid grid-cols-2 gap-2">
+            <div className="relative">
+              <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
+                Min
+              </span>
+              <Input
+                type="number"
+                min={0}
+                placeholder="0"
+                value={minPrice}
+                onChange={(e) => setMinPrice(e.target.value)}
+                className="h-9 pl-9 text-sm"
+              />
+            </div>
+            <div className="relative">
+              <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
+                Max
+              </span>
+              <Input
+                type="number"
+                min={0}
+                placeholder="Any"
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(e.target.value)}
+                className="h-9 pl-9 text-sm"
+              />
+            </div>
+          </div>
         </div>
 
         {/* Bedrooms */}
-        <div className="space-y-2">
-          <Label htmlFor="bedrooms">Bedrooms</Label>
-          <Input
-            id="bedrooms"
-            type="number"
-            placeholder="e.g. 2"
-            value={bedrooms}
-            onChange={(e) => setBedrooms(e.target.value)}
-          />
+        <div className="p-5 space-y-3">
+          <Label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            Bedrooms
+          </Label>
+          <div className="grid grid-cols-5 gap-1.5">
+            {BEDROOM_OPTIONS.map((opt) => (
+              <button
+                key={opt.label}
+                type="button"
+                onClick={() => handleBedroomClick(opt.value)}
+                className={cn(
+                  "rounded-lg border py-2 text-xs font-medium transition-all",
+                  bedrooms === opt.value
+                    ? "border-primary bg-primary text-primary-foreground shadow-sm"
+                    : "border-border bg-background text-muted-foreground hover:border-primary/50 hover:text-foreground"
+                )}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Sort Options */}
-        <div className="space-y-2">
-          <Label htmlFor="sort">Sort By</Label>
-          value={sortBy}
-          <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger id="sort">
-              <SelectValue placeholder="Select sorting" />
+        {/* Sort */}
+        <div className="p-5 space-y-3">
+          <Label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            Sort By
+          </Label>
+          <Select value={sortBy} onValueChange={handleSortChange}>
+            <SelectTrigger className="h-9 text-sm">
+              <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="createdAt">Newest Listed</SelectItem>
-              <SelectItem value="price_per_month">Price (Low to High)</SelectItem>
+              <SelectItem value="createdAt">Date Listed</SelectItem>
+              <SelectItem value="price_per_month">Price</SelectItem>
               <SelectItem value="size">Size</SelectItem>
+              <SelectItem value="bedrooms">Bedrooms</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select value={sortOrder} onValueChange={handleSortOrderChange}>
+            <SelectTrigger className="h-9 text-sm">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="desc">Descending</SelectItem>
+              <SelectItem value="asc">Ascending</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
-        <Button type="submit" className="w-full mt-2" disabled={isPending}>
-          {isPending ? "Filtering..." : "Apply Filters"}
-        </Button>
+        {/* Apply button */}
+        <div className="p-5">
+          <Button type="submit" className="w-full h-9" disabled={isPending}>
+            {isPending ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                Applying...
+              </>
+            ) : (
+              "Apply Filters"
+            )}
+          </Button>
+        </div>
       </form>
     </div>
   );

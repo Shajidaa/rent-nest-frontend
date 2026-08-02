@@ -1,34 +1,72 @@
+"use client";
 
 import Image from "next/image";
-
+import React, { useState, useEffect, useCallback } from "react";
+import useEmblaCarousel from "embla-carousel-react";
 
 import { Badge } from "@/components/ui/badge";
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 import { 
   Bed, 
   Bath, 
   Square, 
   MapPin, 
   CheckCircle2, 
-
   Compass, 
   Car, 
   ShieldCheck, 
- 
   Calendar,
-  Layers
+  Layers,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react";
 
-
-
-
 export default function PropertyLandDetails({...property}) {
-  
+  console.log(property.images?.[0]);
+
+  // Embla Carousel Hooks
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
+
+  const scrollTo = useCallback((index: number) => {
+    if (emblaApi) emblaApi.scrollTo(index);
+  }, [emblaApi]);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+
+  useEffect(() => {
+     if (!emblaApi) return;
+   const onSelect: () => void = () => {
+       if (!emblaApi) return;
+      //  setPrevBtnEnabled(emblaApi.canScrollPrev());
+      //  setNextBtnEnabled(emblaApi.canScrollNext());
+       setSelectedIndex(emblaApi.selectedScrollSnap());
+     };
+     emblaApi.on('select', onSelect);
+     emblaApi.on('reInit', onSelect);
+     return () => {
+       emblaApi.off('select', onSelect);
+       emblaApi.off('reInit', onSelect);
+     };
+   }, [emblaApi, onSelect]);
+
   return (
-    <div>
-    {/* Header Info Section */}
+    <div className="space-y-8">
+      {/* Header Info Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2 flex-wrap">
@@ -48,58 +86,81 @@ export default function PropertyLandDetails({...property}) {
 
         <div className="text-left md:text-right bg-card border p-4 rounded-xl shadow-sm w-full md:w-auto">
           <span className="text-sm text-muted-foreground block">Monthly Rent</span>
-          <span className="text-3xl font-extrabold text-primary">${property.price_per_month.toLocaleString()}</span>
+          <span className="text-3xl font-extrabold text-primary">${property.price_per_month?.toLocaleString()}</span>
           <span className="text-xs text-muted-foreground block mt-0.5">Deposit: ${property.securityDeposit?.toLocaleString()}</span>
         </div>
       </div>
 
-      {/* Media Gallery Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 h-100 md:h-120">
-        {/* Main large image */}
-        <div className="md:col-span-2 relative bg-muted rounded-2xl overflow-hidden border">
+      {/* Media Gallery with Embla Carousel */}
+      <div className="space-y-4">
+        <div className="relative bg-muted rounded-2xl overflow-hidden border h-[400px] md:h-[500px] group">
           {property.images && property.images.length > 0 ? (
-            <Image
-              src={`/${property.images[0]}`} // Update to absolute path if hosting on Cloudinary/S3
-              alt={property.title}
-              fill
-              className="object-cover hover:scale-105 transition-transform duration-500"
-              priority
-            />
+            <>
+              {/* Main Carousel Viewport */}
+              <div className="overflow-hidden h-full w-full" ref={emblaRef}>
+                <div className="flex h-full touch-pan-y">
+                  {property.images.map((image: string, index: number) => (
+                    <div key={index} className="relative flex-[0_0_100%] min-w-0 h-full">
+                      <Image
+                        src={image} 
+                        alt={`${property.title} - Image ${index + 1}`}
+                        className="object-cover"
+                        fill
+                        priority={index === 0}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Navigation Arrows */}
+              {property.images.length > 1 && (
+                <>
+                  <Button
+                    variant="secondary"
+                    size="icon"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity rounded-full shadow-md"
+                    onClick={scrollPrev}
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    size="icon"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity rounded-full shadow-md"
+                    onClick={scrollNext}
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </Button>
+                </>
+              )}
+            </>
           ) : (
             <div className="flex items-center justify-center h-full text-muted-foreground">No Image Available</div>
           )}
         </div>
 
-        {/* Secondary grid layout for remaining images */}
-        <div className="hidden md:flex flex-col gap-4 h-full">
-          <div className="relative flex-1 bg-muted rounded-2xl overflow-hidden border">
-            {property.images && property.images[1] ? (
-              <Image
-                src={`/${property.images[1]}`}
-                alt={`${property.title} view 2`}
-                fill
-                className="object-cover hover:scale-105 transition-transform duration-500"
-              />
-            ) : (
-              <div className="flex items-center justify-center h-full text-muted-foreground text-sm">Secondary View</div>
-            )}
+        {/* Thumbnail Navigation Bar */}
+        {property.images && property.images.length > 1 && (
+          <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-none">
+            {property.images.map((image: string, index: number) => (
+              <button
+                key={index}
+                onClick={() => scrollTo(index)}
+                className={`relative flex-[0_0_100px] h-[70px] rounded-xl overflow-hidden border-2 transition-all ${
+                  selectedIndex === index ? "border-primary scale-105 shadow-sm" : "border-transparent opacity-70 hover:opacity-100"
+                }`}
+              >
+                <Image
+                  src={image}
+                  alt={`${property.title} thumbnail ${index + 1}`}
+                  className="object-cover"
+                  fill
+                />
+              </button>
+            ))}
           </div>
-          <div className="relative flex-1 bg-card rounded-2xl overflow-hidden border flex items-center justify-center bg-card">
-            {property.images && property.images.length > 2 ? (
-              <Image
-                src={`/${property.images[2]}`}
-                alt={`${property.title} view 3`}
-                fill
-                className="object-cover hover:scale-105 transition-transform duration-500"
-              />
-            ) : (
-              <div className="text-center p-4">
-                <span className="font-semibold block text-lg">{property.views}</span>
-                <span className="text-xs text-muted-foreground">Property Views</span>
-              </div>
-            )}
-          </div>
-        </div>
+        )}
       </div>
 
       {/* Main Content Body */}
@@ -162,7 +223,7 @@ export default function PropertyLandDetails({...property}) {
               </div>
               <div className="flex items-center justify-between p-3 rounded-lg border bg-card">
                 <span className="text-muted-foreground flex items-center gap-2"><Calendar className="w-4 h-4" /> Listed Date</span>
-                <span className="font-medium">{new Date(property.createdAt).toLocaleDateString()}</span>
+                <span className="font-medium">{property.createdAt ? (property.createdAt) : "N/A"}</span>
               </div>
             </div>
           </div>
@@ -173,7 +234,7 @@ export default function PropertyLandDetails({...property}) {
           <div className="space-y-4">
             <h2 className="text-xl font-bold">Amenities</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              {property.amenities?.map((amenity :string[], index:number) => (
+              {property.amenities?.map((amenity: string, index: number) => (
                 <div key={index} className="flex items-center gap-2 p-2.5 rounded-lg border bg-card">
                   <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
                   <span className="text-sm font-medium">{amenity}</span>
@@ -187,7 +248,7 @@ export default function PropertyLandDetails({...property}) {
             <div className="space-y-4">
               <h2 className="text-xl font-bold">Included Utilities</h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                {property.utilities.map((utility:string[], index:number) => (
+                {property.utilities.map((utility: string, index: number) => (
                   <div key={index} className="flex items-center gap-2 p-2.5 rounded-lg border bg-card">
                     <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
                     <span className="text-sm font-medium">{utility}</span>
@@ -198,8 +259,7 @@ export default function PropertyLandDetails({...property}) {
           )}
 
         </div>
-         </div>
-        </div>
-  )
+      </div>
+    </div>
+  );
 }
-
