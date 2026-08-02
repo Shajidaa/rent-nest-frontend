@@ -132,7 +132,7 @@ export default function FeaturedCard({ property }: { property: IProperty }) {
       </div>
 
       {/* Content Container */}
-      <div className="flex flex-col flex-grow justify-between gap-4 p-4 sm:p-5">
+      <div className="flex flex-col grow justify-between gap-4 p-4 sm:p-5">
         <div className="space-y-1.5">
           <h3 className="font-semibold text-base sm:text-lg leading-snug line-clamp-1 group-hover:text-primary transition-colors">
             {property.title}
