@@ -37,6 +37,7 @@ import { IUser } from "@/lib/type"
 import { useRouter } from "next/navigation"
 import { logout } from "@/service/logout"
 import { toast } from "sonner"
+import MyContainer from "./MyContainer"
 
 
 export default   function Navbar({...user}:IUser) {
@@ -78,7 +79,7 @@ const userMenuItems = [
 ];
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-8">
+      <MyContainer className="container mx-auto flex h-16 items-center justify-between px-4 md:px-8">
         
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
@@ -288,7 +289,7 @@ const userMenuItems = [
           </Sheet>
         </div>
 
-      </div>
+      </MyContainer>
     </header>
   )
 }
