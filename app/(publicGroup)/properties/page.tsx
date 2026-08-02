@@ -1,11 +1,12 @@
 import { Suspense } from "react";
 
 import { PropertyFilters } from "../_components/property/property-filters";
-import { PropertyCard } from "../_components/property/property-card";
+// import { PropertyCard } from "../_components/property/property-card";
 import { fetchProperties } from "../_action/property";
 import { PropertyGridSkeleton } from "../_components/property/propertySkeleton";
 import { PropertySearchBar } from "../_components/property/property-search";
 import { IProperty } from "@/lib/type";
+import PropertyCard from "../_components/property/property-card";
 
 interface PropertiesPageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -46,7 +47,7 @@ export default async function PropertiesPage({ searchParams }: PropertiesPagePro
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
                 {propertyList.map((property: IProperty) => (
                   <PropertyCard key={property.id} property={property} />
                 ))}
