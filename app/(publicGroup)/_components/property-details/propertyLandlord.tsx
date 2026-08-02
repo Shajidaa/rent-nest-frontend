@@ -8,6 +8,7 @@ import RentalRequest from './rental-request'
 import { getMe } from '@/service/getMe'
 import { PropertyLandLordProps } from '@/lib/type'
 import { Button } from '@/components/ui/button'
+import { toast } from 'sonner'
 
 
 
@@ -84,8 +85,10 @@ export function PropertyLandLord(property: PropertyLandLordProps) {
             />:  <Button 
           className="w-full gap-2" 
           size="lg"
-          disabled
-          
+       
+          onClick={() => {
+            toast.error("Please log in to request for rent.")
+          }}
         >
           <Phone className="w-4 h-4" /> 
          Request For Rent

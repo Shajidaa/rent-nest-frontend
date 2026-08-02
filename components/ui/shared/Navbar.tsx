@@ -40,6 +40,7 @@ import MyContainer from "./MyContainer"
 import { cn } from "@/lib/utils"
 
 const navLinks = [
+  { name: "Home", href: "/", icon: Home },
   { name: "Explore", href: "/explore", icon: Search },
   { name: "Properties", href: "/properties", icon: Building2 },
 ]
@@ -266,15 +267,7 @@ export default function Navbar({ ...user }: IUser) {
                         </Link>
                       </SheetClose>
                     ))}
-                    <SheetClose asChild>
-                      <Link
-                        href="/list-property"
-                        className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-muted transition-colors"
-                      >
-                        <PlusCircle className="h-4 w-4 text-primary shrink-0" />
-                        List Your Property
-                      </Link>
-                    </SheetClose>
+                   
                   </nav>
 
                   {/* Authenticated menu items */}

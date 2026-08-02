@@ -8,8 +8,7 @@ export default function Banner() {
     { label: "Chittagong", query: "Chittagong" },
     { label: "Sylhet", query: "Sylhet" },
    
-    { label: "Family Homes", query: "Family" },
-    { label: "Sublet / Bachelor", query: "Bachelor" },
+   
   ];
 
   return (
