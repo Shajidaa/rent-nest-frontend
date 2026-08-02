@@ -1,6 +1,7 @@
 import { fetchCategories } from "../../_action/getCategory";
 import { Button } from "@/components/ui/button";
 import { Home, Building2, Briefcase } from "lucide-react";
+import Link from "next/link";
 
 
 const getCategoryIcon = (slug: string) => {
@@ -17,19 +18,20 @@ const getCategoryIcon = (slug: string) => {
 
 export default async function Category() {
   const categories = await fetchCategories();
-//   console.log("categories", categories);
+
 
   return (
-    <div className="flex items-center gap-3 overflow-x-auto py-4">
+    <div className="flex justify-center items-center gap-3 overflow-x-auto py-4">
       {categories.categories.map((category: { id: string; name: string; slug: string }) => (
-        <Button
-          key={category.id}
-          variant="outline"
-          className="rounded-full px-6 py-2 h-auto text-sm font-medium border-slate-200 hover:bg-slate-50 hover:text-primary transition-all shadow-sm"
-        >
-          {getCategoryIcon(category.slug)}
-          {category.name}
-        </Button>
+        <Link key={category.id} href={`/properties?category=${category.slug}`}>
+          <Button
+            variant="outline"
+            className="rounded-full px-6 py-2 h-auto text-sm font-medium border-slate-200 hover:bg-slate-50 hover:text-primary transition-all shadow-sm"
+          >
+            {getCategoryIcon(category.slug)}
+            {category.name}
+          </Button>
+        </Link>
       ))}
     </div>
   );

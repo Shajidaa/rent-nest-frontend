@@ -70,7 +70,7 @@ export default   function Navbar({...user}:IUser) {
   const navLinks = [
     { name: "Explore", href: "/explore", icon: Search },
     { name: "Properties", href: "/properties", icon: Building2 },
-    { name: "Saved", href: "/saved", icon: Heart },
+   
   ]
 const userMenuItems = [
   { label : "Dashboard", icon : LayoutDashboard, action : "dashboard"},
