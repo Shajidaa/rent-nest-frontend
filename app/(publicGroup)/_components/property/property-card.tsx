@@ -13,7 +13,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
     <Card className="overflow-hidden flex flex-col justify-between hover:shadow-md transition-shadow">
       <div>
         <div className="relative h-48 w-full bg-muted">
-        
+
           <div className="absolute top-3 left-3">
             <Badge variant={property.isAvailable ? "default" : "secondary"}>
               {property.isAvailable ? "Available" : "Booked"}
@@ -54,8 +54,8 @@ export function PropertyCard({ property }: PropertyCardProps) {
           <span className="text-xl font-bold text-primary">${property.price_per_month}</span>
           <span className="text-xs text-muted-foreground"> / month</span>
         </div>
-        <Link 
-          href={`/properties/${property.id}`} 
+        <Link
+          href={`/properties/${property.id}`}
           className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-secondary text-secondary-foreground hover:bg-secondary/80 h-9 px-4 py-2"
         >
           View Details

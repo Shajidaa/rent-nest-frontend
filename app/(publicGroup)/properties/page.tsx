@@ -14,7 +14,7 @@ interface PropertiesPageProps {
 export default async function PropertiesPage({ searchParams }: PropertiesPageProps) {
   const resolvedParams = await searchParams;
   const properties = await fetchProperties(resolvedParams);
-const propertyList = Array.isArray(properties) ? properties : [];
+  const propertyList = Array.isArray(properties) ? properties : [];
 
 
 
@@ -28,7 +28,7 @@ const propertyList = Array.isArray(properties) ? properties : [];
           </p>
         </div>
       </div>
-<PropertySearchBar/>
+      <PropertySearchBar />
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Sidebar Filter Component */}
         <aside className="lg:col-span-1 space-y-4">
@@ -46,13 +46,13 @@ const propertyList = Array.isArray(properties) ? properties : [];
                 </p>
               </div>
             ) : (
-  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-    {propertyList.map((property: IProperty) => (
-      <PropertyCard key={property.id} property={property} />
-    ))}
-  </div>
-)}
-            
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {propertyList.map((property: IProperty) => (
+                  <PropertyCard key={property.id} property={property} />
+                ))}
+              </div>
+            )}
+
           </Suspense>
         </main>
       </div>
