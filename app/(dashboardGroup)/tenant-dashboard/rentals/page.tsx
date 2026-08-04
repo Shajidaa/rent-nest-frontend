@@ -28,27 +28,27 @@ import { Rental, RentalResponse } from "@/lib/rental-type";
 const statusConfig = {
   PENDING: {
     label: "Pending",
-    icon: Clock,
+ 
     badge: "bg-amber-50 text-amber-700 border border-amber-200",
     dot: "bg-amber-400",
   },
   APPROVED: {
     label: "Approved",
-    icon: CheckCircle2,
+
     badge: "bg-emerald-50 text-emerald-700 border border-emerald-200",
     dot: "bg-emerald-500",
   },
   REJECTED: {
     label: "Rejected",
-    icon: XCircle,
+   
     badge: "bg-rose-50 text-rose-700 border border-rose-200",
     dot: "bg-rose-500",
   },
-  CANCELLED: {
-    label: "Cancelled",
-    icon: AlertCircle,
-    badge: "bg-slate-100 text-slate-600 border border-slate-200",
-    dot: "bg-slate-400",
+ RENTED: {
+    label: "Rented",
+
+    badge: "bg-violet-50 text-violet-700 border border-violet-200",
+    dot: "bg-violet-500",
   },
 };
 
@@ -104,10 +104,10 @@ function StatCard({
 
 function RentalCard({ rental }: { rental: Rental }) {
   const property = rental.property;
-  const status = statusConfig[rental.status] ?? statusConfig.PENDING;
-  const StatusIcon = status.icon;
+  // const status = statusConfig[rental?.status] ;
+  // const StatusIcon = status.icon;
   const coverImage = property?.images?.[0];
-
+// console.log("Rental Card Property:", property);
   return (
     <Card className="overflow-hidden p-0 gap-0 flex flex-col group transition-all hover:shadow-xl hover:-translate-y-0.5 duration-200">
       {/* Image */}
@@ -131,10 +131,10 @@ function RentalCard({ rental }: { rental: Rental }) {
 
         {/* Status badge */}
         <div className="absolute left-3 top-3">
-          <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${status.badge}`}>
-            <span className={`h-1.5 w-1.5 rounded-full ${status.dot}`} />
-            <StatusIcon className="h-3 w-3" />
-            {status.label}
+          <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${rental?.status}`}>
+         
+           
+            {rental?.status}
           </span>
         </div>
 

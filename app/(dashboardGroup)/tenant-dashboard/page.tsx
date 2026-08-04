@@ -38,7 +38,7 @@ export default function TenantDashboard() {
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Tenant Dashboard</h1>
         <p className="text-muted-foreground mt-1">
-          Welcome back! Here's an overview of your rental activity.
+          Welcome back! Here&rsquo;s an overview of your rental activity.
         </p>
       </div>
 
