@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 
 export default function PropertyLandDetails({...property}) {
-  console.log(property.images?.[0]);
+  // console.log(property.images?.[0]);
 
   // Embla Carousel Hooks
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });

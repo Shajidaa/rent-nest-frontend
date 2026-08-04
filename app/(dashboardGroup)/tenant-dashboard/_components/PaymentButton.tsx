@@ -27,7 +27,7 @@ export default function PaymentButton({ rentalRequestId }: { rentalRequestId: st
             setLoading(false);
         }
     };
-console.log();
+// console.log();
 
     return (
         <Button

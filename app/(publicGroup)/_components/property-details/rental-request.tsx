@@ -62,12 +62,12 @@ export default function RentalRequest({
       formData.append('message', message.trim() || "No additional message provided.")
       formData.append('numberOfGuests', numberOfGuests)
 
-      console.log("Submitting rental request via server action...")
+      // console.log("Submitting rental request via server action...")
 
       // Call the server action
       const result = await createRentalRequest(formData)
 
-      console.log("Server action result:", result)
+      // console.log("Server action result:", result)
 
       if (result.success) {
         setSuccessMessage("Rental request successfully sent!")

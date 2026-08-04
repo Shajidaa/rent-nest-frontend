@@ -19,7 +19,7 @@ export async function createProperty(data: CreatePropertyInput) {
         },
       },
     );
-    console.log("Creating property:", response);
+    // console.log("Creating property:", response);
     return { success: true, data: response.data };
   } catch (error: unknown) {
     console.error("Failed to create property:", error);
@@ -31,7 +31,6 @@ export async function createProperty(data: CreatePropertyInput) {
     };
   }
 }
-
 
 export async function fetchSingleProperty(id: string) {
   const cookieStore = await cookies();

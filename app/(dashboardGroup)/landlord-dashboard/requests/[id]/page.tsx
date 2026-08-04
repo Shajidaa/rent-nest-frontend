@@ -27,7 +27,7 @@ export default async function PropertyRequestsPage({
   const { id: propertyId } = await params;
   const response = await fetchPropertyRequests(propertyId);
   const requests = response?.data?.requests ?? [];
-  console.log(requests);
+  // console.log(requests);
 
   return (
     <div className="p-6 space-y-4">

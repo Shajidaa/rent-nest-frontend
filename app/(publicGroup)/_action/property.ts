@@ -7,7 +7,6 @@ export async function fetchProperties(
   try {
     const cleanParams: Record<string, string> = {};
 
-    // খালি বা undefined অবজেক্ট ক্লিন আপ করা হচ্ছে
     Object.entries(params).forEach(([key, value]) => {
       if (typeof value === "string" && value.trim() !== "") {
         cleanParams[key] = value.trim();

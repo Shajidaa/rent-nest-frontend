@@ -19,7 +19,7 @@ export async function updateProperty(data: CreatePropertyInput, id: string) {
         },
       },
     );
-    console.log("Updating property:", response);
+    // console.log("Updating property:", response);
     return { success: true, data: response.data };
   } catch (error: unknown) {
     console.error("Failed to update property:", error);
