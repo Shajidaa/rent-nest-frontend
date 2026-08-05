@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { fetchRental } from "../_action/rentalRequest";
 import PaymentButton from "../_components/PaymentButton";
+import ReviewButton from "../_components/ReviewButton";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -28,7 +29,7 @@ import { Rental, RentalResponse } from "@/lib/rental-type";
 const statusConfig = {
   PENDING: {
     label: "Pending",
- 
+
     badge: "bg-amber-50 text-amber-700 border border-amber-200",
     dot: "bg-amber-400",
   },
@@ -40,11 +41,11 @@ const statusConfig = {
   },
   REJECTED: {
     label: "Rejected",
-   
+
     badge: "bg-rose-50 text-rose-700 border border-rose-200",
     dot: "bg-rose-500",
   },
- RENTED: {
+  RENTED: {
     label: "Rented",
 
     badge: "bg-violet-50 text-violet-700 border border-violet-200",
@@ -107,7 +108,7 @@ function RentalCard({ rental }: { rental: Rental }) {
   // const status = statusConfig[rental?.status] ;
   // const StatusIcon = status.icon;
   const coverImage = property?.images?.[0];
-// console.log("Rental Card Property:", property);
+  // console.log("Rental Card Property:", property);
   return (
     <Card className="overflow-hidden p-0 gap-0 flex flex-col group transition-all hover:shadow-xl hover:-translate-y-0.5 duration-200">
       {/* Image */}
@@ -132,8 +133,8 @@ function RentalCard({ rental }: { rental: Rental }) {
         {/* Status badge */}
         <div className="absolute left-3 top-3">
           <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${rental?.status}`}>
-         
-           
+
+
             {rental?.status}
           </span>
         </div>
@@ -204,6 +205,9 @@ function RentalCard({ rental }: { rental: Rental }) {
       <CardFooter className="flex flex-col gap-2 p-4 pt-0">
         {rental.status === "APPROVED" && (
           <PaymentButton rentalRequestId={rental.id} />
+        )}
+        {rental.status === "RENTED" && (
+          <ReviewButton propertyId={rental.propertyId} rentalId={rental.id} />
         )}
         <Button asChild variant="outline" size="sm" className="w-full">
           <Link href={`/properties/${rental.propertyId}`}>

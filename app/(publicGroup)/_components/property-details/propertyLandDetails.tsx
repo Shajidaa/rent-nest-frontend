@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import Image from "next/image";
@@ -8,23 +9,25 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { 
-  Bed, 
-  Bath, 
-  Square, 
-  MapPin, 
-  CheckCircle2, 
-  Compass, 
-  Car, 
-  ShieldCheck, 
+import {
+  Bed,
+  Bath,
+  Square,
+  MapPin,
+  CheckCircle2,
+  Compass,
+  Car,
+  ShieldCheck,
   Calendar,
   Layers,
   ChevronLeft,
   ChevronRight
 } from "lucide-react";
+import { PropertyReviews } from "./PropertyReviews";
 
-export default function PropertyLandDetails({...property}) {
-  // console.log(property.images?.[0]);
+
+export default function PropertyLandDetails({ rentalId, ...property }: { rentalId?: string | null;[key: string]: any }) {
+
 
   // Embla Carousel Hooks
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
@@ -49,20 +52,21 @@ export default function PropertyLandDetails({...property}) {
 
 
   useEffect(() => {
-     if (!emblaApi) return;
-   const onSelect: () => void = () => {
-       if (!emblaApi) return;
+    if (!emblaApi) return;
+    const onSelect: () => void = () => {
+      if (!emblaApi) return;
       //  setPrevBtnEnabled(emblaApi.canScrollPrev());
       //  setNextBtnEnabled(emblaApi.canScrollNext());
-       setSelectedIndex(emblaApi.selectedScrollSnap());
-     };
-     emblaApi.on('select', onSelect);
-     emblaApi.on('reInit', onSelect);
-     return () => {
-       emblaApi.off('select', onSelect);
-       emblaApi.off('reInit', onSelect);
-     };
-   }, [emblaApi, onSelect]);
+      setSelectedIndex(emblaApi.selectedScrollSnap());
+    };
+    emblaApi.on('select', onSelect);
+    emblaApi.on('reInit', onSelect);
+    return () => {
+      emblaApi.off('select', onSelect);
+      emblaApi.off('reInit', onSelect);
+    };
+  }, [emblaApi, onSelect]);
+
 
   return (
     <div className="space-y-8">
@@ -102,11 +106,11 @@ export default function PropertyLandDetails({...property}) {
                   {property.images.map((image: string, index: number) => (
                     <div key={index} className="relative flex-[0_0_100%] min-w-0 h-full">
                       <Image
-                        src={image} 
+                        src={image}
                         alt={`${property.title} - Image ${index + 1}`}
                         className="object-cover"
-                        fill
-                        priority={index === 0}
+fill
+                      priority={index === 0}
                       />
                     </div>
                   ))}
@@ -147,15 +151,14 @@ export default function PropertyLandDetails({...property}) {
               <button
                 key={index}
                 onClick={() => scrollTo(index)}
-                className={`relative flex-[0_0_100px] h-[70px] rounded-xl overflow-hidden border-2 transition-all ${
-                  selectedIndex === index ? "border-primary scale-105 shadow-sm" : "border-transparent opacity-70 hover:opacity-100"
-                }`}
+                className={`relative flex-[0_0_100px] h-[70px] rounded-xl overflow-hidden border-2 transition-all ${selectedIndex === index ? "border-primary scale-105 shadow-sm" : "border-transparent opacity-70 hover:opacity-100"
+                  }`}
               >
                 <Image
                   src={image}
                   alt={`${property.title} thumbnail ${index + 1}`}
                   className="object-cover"
-                  fill
+fill
                 />
               </button>
             ))}
@@ -165,10 +168,10 @@ export default function PropertyLandDetails({...property}) {
 
       {/* Main Content Body */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
+
         {/* Left Side: Specifications & Description */}
         <div className="lg:col-span-2 space-y-8">
-          
+
           {/* Quick Property Attributes Card */}
           <Card>
             <CardContent className="p-6 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
@@ -257,8 +260,10 @@ export default function PropertyLandDetails({...property}) {
               </div>
             </div>
           )}
-
+          <Separator />
+          <PropertyReviews propertyId={property.id} rentalId={rentalId} initialReviews={property.reviews} />
         </div>
+
       </div>
     </div>
   );

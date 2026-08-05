@@ -5,36 +5,45 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 
-import { 
+import {
 
 
-  ArrowLeft, 
- 
+  ArrowLeft,
+
 } from "lucide-react";
 
 import { getPropertyById } from "../../_action/property";
 import PropertyLandDetails from "../../_components/property-details/propertyLandDetails";
 import { PropertyLandLord } from "../../_components/property-details/propertyLandlord";
 import MyContainer from "@/components/ui/shared/MyContainer";
+import { getRentedRentalForProperty } from "../../_action/getRentalId";
+
+
+
 
 
 
 
 interface PropertyDetailsProps {
   params: Promise<{ id: string }>;
- 
+
 }
 
 
 
 export default async function PropertyDetails({ params }: PropertyDetailsProps) {
   const { id } = await params;
-  const property = await getPropertyById(id);
 
+  const property = await getPropertyById(id);
 
   if (!property) {
     notFound();
   }
+  const data=await getRentedRentalForProperty(id);
+ 
+  const rentalId=data;
+
+  
 
   return (
     <MyContainer className="container mx-auto  space-y-8">
@@ -46,16 +55,16 @@ export default async function PropertyDetails({ params }: PropertyDetailsProps) 
           </Link>
         </Button>
       </div>
-<div className="grid grid-cols-1 ">
-  
-      <PropertyLandDetails {...property}/>
+      <div className="grid grid-cols-1 ">
+
+        <PropertyLandDetails {...property} rentalId={rentalId} />
 
         {/* Right Side: Landlord / Host Details Card */}
-      <PropertyLandLord {...property}  />
-</div>
+        <PropertyLandLord {...property} />
+      </div>
 
 
-      </MyContainer>
-   
+    </MyContainer>
+
   );
 }
