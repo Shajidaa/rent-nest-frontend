@@ -4,7 +4,7 @@ import ProfileView from "./_components/profile-view";
 export default async function ProfilePage() {
   const response = await getMe();
   const userData = response?.data; // Contains user + nested profile
-console.log(userData);
+// console.log(userData);
 
   return (
     <div className="container max-w-4xl py-10">

@@ -55,6 +55,7 @@ export default function FeaturedCard({ property }: { property: IProperty }) {
   const images = property.images && property.images.length > 0 
     ? property.images 
     : [];
+// console.log(property);
 
   return (
     <Link

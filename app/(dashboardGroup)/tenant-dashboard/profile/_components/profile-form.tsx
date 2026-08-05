@@ -46,7 +46,7 @@ export function ProfileForm({ initialData, onSuccess, onCancel }: ProfileFormPro
 async function onSubmit(values: ProfileFormValues) {
     setIsLoading(true);
     try {
-      console.log("Submitting values:", values);
+      // console.log("Submitting values:", values);
       
       const res = await UpdateProfile(initialData.id,values);
       

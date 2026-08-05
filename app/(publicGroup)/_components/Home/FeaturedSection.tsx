@@ -9,9 +9,11 @@ import { fetchProperties } from '../../_action/property'
 
 export default async function FeaturedSection() {
       const allProperties = await fetchProperties({});
-  const featured: IProperty[] = Array.isArray(allProperties)
-    ? allProperties.slice(0, 10)
+  const featured: IProperty[] = Array.isArray(allProperties?.data?.data)
+    ? allProperties?.data?.data.slice(0, 10)
     : [];
+   
+    
   return (
      <section className="bg-[#FAFAF8] py-16 dark:bg-muted/10">
         <div className="mx-auto  px-4 md:px-8">

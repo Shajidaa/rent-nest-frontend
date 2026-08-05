@@ -7,6 +7,7 @@ import { PropertyGridSkeleton } from "../_components/property/propertySkeleton";
 import { PropertySearchBar } from "../_components/property/property-search";
 import { IProperty } from "@/lib/type";
 import Pagination from "../_components/property/pagination";
+import CategoryPills from "../_components/property/CategoryPills";
 
 interface PropertiesPageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -19,11 +20,11 @@ export default async function PropertiesPage({ searchParams }: PropertiesPagePro
   const data = await fetchProperties({ ...resolvedParams, page, limit });
   const properties = data.data.data
   const meta = data.data.meta;
- 
+
 
   const propertyList: IProperty[] = Array.isArray(properties) ? properties : [];
 
-  const activeFilters = ["city", "minPrice", "maxPrice", "bedrooms", "searchTerm"]
+  const activeFilters = ["category", "city", "minPrice", "maxPrice", "bedrooms", "searchTerm"]
     .filter((k) => !!resolvedParams[k])
     .map((k) => ({ key: k, value: resolvedParams[k] as string }));
 
@@ -64,7 +65,7 @@ export default async function PropertiesPage({ searchParams }: PropertiesPagePro
                   key={f.key}
                   className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary capitalize"
                 >
-                  {f.key === "searchTerm" ? "Search" : f.key === "minPrice" ? "Min ৳" : f.key === "maxPrice" ? "Max ৳" : f.key}:&nbsp;
+                  {f.key === "searchTerm" ? "Search" : f.key === "minPrice" ? "Min ৳" : f.key === "maxPrice" ? "Max ৳" : f.key === "category" ? "Category" : f.key}:&nbsp;
                   <span className="font-semibold">{f.value}</span>
                 </span>
               ))}
@@ -86,7 +87,10 @@ export default async function PropertiesPage({ searchParams }: PropertiesPagePro
 
           {/* ── Results ── */}
           <main>
-            
+            <Suspense>
+              <CategoryPills activeSlug={resolvedParams.category as string | undefined} />
+            </Suspense>
+
             <Suspense fallback={<PropertyGridSkeleton />}>
               {propertyList.length === 0 ? (
                 <EmptyState hasFilters={hasFilters} />
