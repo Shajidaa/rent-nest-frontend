@@ -1,6 +1,5 @@
 
-'use client'; // Required for carousel interactivity
-
+'use client'; 
 import React, { useState, useCallback, useEffect } from "react";
 
 import { Bath, BedDouble, MapPin, Maximize2, ChevronLeft, ChevronRight, ArrowRight, ArrowUpRight } from "lucide-react";

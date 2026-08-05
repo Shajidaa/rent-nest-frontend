@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IProperty } from "@/lib/type";
 import axios from "axios";
 
@@ -15,10 +16,18 @@ export async function fetchProperties(
 
     const response = await axios.get(
       `${process.env.BACKEND_API_URL}/api/properties`,
-      { params: cleanParams },
+      {
+        params: cleanParams,
+        cache: "force-cache",
+        next: {
+          revalidate: 3600,
+          tags: ["properties-list"],
+        },
+      } as any,
     );
 
-    return response.data?.data || response.data || [];
+    return response.data;
+    // return response.data?.data || response.data || [];
   } catch (error) {
     console.error("Failed to fetch properties:", error);
     return [];

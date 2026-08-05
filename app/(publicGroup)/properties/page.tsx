@@ -6,6 +6,7 @@ import { fetchProperties } from "../_action/property";
 import { PropertyGridSkeleton } from "../_components/property/propertySkeleton";
 import { PropertySearchBar } from "../_components/property/property-search";
 import { IProperty } from "@/lib/type";
+import Pagination from "../_components/property/pagination";
 
 interface PropertiesPageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -13,7 +14,13 @@ interface PropertiesPageProps {
 
 export default async function PropertiesPage({ searchParams }: PropertiesPageProps) {
   const resolvedParams = await searchParams;
-  const properties = await fetchProperties(resolvedParams);
+  const page = resolvedParams.page;
+  const limit = resolvedParams.limit;
+  const data = await fetchProperties({ ...resolvedParams, page, limit });
+  const properties = data.data.data
+  const meta = data.data.meta;
+ 
+
   const propertyList: IProperty[] = Array.isArray(properties) ? properties : [];
 
   const activeFilters = ["city", "minPrice", "maxPrice", "bedrooms", "searchTerm"]
@@ -21,6 +28,7 @@ export default async function PropertiesPage({ searchParams }: PropertiesPagePro
     .map((k) => ({ key: k, value: resolvedParams[k] as string }));
 
   const hasFilters = activeFilters.length > 0;
+  // console.log(properties);
 
   return (
     <div className="min-h-screen bg-[#FAFAF8] dark:bg-background">
@@ -78,6 +86,7 @@ export default async function PropertiesPage({ searchParams }: PropertiesPagePro
 
           {/* ── Results ── */}
           <main>
+            
             <Suspense fallback={<PropertyGridSkeleton />}>
               {propertyList.length === 0 ? (
                 <EmptyState hasFilters={hasFilters} />
@@ -92,12 +101,22 @@ export default async function PropertiesPage({ searchParams }: PropertiesPagePro
                       <PropertyCard key={property.id} property={property} />
                     ))}
                   </div>
+                  {/* ── Pagination ── */}
+                  {meta && meta.totalPages > 1 && (
+                    <div className="mt-8 flex broder justify-center">
+                      <Pagination
+                        currentPage={meta.page}
+                        totalPages={meta.totalPages}
+                        baseUrl="/properties"
+                      />
+                    </div>)}
                 </>
               )}
             </Suspense>
           </main>
         </div>
       </div>
+
     </div>
   );
 }
