@@ -40,7 +40,11 @@ export function PropertyReviews({ propertyId, rentalId, initialReviews }: Proper
   }, [propertyId, initialReviews]);
 
 
-
+const hasReviewed = rentalId 
+    ? reviews.some((review) => review.rentalId === rentalId) 
+    : false;
+ 
+    
 
   const averageRating =
     reviews.length > 0
@@ -68,8 +72,21 @@ export function PropertyReviews({ propertyId, rentalId, initialReviews }: Proper
         <ReviewList reviews={reviews} />
       )}
 
-      {rentalId && (
+      {/* {rentalId && (
         <ReviewForm propertyId={propertyId} rentalId={rentalId} />
+      )} */}
+      {rentalId && !hasReviewed && (
+        <ReviewForm 
+          propertyId={propertyId} 
+          rentalId={rentalId} 
+  
+        />
+      )}
+
+      {rentalId && hasReviewed && (
+        <p className="text-sm text-muted-foreground italic bg-muted/50 p-3 rounded-md">
+          You have already submitted a review for this property.
+        </p>
       )}
     </div>
   );
