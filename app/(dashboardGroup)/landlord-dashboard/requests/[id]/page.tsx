@@ -11,6 +11,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { fetchPropertyRequests } from "../../_action/rental-request";
 import RequestActionButtons from "./_components/RequestActionButtons";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 const statusVariant: Record<string, string> = {
   PENDING: "bg-yellow-50 text-yellow-700 border-yellow-200",
@@ -32,6 +34,9 @@ export default async function PropertyRequestsPage({
   return (
     <div className="p-6 space-y-4">
       <div>
+          <Link href={'/landlord-dashboard/requests'}> <div className="flex pb-5 text-primary">
+            <ArrowLeft/> Back
+          </div></Link>
         <h2 className="text-2xl font-bold tracking-tight">Property Requests</h2>
         <p className="text-sm text-muted-foreground">
           Users who have requested this rental property.

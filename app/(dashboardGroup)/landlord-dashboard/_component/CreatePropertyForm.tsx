@@ -20,7 +20,7 @@ import { MediaTenantCard } from "./MediaTenantCard";
 import { PropertyPreviewCard } from "./PropertyPreviewCard";  
 
 
-export function CreatePropertyForm({ categories }: { categories: Category[] }) {
+export function CreatePropertyForm({ categories }: { categories: any[] }) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 

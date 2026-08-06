@@ -130,7 +130,7 @@ export default async function HomePage() {
               asChild
               size="lg"
               variant="outline"
-              className="h-12 rounded-xl border-white/30 px-8 text-white hover:bg-white/10"
+              className="h-12 rounded-xl border-white/30 px-8 text-primary hover:bg-white/10"
             >
               <Link href="/register">Create Free Account</Link>
             </Button>

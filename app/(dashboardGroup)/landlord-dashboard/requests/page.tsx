@@ -22,10 +22,11 @@ export default async function RequestedProperties() {
   return (
     <div className="p-6 space-y-4">
       <div className="flex justify-between items-center">
+        
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Requested Properties</h2>
+          <h2 className="text-2xl font-bold tracking-tight">Properties</h2>
           <p className="text-sm text-muted-foreground">
-            Total {response?.data?.total || 0} properties retrieved successfully.
+            Total {properties ?.length || 0} properties retrieved successfully.
           </p>
         </div>
       </div>

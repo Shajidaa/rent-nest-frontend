@@ -21,6 +21,7 @@ import {
     User,
     Settings,
     ChevronRight,
+    HomeIcon,
 } from "lucide-react";
 
 import { Separator } from "@/components/ui/separator";
@@ -52,13 +53,6 @@ const roleNav: Record<string, NavGroup[]> = {
                 { label: "Create Category", href: "/admin-dashboard/create-category", icon: Building2 },
                 { label: "Rentals", href: "/admin-dashboard/rentals", icon: Building2 },
             ],
-        },
-        {
-            group: "Analytics",
-            items: [
-                { label: "Reports", href: "/admin-dashboard/reports", icon: BarChart3 },
-                { label: "Messages", href: "/admin-dashboard/messages", icon: MessageSquare },
-            ],
         }
     ],
     LANDLORD: [
@@ -66,19 +60,13 @@ const roleNav: Record<string, NavGroup[]> = {
             group: "Main",
             items: [
                 { label: "Overview", href: "/landlord-dashboard", icon: LayoutDashboard },
-                { label: "Create Properties", href: "/landlord-dashboard/create-property", icon: Building2 },
+                { label: "Create Properties", href: "/landlord-dashboard/create-property", icon: HomeIcon },
                 { label: "Properties", href: "/landlord-dashboard/requests", icon: Building2 },
 
-                { label: "Applications", href: "/landlord-dashboard/applications", icon: ClipboardList },
+              
             ],
         },
-        {
-            group: "Finance",
-            items: [
-                { label: "Payments", href: "/landlord-dashboard/payments", icon: CreditCard },
-                { label: "Reviews", href: "/landlord-dashboard/reviews", icon: Star },
-            ],
-        }
+        
     ],
     TENANT: [
         {
@@ -166,42 +154,52 @@ export default function DashboardSidebar({ ...user }: IUser) {
 
             <Separator className="mb-2" />
 
-            {/* ── Nav Groups ── */}
-            <nav className="flex flex-1 flex-col gap-4 overflow-y-auto px-3 py-2">
-                {navGroups.map((group) => (
-                    <div key={group.group}>
-                        <p className="mb-1 px-2 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
-                            {group.group}
-                        </p>
-                        <div className="flex flex-col gap-0.5">
-                            {group.items.map((item) => {
-                                const Icon = item.icon;
-                                const isActive =
-                                    pathname === item.href ||
-                                    (item.href !== "/properties" && pathname.startsWith(item.href + "/"));
-                                return (
-                                    <Link
-                                        key={item.href}
-                                        href={item.href}
-                                        className={cn(
-                                            "group flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
-                                            isActive
-                                                ? "bg-primary text-primary-foreground shadow-sm"
-                                                : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                                        )}
-                                    >
-                                        <span className="flex items-center gap-3">
-                                            <Icon className="h-4 w-4 shrink-0" />
-                                            {item.label}
-                                        </span>
-                                        {isActive && <ChevronRight className="h-3.5 w-3.5 opacity-70" />}
-                                    </Link>
-                                );
-                            })}
-                        </div>
-                    </div>
-                ))}
-            </nav>
+          {/* ── Nav Groups ── */}
+<nav className="flex flex-1 flex-col gap-4 overflow-y-auto px-3 py-2">
+    {navGroups.map((group) => (
+        <div key={group.group}>
+            <p className="mb-1 px-2 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+                {group.group}
+            </p>
+            <div className="flex flex-col gap-0.5">
+                {group.items.map((item) => {
+                    const Icon = item.icon;
+
+                    // Root routes definition
+                    const isDashboardRoot = [
+                        "/admin-dashboard",
+                        "/landlord-dashboard",
+                        "/tenant-dashboard",
+                    ].includes(item.href);
+
+                    const isActive = isDashboardRoot
+                        ? pathname === item.href
+                        : pathname === item.href ||
+                          (item.href !== "/properties" && pathname.startsWith(item.href + "/"));
+
+                    return (
+                        <Link
+                            key={item.href}
+                            href={item.href}
+                            className={cn(
+                                "group flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                                isActive
+                                    ? "bg-primary text-primary-foreground shadow-sm"
+                                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                            )}
+                        >
+                            <span className="flex items-center gap-3">
+                                <Icon className="h-4 w-4 shrink-0" />
+                                {item.label}
+                            </span>
+                            {isActive && <ChevronRight className="h-3.5 w-3.5 opacity-70" />}
+                        </Link>
+                    );
+                })}
+            </div>
+        </div>
+    ))}
+</nav>
 
             <Separator className="mt-2" />
 

@@ -167,9 +167,7 @@ export default async function UsersPage({
                         year: "numeric",
                       })}
                     </TableCell>
-                          <TableCell>
-                      <StatusBadge status={user.id} />
-                    </TableCell>
+                        
                  <TableCell className="text-right pr-5">
   <form
     action={async () => {

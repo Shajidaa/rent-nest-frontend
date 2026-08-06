@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Card, CardContent, CardHeader} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,12 +13,14 @@ import Field from "./Field";
 
 interface BasicDetailsCardProps {
   form: UseFormReturn<CreatePropertyInput>;
-  categories: Category[];
+  categories: any;
 }
 
 export function BasicDetailsCard({ form, categories }: BasicDetailsCardProps) {
   const { register, control, formState: { errors } } = form;
 
+// const categoryList: Category[] =
+//     categories?.data?.categories || (Array.isArray(categories) ? categories : []);
   return (
     <Card className="border-neutral-200">
       <CardHeader>
@@ -40,10 +43,10 @@ export function BasicDetailsCard({ form, categories }: BasicDetailsCardProps) {
                   <SelectValue placeholder="Select a property category" />
                 </SelectTrigger>
                 <SelectContent>
-                  {categories.length === 0 && (
+                  {categories?.data?.categories === 0 && (
                     <SelectItem value="_none" disabled>No categories found</SelectItem>
                   )}
-                  {categories?.map((c) => (
+                  {categories?.data?.categories?.map((c:any) => (
                     <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
                   ))}
                 </SelectContent>

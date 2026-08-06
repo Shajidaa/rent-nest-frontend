@@ -68,8 +68,9 @@ export function EditPropertyForm({ property, categories }: EditPropertyFormProps
             const res = await updateProperty(payload, property.id);
             if (res.success) {
                 toast.success("Property updated successfully!");
-                router.push("/landlord-dashboard");
-                router.refresh();
+                   router.refresh();
+                router.push("/landlord-dashboard/requests");
+             
             } else {
                 toast.error(res.error ?? "Failed to update property.");
             }
