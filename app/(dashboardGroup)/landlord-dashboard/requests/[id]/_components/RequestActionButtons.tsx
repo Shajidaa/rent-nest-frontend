@@ -15,11 +15,11 @@ interface Props {
 
 export default function RequestActionButtons({ requestId, propertyId, currentStatus }: Props) {
     const router = useRouter();
-    const [loading, setLoading] = useState<"APPROVED" | "CANCELLED" | null>(null);
+    const [loading, setLoading] = useState<"APPROVED" | "REJECTED" | null>(null);
 
-    const isDone = currentStatus === "APPROVED" || currentStatus === "CANCELLED";
+    const isDone = currentStatus === "APPROVED" || currentStatus === "REJECTED";
 
-    const handle = async (status: "APPROVED" | "CANCELLED") => {
+    const handle = async (status: "APPROVED" | "REJECTED") => {
         setLoading(status);
         try {
             const result = await updateRentalStatus(requestId, propertyId, status);
@@ -27,7 +27,7 @@ export default function RequestActionButtons({ requestId, propertyId, currentSta
                 toast.error("Failed to update status. Please try again.");
             } else {
                 toast.success(
-                    status === "APPROVED" ? "Request approved!" : "Request cancelled."
+                    status === "APPROVED" ? "Request approved!" : "Request REJECTED."
                 );
                 router.refresh();
             }
@@ -63,11 +63,11 @@ export default function RequestActionButtons({ requestId, propertyId, currentSta
             <Button
                 size="sm"
                 variant="destructive"
-                onClick={() => handle("CANCELLED")}
+                onClick={() => handle("REJECTED")}
                 disabled={!!loading}
                 className="gap-1.5"
             >
-                {loading === "CANCELLED" ? (
+                {loading === "REJECTED" ? (
                     <Loader2 className="h-3.5 w-3.5 animate-spin" />
                 ) : (
                     <XCircle className="h-3.5 w-3.5" />

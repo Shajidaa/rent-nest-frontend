@@ -25,42 +25,38 @@ export async function fetchRentalRequest() {
   }
 }
 
-
 export async function fetchPropertyRequests(propertyId: string) {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
   try {
-    const res = await fetch(`${process.env.BACKEND_API_URL}/api/landlord-dashboard/requests/${propertyId}`,
+    const res = await fetch(
+      `${process.env.BACKEND_API_URL}/api/landlord-dashboard/requests/${propertyId}`,
       {
-
         headers: {
           "Content-Type": "application/json",
           Cookie: `accessToken=${accessToken}`,
         },
       },
+    );
 
-    )
-
-    const data = await res.json()
-    return data
+    const data = await res.json();
+    return data;
   } catch (error) {
-    console.error("Failed to fetch property requests:", error)
-    return { success: false, data: [] }
+    console.error("Failed to fetch property requests:", error);
+    return { success: false, data: [] };
   }
 }
-
 
 export async function updateRentalStatus(
   requestId: string,
   propertyId: string,
-  status: "APPROVED" | "CANCELLED",
+  status: "APPROVED" | "REJECTED",
 ) {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
 
   try {
     const res = await fetch(
-
       `${process.env.BACKEND_API_URL}/api/landlord-dashboard/requests/${requestId}`,
       {
         method: "PATCH",
@@ -82,4 +78,3 @@ export async function updateRentalStatus(
     return { success: false };
   }
 }
-
