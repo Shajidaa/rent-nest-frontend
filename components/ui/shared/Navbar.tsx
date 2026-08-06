@@ -38,6 +38,7 @@ import { logout } from "@/service/logout"
 import { toast } from "sonner"
 import MyContainer from "./MyContainer"
 import { cn } from "@/lib/utils"
+import { ModeToggle } from "./ModeToggle"
 
 const navLinks = [
   { name: "Home", href: "/", icon: Home },
@@ -127,7 +128,7 @@ export default function Navbar({ ...user }: IUser) {
           {/* Desktop Right */}
           <div className="hidden md:flex items-center gap-2 shrink-0">
           
-
+<ModeToggle/>
             {user?.data ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -259,7 +260,7 @@ export default function Navbar({ ...user }: IUser) {
                     ))}
                    
                   </nav>
-
+<ModeToggle/>
                   {/* Authenticated menu items */}
                   {user?.data && (
                     <nav className="flex flex-col gap-1">

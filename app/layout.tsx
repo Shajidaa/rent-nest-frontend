@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "@/components/ui/theme-provider";
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
@@ -20,11 +21,19 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="en"  suppressHydrationWarning
       className={cn("h-full", "antialiased","font-sans", inter.variable ) }>
-      <body  suppressHydrationWarning={true}>
+      <body >
         <Toaster richColors position="top-right" />
-      <TooltipProvider>   {children}</TooltipProvider>
+      <TooltipProvider>   
+           <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider></TooltipProvider>
         </body>
     </html>
   );
