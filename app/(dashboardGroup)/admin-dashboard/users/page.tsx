@@ -15,7 +15,7 @@ import { StatusBadge } from "../_component/statusBage";
 import { Pagination } from "../_component/pagination";
 import { getUsers, toggleUserStatus } from "../_actions/adminAction";
 import { UserSearch } from "../_component/user/user-search";
-import { UserActions } from "../_component/user/user-actions";
+// import { UserActions } from "../_component/user/user-actions";
 
 
 export default async function UsersPage({

@@ -14,10 +14,10 @@ import Link from 'next/link'
 
 export default async function RequestedProperties() {
   const response = await fetchRentalRequest()
-  
+
   // Extracting the array of properties safely based on your JSON structure
   const properties = response?.data || []
-// console.log(response);
+  // console.log(response);
 
   return (
     <div className="p-6 space-y-4">
@@ -40,7 +40,8 @@ export default async function RequestedProperties() {
               <TableHead>Price / Month</TableHead>
               <TableHead>Status</TableHead>
               <TableHead className="text-right">Views</TableHead>
-              <TableHead className="text-right">Edit</TableHead>
+              <TableHead className="text-right">Request</TableHead>
+              <TableHead className="text-right">Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -48,17 +49,16 @@ export default async function RequestedProperties() {
               properties.map((property: any) => (
                 <TableRow key={property.id}>
                   <TableCell className="font-medium">
-                    <div className="font-semibold"><Link
-                      href={`/landlord-dashboard/requests/${property.id}`} 
-                      className="font-semibold hover:text-blue-600 hover:underline transition-colors"
-                    >
+                    <div className="font-semibold">
+                     
+                    
                       {property.title}
-                    </Link></div>
+                    </div>
                     <div className="text-xs text-muted-foreground truncate max-w-[250px]">
                       {property.fullAddress}
                     </div>
                   </TableCell>
-                  
+
                   <TableCell>
                     {property.area}, {property.city}
                   </TableCell>
@@ -75,9 +75,9 @@ export default async function RequestedProperties() {
                   </TableCell>
 
                   <TableCell>
-                    <Badge 
+                    <Badge
                       variant={property.status === "AVAILABLE" ? "default" : "secondary"}
-                      
+
                     >
                       {property.status}
                     </Badge>
@@ -88,16 +88,17 @@ export default async function RequestedProperties() {
                   </TableCell>
                   <TableCell className="text-right">
                     <Link
-                      href={`/landlord-dashboard/requests/${property.id}`}  
-                    className="text-blue-600 hover:underline"
+                      href={`/landlord-dashboard/requests/${property.id}`}
+                      className="text-blue-600 hover:underline"
                     >
                       View
                     </Link>
                   </TableCell>
                   <TableCell className="text-right">
                     <Link
-                      href={`/landlord-dashboard/requests/${property.id}/property-edit`}   
-                    className="text-blue-600 hover:underline"
+                      // href={`/landlord-dashboard/requests/${property.id}/property-edit`}
+                      href={`/landlord-dashboard/edit/?id=${property.id}`}
+                      className="text-blue-600 hover:underline"
                     >
                       Edit
                     </Link>

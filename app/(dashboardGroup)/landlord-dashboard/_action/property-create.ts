@@ -37,7 +37,7 @@ export async function fetchSingleProperty(id: string) {
   const accessToken = cookieStore.get("accessToken")?.value;
   try {
     const res = await fetch(
-      `${process.env.BACKEND_API_URL}/api/landlord-dashboard/${id}`,
+      `${process.env.BACKEND_API_URL}/api/properties/${id}`,
       {
         headers: { Cookie: `accessToken=${accessToken}` },
         cache: "no-store",

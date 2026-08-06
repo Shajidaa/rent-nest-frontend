@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Home, FileText, CreditCard, MessageSquare } from "lucide-react";
 import { OverviewChart } from "./_components/OverviewChart";
@@ -9,7 +10,7 @@ export  default async function TenantDashboard() {
     
     // Function to filter only rented properties
     const getRentedProperties = (rentalsData :any) => {
-        return rentalsData.filter(rental => 
+        return rentalsData.filter((rental: any) => 
             rental.status === 'PAID' && 
             rental.property?.status === 'RENTED'
         );

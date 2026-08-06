@@ -43,7 +43,7 @@ export function BasicDetailsCard({ form, categories }: BasicDetailsCardProps) {
                   {categories.length === 0 && (
                     <SelectItem value="_none" disabled>No categories found</SelectItem>
                   )}
-                  {categories?.data?.categories.map((c) => (
+                  {categories?.map((c) => (
                     <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
                   ))}
                 </SelectContent>

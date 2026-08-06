@@ -31,7 +31,7 @@ export const createPropertySchema = z.object({
     "STUDENT",
     "JOB_HOLDER",
     "OFFICE_COMMERCIAL",
-    " APARTMENT",
+    "APARTMENT",
     "ANY",
   ]),
   isAvailable: z.boolean().default(true),

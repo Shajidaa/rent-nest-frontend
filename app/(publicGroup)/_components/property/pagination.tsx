@@ -112,7 +112,7 @@ export default function Pagination({
         return (
           <Link
             key={pageNumber}
-            href={createPageUrl(pageNumber)}
+              href={typeof pageNumber === 'number' ? createPageUrl(pageNumber) : '#'}
             className={cn(
               "inline-flex h-9 w-9 items-center justify-center rounded-md border text-sm font-medium transition-colors",
               isActive

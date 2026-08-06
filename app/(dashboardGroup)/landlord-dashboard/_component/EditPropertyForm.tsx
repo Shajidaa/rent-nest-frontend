@@ -25,6 +25,8 @@ interface EditPropertyFormProps {
 }
 
 export function EditPropertyForm({ property, categories }: EditPropertyFormProps) {
+
+    
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
 
@@ -66,7 +68,7 @@ export function EditPropertyForm({ property, categories }: EditPropertyFormProps
             const res = await updateProperty(payload, property.id);
             if (res.success) {
                 toast.success("Property updated successfully!");
-                router.push("/landlord-dashboard/my-properties");
+                router.push("/landlord-dashboard");
                 router.refresh();
             } else {
                 toast.error(res.error ?? "Failed to update property.");

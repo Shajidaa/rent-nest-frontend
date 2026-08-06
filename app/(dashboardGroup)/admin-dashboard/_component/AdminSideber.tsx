@@ -99,7 +99,7 @@ function SidebarContent({ collapsed = false }: { collapsed?: boolean }) {
     </div>
   );          
 
-
+}
 export function AdminSidebar() {
   const [collapsed, setCollapsed] = useState(false);
   return (

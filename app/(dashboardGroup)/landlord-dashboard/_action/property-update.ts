@@ -15,19 +15,23 @@ export async function updateProperty(data: CreatePropertyInput, id: string) {
       {
         headers: {
           "Content-Type": "application/json",
-          Cookie: `accessToken=${accessToken}`,
+          ...(accessToken ? { Cookie: `accessToken=${accessToken}` } : {}),
         },
       },
     );
-    // console.log("Updating property:", response);
+
     return { success: true, data: response.data };
   } catch (error: unknown) {
     console.error("Failed to update property:", error);
-    console.error("Full backend error response:", error);
-    const err = error as { response?: { data?: { message?: string } } };
+
+    let errorMessage = "Failed to update property";
+    if (axios.isAxiosError(error)) {
+      errorMessage = error.response?.data?.message ?? error.message;
+    }
+
     return {
       success: false,
-      error: err.response?.data?.message ?? "Failed to update property",
+      error: errorMessage,
     };
   }
 }

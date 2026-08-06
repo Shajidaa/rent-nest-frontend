@@ -9,7 +9,7 @@ export default async function Rental() {
     
     // Function to filter only rented properties
     const getRentedProperties = (rentalsData :any) => {
-        return rentalsData.filter(rental => 
+        return rentalsData.filter((rental: any) => 
             rental.status === 'PAID' && 
             rental.property?.status === 'RENTED'
         );
@@ -51,7 +51,7 @@ export default async function Rental() {
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200 text-sm">
-                                    {rentedProperties.map((rental) => {
+                                    {rentedProperties.map((rental:any) => {
                                         const prop = rental.property;
                                         const imageUrl = prop?.images?.[0] || 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=150&q=80';
                                         
