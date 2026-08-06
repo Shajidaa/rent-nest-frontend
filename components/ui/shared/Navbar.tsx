@@ -126,17 +126,7 @@ export default function Navbar({ ...user }: IUser) {
 
           {/* Desktop Right */}
           <div className="hidden md:flex items-center gap-2 shrink-0">
-            <Button
-              variant="outline"
-              size="sm"
-              asChild
-              className="gap-1.5 border-primary/30 text-primary hover:bg-primary/5 hover:text-primary"
-            >
-              <Link href="/list-property">
-                <PlusCircle className="h-4 w-4" />
-                List Property
-              </Link>
-            </Button>
+          
 
             {user?.data ? (
               <DropdownMenu>

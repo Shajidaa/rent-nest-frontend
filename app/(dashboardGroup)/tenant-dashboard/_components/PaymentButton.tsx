@@ -34,7 +34,7 @@ export default function PaymentButton({ rentalRequestId }: { rentalRequestId: st
             onClick={handlePayment}
             disabled={loading}
             size="sm"
-            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white gap-2"
+            className=" bg-emerald-600 hover:bg-emerald-700 text-white gap-2"
         >
             {loading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />

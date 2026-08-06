@@ -40,7 +40,7 @@ export default async function PaymentsPage() {
 
 
   return (
-    <div className="container mx-auto py-10 px-4 max-w-7xl">
+    <div className=" mx-auto py-10 px-4 ">
       <div className="flex flex-col gap-2 mb-8">
         <h1 className="text-3xl font-bold tracking-tight text-slate-900">Payment History</h1>
         <p className="text-slate-500 text-sm">

@@ -1,322 +1,150 @@
-import Link from "next/link";
-import { fetchRental } from "../_action/rentalRequest";
-import PaymentButton from "../_components/PaymentButton";
-import ReviewButton from "../_components/ReviewButton";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import {
-  MapPin,
-  BedDouble,
-  Bath,
-  CalendarDays,
-  Users,
-  ArrowRight,
-  Home,
-  Clock,
-  CheckCircle2,
-  XCircle,
-  AlertCircle,
-  DollarSign,
-  Building2,
-  TrendingUp,
-  FileX,
-} from "lucide-react";
-import { Rental, RentalResponse } from "@/lib/rental-type";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React from 'react';
+import { fetchRental } from '../_action/rentalRequest';
+import Link from 'next/link';
 
-// ─── Status Config ─────────────────────────────────────────────────────────────
+export default async function Rental() {
+    const result = await fetchRental();
+    const rentals = result?.data ?? [];
+    
+    // Function to filter only rented properties
+    const getRentedProperties = (rentalsData :any) => {
+        return rentalsData.filter(rental => 
+            rental.status === 'PAID' && 
+            rental.property?.status === 'RENTED'
+        );
+    };
 
-const statusConfig = {
-  PENDING: {
-    label: "Pending",
+    const rentedProperties = getRentedProperties(rentals);
 
-    badge: "bg-amber-50 text-amber-700 border border-amber-200",
-    dot: "bg-amber-400",
-  },
-  APPROVED: {
-    label: "Approved",
-
-    badge: "bg-emerald-50 text-emerald-700 border border-emerald-200",
-    dot: "bg-emerald-500",
-  },
-  REJECTED: {
-    label: "Rejected",
-
-    badge: "bg-rose-50 text-rose-700 border border-rose-200",
-    dot: "bg-rose-500",
-  },
-  RENTED: {
-    label: "Rented",
-
-    badge: "bg-violet-50 text-violet-700 border border-violet-200",
-    dot: "bg-violet-500",
-  },
-};
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-
-function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString("en-US", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-}
-
-function formatCurrency(amount: number) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  }).format(amount);
-}
-
-// ─── Stat Card ────────────────────────────────────────────────────────────────
-
-function StatCard({
-  label,
-  value,
-  icon: Icon,
-  color,
-  bg,
-}: {
-  label: string;
-  value: string | number;
-  icon: React.ElementType;
-  color: string;
-  bg: string;
-}) {
-  return (
-    <Card className="flex-1 min-w-0">
-      <CardContent className="flex items-center gap-4 p-5">
-        <div className={`rounded-xl p-3 ${bg} shrink-0`}>
-          <Icon className={`h-5 w-5 ${color}`} />
-        </div>
-        <div className="min-w-0">
-          <p className="text-xs text-muted-foreground font-medium truncate">{label}</p>
-          <p className="text-2xl font-bold tracking-tight">{value}</p>
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
-
-// ─── Rental Card ──────────────────────────────────────────────────────────────
-
-function RentalCard({ rental }: { rental: Rental }) {
-  const property = rental.property;
-  // const status = statusConfig[rental?.status] ;
-  // const StatusIcon = status.icon;
-  const coverImage = property?.images?.[0];
-  // console.log("Rental Card Property:", property);
-  return (
-    <Card className="overflow-hidden p-0 gap-0 flex flex-col group transition-all hover:shadow-xl hover:-translate-y-0.5 duration-200">
-      {/* Image */}
-      <div className="relative h-48 w-full bg-muted shrink-0">
-        {coverImage ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={coverImage}
-            alt={property?.title ?? "Property"}
-            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-        ) : (
-          <div className="flex h-full flex-col items-center justify-center gap-2 text-muted-foreground/40">
-            <Building2 className="h-12 w-12" />
-            <span className="text-xs">No image available</span>
-          </div>
-        )}
-
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-
-        {/* Status badge */}
-        <div className="absolute left-3 top-3">
-          <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${rental?.status}`}>
-
-
-            {rental?.status}
-          </span>
-        </div>
-
-        {/* Price chip */}
-        <div className="absolute bottom-3 right-3">
-          <span className="inline-flex items-center gap-1 rounded-full bg-white/95 px-3 py-1 text-xs font-bold text-slate-800 shadow-sm">
-            {formatCurrency(rental.offeredRent)}
-            <span className="font-normal text-slate-500">/mo</span>
-          </span>
-        </div>
-      </div>
-
-      {/* Body */}
-      <CardContent className="flex-1 p-4 space-y-3">
-        {/* Title & location */}
-        <div>
-          <h3 className="font-semibold text-base leading-snug line-clamp-1 group-hover:text-primary transition-colors">
-            {property?.title ?? "Property"}
-          </h3>
-          <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
-            <MapPin className="h-3 w-3 shrink-0 text-rose-400" />
-            {property?.area}, {property?.city}
-          </p>
-        </div>
-
-        {/* Quick stats */}
-        <div className="grid grid-cols-3 gap-2 rounded-lg bg-muted/50 px-3 py-2.5">
-          <div className="flex flex-col items-center gap-0.5 text-center">
-            <BedDouble className="h-4 w-4 text-muted-foreground" />
-            <span className="text-xs font-medium">{property?.bedrooms}</span>
-            <span className="text-[10px] text-muted-foreground">Beds</span>
-          </div>
-          <div className="flex flex-col items-center gap-0.5 text-center border-x border-border">
-            <Bath className="h-4 w-4 text-muted-foreground" />
-            <span className="text-xs font-medium">{property?.bathrooms}</span>
-            <span className="text-[10px] text-muted-foreground">Baths</span>
-          </div>
-          <div className="flex flex-col items-center gap-0.5 text-center">
-            <Users className="h-4 w-4 text-muted-foreground" />
-            <span className="text-xs font-medium">{rental.numberOfGuests}</span>
-            <span className="text-[10px] text-muted-foreground">Guests</span>
-          </div>
-        </div>
-
-        {/* Duration */}
-        <div className="flex items-center gap-2 rounded-lg border border-dashed border-border px-3 py-2 text-xs">
-          <CalendarDays className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-          <span className="text-muted-foreground">Duration:</span>
-          <span className="font-medium ml-auto text-right">
-            {formatDate(rental.startDate)} — {formatDate(rental.endDate)}
-          </span>
-        </div>
-
-        {/* Rejection reason */}
-        {rental.rejectionReason && (
-          <div className="flex gap-2 rounded-lg bg-rose-50 border border-rose-100 px-3 py-2.5">
-            <XCircle className="h-4 w-4 text-rose-500 shrink-0 mt-0.5" />
-            <div className="text-xs">
-              <span className="font-semibold text-rose-700">Rejection reason: </span>
-              <span className="text-rose-600">{rental.rejectionReason}</span>
+    return (
+        <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            {/* Header Section */}
+            <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">My Rented Properties</h1>
+                    <p className="text-sm text-gray-500 mt-1">Manage and track your active property rentals</p>
+                </div>
+                <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold px-3 py-1.5 rounded-lg w-fit">
+                    Total: {rentedProperties.length} Rented
+                </div>
             </div>
-          </div>
-        )}
-      </CardContent>
 
-      {/* Footer */}
-      <CardFooter className="flex flex-col gap-2 p-4 pt-0">
-        {rental.status === "APPROVED" && (
-          <PaymentButton rentalRequestId={rental.id} />
-        )}
-        {rental.status === "RENTED" && (
-          <ReviewButton propertyId={rental.propertyId} rentalId={rental.id} />
-        )}
-        <Button asChild variant="outline" size="sm" className="w-full">
-          <Link href={`/properties/${rental.propertyId}`}>
-            View Property
-            <ArrowRight className="h-3.5 w-3.5 ml-1" />
-          </Link>
-        </Button>
-      </CardFooter>
-    </Card>
-  );
-}
+            {rentedProperties.length === 0 ? (
+                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
+                    <p className="text-gray-500">No active rented properties found.</p>
+                </div>
+            ) : (
+                <>
+                    {/* Desktop & Tablet Table View */}
+                    <div className="hidden md:block bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden">
+                        <div className="overflow-x-auto">
+                            <table className="min-w-full divide-y divide-gray-200 text-left">
+                                <thead className="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" className="px-6 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Property</th>
+                                        <th scope="col" className="px-6 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Location</th>
+                                        <th scope="col" className="px-6 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Monthly Rent</th>
+                                        <th scope="col" className="px-6 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Duration</th>
+                                        <th scope="col" className="px-6 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
+                                        <th scope="col" className="px-6 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="bg-white divide-y divide-gray-200 text-sm">
+                                    {rentedProperties.map((rental) => {
+                                        const prop = rental.property;
+                                        const imageUrl = prop?.images?.[0] || 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=150&q=80';
+                                        
+                                        return (
+                                            <tr key={rental.id} className="hover:bg-gray-50/75 transition-colors">
+                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                    <div className="flex items-center gap-3">
+                                                        <img 
+                                                            src={imageUrl} 
+                                                            alt={prop?.title || 'Property'} 
+                                                            className="h-12 w-12 flex-shrink-0 rounded-lg object-cover bg-gray-100 border border-gray-200"
+                                                        />
+                                                        <div>
+                                                            <div className="font-semibold text-gray-900 max-w-xs truncate">{prop?.title}</div>
+                                                            <div className="text-xs text-gray-500">{prop?.bedrooms} Bed • {prop?.bathrooms} Bath • {prop?.size} {prop?.sizeUnit}</div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-gray-600">
+                                                    <div className="font-medium text-gray-900">{prop?.area}, {prop?.city}</div>
+                                                    <div className="text-xs text-gray-500 max-w-xs truncate">{prop?.fullAddress}</div>
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap font-semibold text-gray-900">
+                                                    ৳{prop?.price_per_month?.toLocaleString()}
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-xs text-gray-600">
+                                                    <div><span className="text-gray-400">From:</span> {new Date(rental.startDate).toLocaleDateString()}</div>
+                                                    <div><span className="text-gray-400">To:</span> {new Date(rental.endDate).toLocaleDateString()}</div>
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                    <span className="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800">
+                                                        {rental.status}
+                                                    </span>
+                                                </td>
+                                                 <td className="px-6 py-4 whitespace-nowrap text-xs text-gray-600">
+                                            
+                                               <Link href={`/properties/${prop.id}`}>view</Link>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
+                    {/* Mobile Card Stack View */}
+                    <div className="grid grid-cols-1 gap-4 md:hidden">
+                        {rentedProperties.map((rental:any) => {
+                            const prop = rental.property;
+                            const imageUrl = prop?.images?.[0] || 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=150&q=80';
 
-export default async function RentalPage() {
-  const result: RentalResponse = await fetchRental();
-  const rentals: Rental[] = result?.data ?? [];
+                            return (
+                                <div key={rental.id} className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 space-y-3">
+                                    <div className="flex items-start gap-3">
+                                        <img 
+                                            src={imageUrl} 
+                                            alt={prop?.title || 'Property'} 
+                                            className="h-16 w-16 rounded-lg object-cover flex-shrink-0 bg-gray-100 border border-gray-200"
+                                        />
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-center justify-between gap-2">
+                                                <h3 className="font-semibold text-gray-900 text-sm truncate">{prop?.title}</h3>
+                                                <span className="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-emerald-100 text-emerald-800 flex-shrink-0">
+                                                    {rental.status}
+                                                </span>
+                                            </div>
+                                            <p className="text-xs text-gray-500 mt-0.5">{prop?.area}, {prop?.city}</p>
+                                            <p className="text-xs font-semibold text-gray-900 mt-1">৳{prop?.price_per_month?.toLocaleString()} / month</p>
+                                        </div>
+                                    </div>
 
-  const approved = rentals.filter((r) => r.status === "APPROVED").length;
-  const pending = rentals.filter((r) => r.status === "PENDING").length;
-  const totalRent = rentals
-    .filter((r) => r.status === "APPROVED")
-    .reduce((sum, r) => sum + r.offeredRent, 0);
-
-  return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">My Rentals</h1>
-          <p className="text-sm text-muted-foreground mt-0.5">
-            Manage and track all your rental applications
-          </p>
+                                    <div className="border-t border-gray-100 pt-3 grid grid-cols-2 gap-2 text-xs text-gray-600 bg-gray-50/50 p-2.5 rounded-lg">
+                                        <div>
+                                            <span className="text-gray-400 block text-[10px] uppercase tracking-wider">Specs</span>
+                                            <span className="font-medium text-gray-800">{prop?.bedrooms} Bed • {prop?.size} {prop?.sizeUnit}</span>
+                                        </div>
+                                        <div>
+                                            <span className="text-gray-400 block text-[10px] uppercase tracking-wider">Duration</span>
+                                            <span className="font-medium text-gray-800">
+                                                {new Date(rental.startDate).toLocaleDateString()} - {new Date(rental.endDate).toLocaleDateString()}
+                                            </span>
+                                        </div>
+                                        <div>
+                                          <Link href={`/properties/${prop.id}`}>view</Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </>
+            )}
         </div>
-        <Button asChild size="sm">
-          <Link href="/properties">
-            <Home className="h-4 w-4 mr-1.5" />
-            Browse Properties
-          </Link>
-        </Button>
-      </div>
-
-      {/* Stats */}
-      {rentals.length > 0 && (
-        <div className="flex flex-wrap gap-3">
-          <StatCard
-            label="Total Rentals"
-            value={rentals.length}
-            icon={Building2}
-            color="text-sky-600"
-            bg="bg-sky-50"
-          />
-          <StatCard
-            label="Active Rentals"
-            value={approved}
-            icon={CheckCircle2}
-            color="text-emerald-600"
-            bg="bg-emerald-50"
-          />
-          <StatCard
-            label="Pending"
-            value={pending}
-            icon={TrendingUp}
-            color="text-amber-600"
-            bg="bg-amber-50"
-          />
-          <StatCard
-            label="Monthly Rent"
-            value={formatCurrency(totalRent)}
-            icon={DollarSign}
-            color="text-violet-600"
-            bg="bg-violet-50"
-          />
-        </div>
-      )}
-
-      <Separator />
-
-      {/* Empty state */}
-      {rentals.length === 0 && (
-        <Card>
-          <CardContent className="flex flex-col items-center justify-center py-20 gap-4">
-            <div className="rounded-full bg-muted p-5">
-              <FileX className="h-10 w-10 text-muted-foreground" />
-            </div>
-            <div className="text-center space-y-1">
-              <p className="font-semibold text-lg">No rentals yet</p>
-              <p className="text-sm text-muted-foreground max-w-xs">
-                You haven&apos;t applied for any rentals. Browse available properties to get started.
-              </p>
-            </div>
-            <Button asChild className="mt-1">
-              <Link href="/properties">
-                <Home className="h-4 w-4 mr-1.5" />
-                Browse Properties
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Grid */}
-      {rentals.length > 0 && (
-        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-          {rentals.map((rental) => (
-            <RentalCard key={rental.id} rental={rental} />
-          ))}
-        </div>
-      )}
-    </div>
-  );
+    );
 }

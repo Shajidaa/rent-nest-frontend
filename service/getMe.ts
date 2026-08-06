@@ -21,7 +21,7 @@ export const getMe = async () => {
 
     cache: "force-cache",
     next: {
-      revalidate: 60 * 60 * 24,
+      revalidate: 60,
       tags: ["my-profile"],
     },
   });

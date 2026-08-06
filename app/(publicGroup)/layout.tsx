@@ -1,4 +1,5 @@
 import Navbar from "@/components/ui/shared/Navbar"
+import NavTopBar from "@/components/ui/shared/NavTopBar";
 import { getMe } from "@/service/getMe";
 
 
@@ -9,7 +10,8 @@ export default async function Layout
     
     return (
         <>
-        <Navbar {...user} />
+        {/* <Navbar {...user} /> */}
+        <NavTopBar/>
         {children}
         </>
     )
