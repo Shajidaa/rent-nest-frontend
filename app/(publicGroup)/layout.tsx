@@ -4,8 +4,8 @@ import { getMe } from "@/service/getMe";
 
 
 export default async function Layout
-({children}:{children:React.ReactNode}){
-     const user= await getMe();
+({children,modal}:{children:React.ReactNode,modal: React.ReactNode;}){
+    //  const user= await getMe();
 
     
     return (
@@ -13,6 +13,7 @@ export default async function Layout
         {/* <Navbar {...user} /> */}
         <NavTopBar/>
         {children}
+        {modal}
         </>
     )
 }
