@@ -1,26 +1,46 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Search, MapPin, Sparkles, ArrowRight } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Search, MapPin, Sparkles, ArrowRight, Building2 } from "lucide-react";
 import Link from "next/link";
 
 export default function Banner() {
+  const router = useRouter();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+
   const popularTags = [
     { label: "Dhaka", query: "Dhaka" },
     { label: "Chittagong", query: "Chittagong" },
     { label: "Sylhet", query: "Sylhet" },
-   
-   
   ];
 
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    const params = new URLSearchParams();
+    
+    if (searchTerm.trim()) {
+      params.set("searchTerm", searchTerm.trim());
+    }
+    if (selectedCity.trim()) {
+      params.set("city", selectedCity.trim());
+    }
+
+    router.push(`/properties?${params.toString()}`);
+  };
+
   return (
-    <section className="relative overflow-hidden
-     bg-gradient-to-br from-[#0B4F4A] via-[#0d6158] to-[#083d39] text-white">
+    <section className="relative overflow-hidden bg-gradient-to-br from-[#0B4F4A] via-[#0d6158] to-[#083d39] text-white">
       {/* Decorative Background Elements */}
       <div className="pointer-events-none absolute inset-0 opacity-15">
         <div className="absolute -left-20 -top-20 h-96 w-96 rounded-full bg-emerald-300/30 blur-[100px]" />
         <div className="absolute -bottom-20 right-0 h-[30rem] w-[30rem] rounded-full bg-teal-400/20 blur-[120px]" />
       </div>
 
-      <div className="relative mx-auto   max-w-7xl py-6">
+      <div className="relative mx-auto max-w-7xl pt-12 pb-6 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
           
           {/* Trust Badge */}
@@ -42,28 +62,40 @@ export default function Banner() {
           </p>
 
           {/* Interactive Search Bar Box */}
-          <div className="mt-10 mx-auto max-w-2xl rounded-2xl bg-white/15 backdrop-blur-xl border border-white/25 p-2.5 shadow-2xl shadow-black/20">
-            <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center">
+          <form 
+            onSubmit={handleSearch}
+            className="mt-10 mx-auto max-w-3xl rounded-2xl bg-white/15 backdrop-blur-xl border border-white/25 p-3 shadow-2xl shadow-black/20"
+          >
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
               
-                <div className="flex h-12 w-full cursor-pointer items-center rounded-xl bg-black/20 border border-white/10 px-4 text-sm text-white group-hover:bg-black/30 group-hover:border-white/30 transition-all duration-200">
-                  <Search className="h-4 w-4 mr-3 text-emerald-300 shrink-0" />
-                  <span className="truncate text-white/90">Search city, area, or property name...</span>
-                </div>
-           
+              {/* Keyword / Property Search Input */}
+              <div className="relative flex-1">
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-emerald-300 shrink-0" />
+                <Input
+                  type="text"
+                  placeholder="Search property name, area..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="h-12 w-full pl-10 pr-4 bg-black/20 border-white/10 text-white placeholder:text-white/60 rounded-xl focus-visible:ring-emerald-300"
+                />
+              </div>
 
+            
+
+              {/* Submit Action */}
               <Button
-                asChild
+                type="submit"
                 size="lg"
-                className="h-12 px-6 rounded-xl bg-emerald-400 text-[#0B4F4A] font-bold hover:bg-emerald-300 transition-all duration-200 shrink-0 shadow-lg shadow-emerald-950/20"
+                className="h-12 px-8 rounded-xl bg-emerald-400 text-[#0B4F4A] font-bold hover:bg-emerald-300 transition-all duration-200 shrink-0 shadow-lg shadow-emerald-950/20"
               >
-                <Link href="/properties" className="flex items-center gap-2">
-                  <span>Explore Now</span>
+                <span className="flex items-center gap-2">
+                  <span>Search</span>
                   <ArrowRight className="h-4 w-4" />
-                </Link>
+                </span>
               </Button>
 
             </div>
-          </div>
+          </form>
 
           {/* Quick Filter Tags */}
           <div className="mt-8 flex flex-wrap items-center justify-center gap-2">

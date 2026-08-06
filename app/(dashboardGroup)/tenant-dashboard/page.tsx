@@ -1,36 +1,50 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Home, FileText, CreditCard, MessageSquare } from "lucide-react";
+import { OverviewChart } from "./_components/OverviewChart";
+import { fetchRental } from "./_action/rentalRequest";
 
-export default function TenantDashboard() {
+export  default async function TenantDashboard() {
+   const result = await fetchRental();
+    const rentals = result?.data ?? [];
+    
+    // Function to filter only rented properties
+    const getRentedProperties = (rentalsData :any) => {
+        return rentalsData.filter(rental => 
+            rental.status === 'PAID' && 
+            rental.property?.status === 'RENTED'
+        );
+    };
+
+    const rentedProperties = getRentedProperties(rentals);
+    
+    const totalPayment=rentedProperties.reduce((sum :number, item:any) => sum + item?.offeredRent, 0)
+  // console.log(totalPayment);
+    const rentalLength=rentedProperties.length;
+
+  const total=rentals.length
+  
   const stats = [
     {
       title: "Current Rental",
-      value: "1",
+      value: rentalLength,
       icon: Home,
       color: "text-sky-600",
       bg: "bg-sky-50",
     },
     {
       title: "Applications",
-      value: "3",
+      value: total,  
       icon: FileText,
       color: "text-purple-600",
       bg: "bg-purple-50",
     },
     {
-      title: "Due Payment",
-      value: "$1,200",
+      title: " Payment",
+      value: totalPayment,
       icon: CreditCard,
       color: "text-orange-600",
       bg: "bg-orange-50",
-    },
-    {
-      title: "Messages",
-      value: "5",
-      icon: MessageSquare,
-      color: "text-emerald-600",
-      bg: "bg-emerald-50",
-    },
+    }
   ];
 
   return (
@@ -63,14 +77,25 @@ export default function TenantDashboard() {
         })}
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Your Active Rental</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-sm text-muted-foreground">Rental details will appear here...</p>
-        </CardContent>
-      </Card>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+        <Card className="col-span-4">
+          <CardHeader>
+            <CardTitle>Overview</CardTitle>
+          </CardHeader>
+          <CardContent className="pl-2">
+            <OverviewChart />
+          </CardContent>
+        </Card>
+
+        <Card className="col-span-3">
+          <CardHeader>
+            <CardTitle>Your Active Rental</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground">Rental details will appear here...</p>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
