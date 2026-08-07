@@ -9,6 +9,7 @@ import { IProperty } from "@/lib/type";
 import Pagination from "../_components/property/pagination";
 import CategoryPills from "../_components/property/CategoryPills";
 
+
 interface PropertiesPageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }

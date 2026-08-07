@@ -4,147 +4,130 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, MapPin, Sparkles, ArrowRight, Building2 } from "lucide-react";
+import { Search, MapPin, Sparkles,  KeyRound } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Banner() {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCity, setSelectedCity] = useState("");
+
 
   const popularTags = [
-    { label: "Dhaka", query: "Dhaka" },
-    { label: "Chittagong", query: "Chittagong" },
-    { label: "Sylhet", query: "Sylhet" },
+    { label: "Gulshan", query: "Gulshan" },
+    { label: "Banani", query: "Banani" },
+    { label: "Dhanmondi", query: "Dhanmondi" },
+    { label: "Uttara", query: "Uttara" },
   ];
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     const params = new URLSearchParams();
-    
     if (searchTerm.trim()) {
       params.set("searchTerm", searchTerm.trim());
-    }
-    if (selectedCity.trim()) {
-      params.set("city", selectedCity.trim());
     }
 
     router.push(`/properties?${params.toString()}`);
   };
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-[#0B4F4A] via-[#0d6158] to-[#083d39] text-white">
-      {/* Decorative Background Elements */}
-      <div className="pointer-events-none absolute inset-0 opacity-15">
-        <div className="absolute -left-20 -top-20 h-96 w-96 rounded-full bg-emerald-300/30 blur-[100px]" />
-        <div className="absolute -bottom-20 right-0 h-[30rem] w-[30rem] rounded-full bg-teal-400/20 blur-[120px]" />
+    <section className="relative  flex flex-col
+     justify-between bg-background overflow-hidden">
+      {/* Background Hero Image with Deep Modern Gradient Layer */}
+      <div className="absolute inset-0 z-0">
+        <Image
+        fill
+          src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=2200"
+          alt="Luxury modern architecture property"
+          className="w-full h-full object-cover object-center scale-105 duration-700 select-none"
+        />
+        {/* Sleek dual-tone atmospheric dark overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-black/70 backdrop-blur-[2px]" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl pt-12 pb-6 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl text-center">
-          
+      {/* Hero Content Container */}
+      <div className="relative  z-10 mx-auto max-w-7xl w-full pt-24 pb-12 px-4 sm:px-6 lg:px-8 my-auto">
+        <div className="mx-auto max-w-4xl text-center ">
+
           {/* Trust Badge */}
-          <div className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-emerald-100 backdrop-blur-md border border-white/20 shadow-sm mb-6">
-            <Sparkles className="h-3.5 w-3.5 text-emerald-300 animate-pulse" />
-            <span>Bangladesh&apos;s Trusted Rental Platform</span>
+          <div className="inline-flex items-center gap-2 rounded-full bg-background/30 backdrop-blur-md px-4 py-1.5 text-xs font-medium text-foreground border border-border/40 shadow-lg">
+            <Sparkles className="h-4 w-4 text-primary animate-pulse" />
+            <span className="text-white">Premier Verified Real Estate Marketplace</span>
           </div>
 
-          {/* Main Headline */}
-          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-7xl leading-[1.15] text-white">
-            Find Your <span className="text-emerald-300 underline decoration-emerald-400/40 underline-offset-8">Perfect</span> Home,
-            <span className="block mt-1">Without the Hassle.</span>
+          {/* Typography Masterhead */}
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white leading-[1.1]">
+            Elevate Your Living, <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-200">
+              Without Compromise.
+            </span>
           </h1>
 
-          {/* Subtitle */}
-          <p className="mt-6 text-lg text-emerald-50/90 md:text-xl max-w-2xl mx-auto font-normal leading-relaxed">
-            Browse thousands of verified apartments, family houses, and office spaces across major cities. 
-            Simple, safe, and transparent.
+          <p className="text-base sm:text-lg text-shadow-accent/40 max-w-2xl mx-auto font-normal leading-relaxed">
+            Discover architectural masterpieces, luxurious apartments, and high-yield commercial spaces across top prime locations.
           </p>
 
-          {/* Interactive Search Bar Box */}
-          <form 
-            onSubmit={handleSearch}
-            className="mt-10 mx-auto max-w-3xl rounded-2xl bg-white/15 backdrop-blur-xl border border-white/25 p-3 shadow-2xl shadow-black/20"
-          >
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-              
-              {/* Keyword / Property Search Input */}
-              <div className="relative flex-1">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-emerald-300 shrink-0" />
+          {/* Interactive Modern Search Card Box */}
+          <div className="mt-8 max-w-3xl mx-auto bg-card/90 backdrop-blur-2xl border border-border/80 p-4 sm:p-5 rounded-3xl shadow-2xl">
+            
+          
+
+            {/* Form Input Container */}
+            <form onSubmit={handleSearch} className="flex flex-col sm:flex-row items-center gap-3">
+              <div className="relative flex-1 w-full">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground shrink-0" />
                 <Input
                   type="text"
-                  placeholder="Search property name, area..."
+                  placeholder="Search by area, property name, or landmark..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="h-12 w-full pl-10 pr-4 bg-black/20 border-white/10 text-white placeholder:text-white/60 rounded-xl focus-visible:ring-emerald-300"
+                  className="h-13 w-full pl-11 pr-4 bg-background/60 border-input text-foreground placeholder:text-muted-foreground rounded-2xl focus-visible:ring-primary shadow-xs text-sm"
                 />
               </div>
-
-            
-
-              {/* Submit Action */}
               <Button
                 type="submit"
                 size="lg"
-                className="h-12 px-8 rounded-xl bg-emerald-400 text-[#0B4F4A] font-bold hover:bg-emerald-300 transition-all duration-200 shrink-0 shadow-lg shadow-emerald-950/20"
+                className="w-full sm:w-auto h-13 px-8 rounded-2xl bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-all shadow-lg shadow-primary/25 cursor-pointer text-sm shrink-0"
               >
-                <span className="flex items-center gap-2">
-                  <span>Search</span>
-                  <ArrowRight className="h-4 w-4" />
-                </span>
+                Search Properties
               </Button>
+            </form>
 
+            {/* Quick Popular Tags */}
+            <div className="mt-4 pt-3 border-t border-border/60 flex flex-wrap items-center justify-start gap-2 text-left">
+              <span className="text-xs font-semibold text-muted-foreground flex items-center gap-1 mr-1">
+                <MapPin className="h-3.5 w-3.5 text-primary" /> Popular Areas:
+              </span>
+              {popularTags.map((tag) => (
+                <Link
+                  key={tag.label}
+                  href={`/properties?searchTerm=${tag.query}`}
+                  className="rounded-lg bg-muted/60 hover:bg-primary/10 hover:text-primary border border-border px-3 py-1 text-xs font-medium text-muted-foreground transition-all duration-200"
+                >
+                  {tag.label}
+                </Link>
+              ))}
             </div>
-          </form>
 
-          {/* Quick Filter Tags */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
-            <span className="text-xs font-medium text-emerald-100 mr-1 flex items-center gap-1">
-              <MapPin className="h-3 w-3 text-emerald-300" /> Popular:
-            </span>
-            {popularTags.map((tag) => (
-              <Link
-                key={tag.label}
-                href={`/properties?city=${tag.query}`}
-                className="rounded-full bg-white/15 hover:bg-white/25 border border-white/20 px-3.5 py-1.5 text-xs font-medium text-white backdrop-blur-sm transition-all duration-200 hover:scale-105"
-              >
-                {tag.label}
-              </Link>
-            ))}
           </div>
 
-          {/* Mini Stats / Trust Indicators */}
-          <div className="mt-14 pt-8 border-t border-white/15 grid grid-cols-3 gap-4 max-w-xl mx-auto text-center">
-            <div>
-              <p className="text-2xl md:text-3xl font-bold text-emerald-300">5,000+</p>
-              <p className="text-xs text-emerald-100 mt-1">Verified Properties</p>
+          {/* Feature Highlights Footer */}
+          <div className="pt-6 grid grid-cols-3 gap-4 max-w-lg mx-auto text-center text-primary">
+            <div className="bg-background/20 backdrop-blur-md p-3 rounded-xl border border-white/10">
+              <p className="text-xl font-bold text-primary">100%</p>
+              <p className="text-[11px] text-secondary-foreground">Verified Listings</p>
             </div>
-            <div>
-              <p className="text-2xl md:text-3xl font-bold text-emerald-300">64</p>
-              <p className="text-xs text-emerald-100 mt-1">Districts Covered</p>
+            <div className="bg-background/20 backdrop-blur-md p-3 rounded-xl border border-white/10">
+              <p className="text-xl font-bold text-primary">Zero</p>
+              <p className="text-[11px] text-secondary-foreground">Hidden Brokerage</p>
             </div>
-            <div>
-              <p className="text-2xl md:text-3xl font-bold text-emerald-300">100%</p>
-              <p className="text-xs text-emerald-100 mt-1">Direct Owners</p>
+            <div className="bg-background/20 backdrop-blur-md p-3 rounded-xl border border-white/10">
+              <p className="text-xl font-bold text-primary">24/7</p>
+              <p className="text-[11px] text-secondary-foreground">Concierge Support</p>
             </div>
           </div>
 
         </div>
-      </div>
-
-      {/* Modern Smooth Wave Divider */}
-      <div className="relative h-12 md:h-20 overflow-hidden leading-none">
-        <svg
-          viewBox="0 0 1440 64"
-          className="absolute bottom-0 w-full h-full"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M0,32 C360,64 1080,0 1440,32 L1440,64 L0,64 Z"
-            fill="white"
-            className="dark:fill-[#0a0a0a]"
-          />
-        </svg>
       </div>
     </section>
   );
