@@ -62,8 +62,8 @@ export default function PropertyCard({ property }: PropertyCardProps) {
     : [];
 
   return (
-    <Link
-      href={`/properties/${property.id}`}
+    <div
+    
       className="group flex flex-col w-full rounded-2xl overflow-hidden border border-border/60 bg-card shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
     >
       {/* Image Container / Carousel */}
@@ -176,6 +176,6 @@ export default function PropertyCard({ property }: PropertyCardProps) {
          
         </div>
       </div>
-    </Link>
+    </div>
   );
 }

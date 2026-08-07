@@ -10,6 +10,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: "https://rent-nest-backend-vjpp.onrender.com/api/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;

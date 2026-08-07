@@ -110,7 +110,7 @@ export default async function HomePage() {
       </section>
 
       {/* ─────────────────── CTA BANNER ─────────────────── */}
-      <section className="bg-gradient-to-br from-[#0B4F4A] via-[#0d6158] to-[#083d39] py-20 text-white">
+      {/* <section className="bg-gradient-to-br from-[#0B4F4A] via-[#0d6158] to-[#083d39] py-20 text-white">
         <div className="mx-auto  px-4 text-center md:px-8">
           <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
             Ready to Find Your Next Home?
@@ -136,7 +136,7 @@ export default async function HomePage() {
             </Button>
           </div>
         </div>
-      </section>
+      </section> */}
 
  
     </div>

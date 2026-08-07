@@ -22,9 +22,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"  suppressHydrationWarning
-      className={cn("h-full", "antialiased","font-sans", inter.variable ) }>
-      <body >
-        <Toaster richColors position="top-right" />
+      className={cn("h-full", "antialiased","font-sans", inter.variable ) }
+      >
+      <body  suppressHydrationWarning={true} >
+        <Toaster richColors position="top-right"  />
       <TooltipProvider>   
            <ThemeProvider
             attribute="class"
