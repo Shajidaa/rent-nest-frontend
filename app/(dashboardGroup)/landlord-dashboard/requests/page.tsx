@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { fetchRentalRequest } from '../_action/rental-request'
 import {
@@ -10,6 +11,10 @@ import {
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import Link from 'next/link'
+import { Building, Delete, Edit, Edit2 } from 'lucide-react'
+import DeleteButton from '../_component/DeleteButton'
+
+
 
 
 export default async function RequestedProperties() {
@@ -31,7 +36,7 @@ export default async function RequestedProperties() {
         </div>
       </div>
 
-      <div className="border rounded-md bg-white shadow-sm">
+      <div className="border rounded-md  shadow-sm">
         <Table>
           <TableHeader>
             <TableRow>
@@ -50,14 +55,31 @@ export default async function RequestedProperties() {
               properties.map((property: any) => (
                 <TableRow key={property.id}>
                   <TableCell className="font-medium">
-                    <div className="font-semibold">
-                     
-                    
-                      {property.title}
-                    </div>
-                    <div className="text-xs text-muted-foreground truncate max-w-[250px]">
-                      {property.fullAddress}
-                    </div>
+                   <div className="flex items-center gap-3">
+                        {/* Property thumbnail */}
+                        <div className="h-10 w-14 rounded-lg bg-muted/50 overflow-hidden shrink-0 border border-border/30">
+                          {property.images && property.images.length > 0 ? (
+                            <img
+                              src={property.images[0]}
+                              alt={property.title}
+                              
+                              className="h-full w-full object-cover"
+                            />
+                          ) : (
+                            <div className="h-full w-full flex items-center justify-center">
+                              <Building className="h-4 w-4 text-muted-foreground/40" />
+                            </div>
+                          )}
+                        </div>
+                        <div className="min-w-0">
+                          <p className="font-medium text-sm text-foreground truncate max-w-[200px]">
+                            {property.title}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {property.size} {property.sizeUnit?.toLowerCase()} • {property.preferredTenant?.toLowerCase()}
+                          </p>
+                        </div>
+                      </div>
                   </TableCell>
 
                   <TableCell>
@@ -90,19 +112,23 @@ export default async function RequestedProperties() {
                   <TableCell className="text-right">
                     <Link
                       href={`/landlord-dashboard/requests/${property.id}`}
-                      className="text-blue-600 hover:underline"
+                      className=" hover:underline"
                     >
-                      View
+                      View 
                     </Link>
                   </TableCell>
                   <TableCell className="text-right">
-                    <Link
-                      // href={`/landlord-dashboard/requests/${property.id}/property-edit`}
-                      href={`/landlord-dashboard/edit/?id=${property.id}`}
-                      className="text-blue-600 hover:underline"
+                    <div className='flex flex-row justify-center gap-2 items-center '>
+<Link href={`/landlord-dashboard/edit/?id=${property.id}`}
+                      className="text-primary hover:underline"
                     >
-                      Edit
+                      <Edit/>
                     </Link>
+                   
+                    <DeleteButton landId={property.id}/>
+                    </div>
+                    
+                 
                   </TableCell>
                 </TableRow>
               ))
