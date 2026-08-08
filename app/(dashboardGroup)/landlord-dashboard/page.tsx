@@ -1,11 +1,19 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Building2, Clock, DollarSign, Star } from "lucide-react";
+import { fetchRentalRequest } from "./_action/rental-request";
 
-export default function LandlordDashboard() {
+export default async function LandlordDashboard() {
+  const response = await fetchRentalRequest()
+  
+ 
+    const {total} = response || []
+    
+  
+    
   const stats = [
     {
       title: "My Properties",
-      value: "12",
+      value: total,
       icon: Building2,
       color: "text-emerald-600",
       bg: "bg-emerald-50",
@@ -23,14 +31,7 @@ export default function LandlordDashboard() {
       icon: DollarSign,
       color: "text-orange-600",
       bg: "bg-orange-50",
-    },
-    {
-      title: "Avg Rating",
-      value: "4.8",
-      icon: Star,
-      color: "text-yellow-600",
-      bg: "bg-yellow-50",
-    },
+    }
   ];
 
   return (
