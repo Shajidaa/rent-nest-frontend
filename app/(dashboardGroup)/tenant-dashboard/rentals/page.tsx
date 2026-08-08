@@ -22,7 +22,7 @@ export default async function Rental() {
             {/* Header Section */}
             <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
-                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">My Rented Properties</h1>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-chart-4">My Rented Properties</h1>
                     <p className="text-sm text-gray-500 mt-1">Manage and track your active property rentals</p>
                 </div>
                 <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold px-3 py-1.5 rounded-lg w-fit">
@@ -31,13 +31,13 @@ export default async function Rental() {
             </div>
 
             {rentedProperties.length === 0 ? (
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
+                <div className="bg-background rounded-xl shadow-sm border border-gray-200 p-12 text-center">
                     <p className="text-gray-500">No active rented properties found.</p>
                 </div>
             ) : (
                 <>
                     {/* Desktop & Tablet Table View */}
-                    <div className="hidden md:block bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden">
+                    <div className="hidden md:block bg-background shadow-sm rounded-xl border border-gray-200 overflow-hidden">
                         <div className="overflow-x-auto">
                             <table className="min-w-full divide-y divide-gray-200 text-left">
                                 <thead className="bg-gray-50">

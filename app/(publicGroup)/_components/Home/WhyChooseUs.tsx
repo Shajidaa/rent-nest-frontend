@@ -33,7 +33,7 @@ export default function WhyChooseUsSection() {
           </div>
 
           <div className="space-y-4 pt-8">
-            <div className="bg-card lg:p-6 rounded-xl shadow-lg border border-border flex flex-col justify-center">
+            <div className="bg-card lg:p-6 p-2 rounded-xl shadow-lg border border-border flex flex-col justify-center">
               <span className="text-3xl md:text-4xl font-extrabold text-foreground">1,200+</span>
               <span className="text-xs md:text-sm font-medium text-muted-foreground uppercase tracking-wider mt-1">Properties Sold</span>
             </div>

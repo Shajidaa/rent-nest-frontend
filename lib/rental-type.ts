@@ -6,7 +6,7 @@ export type Rental = {
   id: string;
   tenantId: string;
   propertyId: string;
-  status: "PENDING" | "APPROVED" | "REJECTED" | "CANCELLED";
+  status: "PENDING" | "APPROVED" | "REJECTED" | "PAID" | "COMPLETED";
   startDate: string;
   endDate: string;
   updateAt: string;

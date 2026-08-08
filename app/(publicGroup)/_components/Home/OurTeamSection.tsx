@@ -1,3 +1,4 @@
+import MyContainer from "@/components/ui/shared/MyContainer";
 import React from "react";
 
 import { FaFacebook, FaLinkedin, FaTwitter } from "react-icons/fa6";
@@ -44,7 +45,7 @@ const teamMembers: TeamMember[] = [
 export default function OurTeamSection() {
   return (
     <section className="w-full bg-background py-20 px-4 md:px-8">
-      <div className="max-w-6xl mx-auto flex flex-col items-center">
+      <MyContainer className=" flex flex-col items-center">
         
         {/* Section Header */}
         <div className="text-center max-w-xl mb-16">
@@ -113,7 +114,7 @@ export default function OurTeamSection() {
           ))}
         </div>
 
-      </div>
+      </MyContainer>
     </section>
   );
 }

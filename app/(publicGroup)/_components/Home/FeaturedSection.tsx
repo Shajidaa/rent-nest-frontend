@@ -12,6 +12,7 @@ export default async function FeaturedSection() {
   const featured: IProperty[] = Array.isArray(allProperties?.data?.data)
     ? allProperties?.data?.data.slice(0, 10)
     : [];
+  //  console.log(allProperties);
    
     
   return (

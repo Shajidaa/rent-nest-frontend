@@ -47,8 +47,8 @@ const statusConfig: Record<string, { label: string; badge: string; dot: string }
     badge: "bg-rose-50 text-rose-700 border border-rose-200",
     dot: "bg-rose-500",
   },
-  ACTIVE: {
-    label: "Active",
+  PAID: {
+    label: "Paid",
     badge: "bg-emerald-50 text-emerald-700 border border-emerald-200",
     dot: "bg-emerald-500",
   },
@@ -56,11 +56,6 @@ const statusConfig: Record<string, { label: string; badge: string; dot: string }
     label: "Completed",
     badge: "bg-slate-100 text-slate-700 border border-slate-200",
     dot: "bg-slate-400",
-  },
-  RENTED: {
-    label: "Rented",
-    badge: "bg-violet-50 text-violet-700 border border-violet-200",
-    dot: "bg-violet-500",
   },
 };
 
@@ -118,10 +113,10 @@ export default async function RentalPage() {
   const result: RentalResponse = await fetchRental();
   const rentals: Rental[] = result?.data ?? [];
 
-  const activeRentals = rentals.filter((r) => r.status === "APPROVED").length;
+  const activeRentals = rentals.filter((r) => r.status === "APPROVED" || r.status === "PAID").length;
   const pending = rentals.filter((r) => r.status === "PENDING").length;
   const totalRent = rentals
-    .filter((r) => r.status === "APPROVED" )
+    .filter((r) => r.status === "APPROVED" || r.status === "PAID")
     .reduce((sum, r) => sum + r.offeredRent, 0);
 
   return (
@@ -317,10 +312,10 @@ export default async function RentalPage() {
                             <PaymentButton rentalRequestId={rental.id} />
                           )}
 
-                          {/* {rental.status === "ACTIVE" && (
-                            <ReviewButton rentalRequestId={rental.id} />
+                          {rental.status === "PAID" && (
+                            <ReviewButton  propertyId={rental.propertyId} rentalId={rental.id} />
                           )}
-                          */}
+                           
                           <Button asChild variant="outline" size="sm">
                             <Link href={`/properties/${rental.propertyId}`}>
                               View
