@@ -21,6 +21,7 @@ import Category from "./_components/Home/category";
 import FeaturedSection from "./_components/Home/FeaturedSection";
 import Contact from "./_components/Home/contact";
 import OurTeamSection from "./_components/Home/OurTeamSection";
+import WhyChooseUsSection from "./_components/Home/WhyChooseUs";
 
 export default async function HomePage() {
 
@@ -44,6 +45,7 @@ export default async function HomePage() {
     <Contact/>
 
       {/* ─────────────────── WHY CHOOSE US ─────────────────── */}
+      <WhyChooseUsSection/>
       <section className="bg-white py-20 dark:bg-background">
         <div className="mx-auto max-w-screen-xl px-4 md:px-8">
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center">
