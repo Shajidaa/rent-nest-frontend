@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function LoginPage() {
   return (
-    <main className="min-h-screen flex items-center justify-center bg-slate-50 px-4 py-12">
+    <main className="min-h-screen flex items-center justify-center bg-background px-4 py-12">
       <div className="w-full max-w-md">
             <div className="relative w-full max-w-md"> 
           <Card className="w-full shadow-lg border-emerald-100">

@@ -31,7 +31,7 @@ import { Rental, RentalResponse } from "@/lib/rental-type";
 
 // ─── Status Config ─────────────────────────────────────────────────────────────
 
-const statusConfig = {
+const statusConfig: Record<string, { label: string; badge: string; dot: string }> = {
   PENDING: {
     label: "Pending",
     badge: "bg-amber-50 text-amber-700 border border-amber-200",
@@ -39,13 +39,23 @@ const statusConfig = {
   },
   APPROVED: {
     label: "Approved",
-    badge: "bg-emerald-50 text-emerald-700 border border-emerald-200",
-    dot: "bg-emerald-500",
+    badge: "bg-blue-50 text-blue-700 border border-blue-200",
+    dot: "bg-blue-500",
   },
   REJECTED: {
     label: "Rejected",
     badge: "bg-rose-50 text-rose-700 border border-rose-200",
     dot: "bg-rose-500",
+  },
+  ACTIVE: {
+    label: "Active",
+    badge: "bg-emerald-50 text-emerald-700 border border-emerald-200",
+    dot: "bg-emerald-500",
+  },
+  COMPLETED: {
+    label: "Completed",
+    badge: "bg-slate-100 text-slate-700 border border-slate-200",
+    dot: "bg-slate-400",
   },
   RENTED: {
     label: "Rented",
@@ -108,10 +118,10 @@ export default async function RentalPage() {
   const result: RentalResponse = await fetchRental();
   const rentals: Rental[] = result?.data ?? [];
 
-  const approved = rentals.filter((r) => r.status === "APPROVED").length;
+  const activeRentals = rentals.filter((r) => r.status === "APPROVED").length;
   const pending = rentals.filter((r) => r.status === "PENDING").length;
   const totalRent = rentals
-    .filter((r) => r.status === "APPROVED")
+    .filter((r) => r.status === "APPROVED" )
     .reduce((sum, r) => sum + r.offeredRent, 0);
 
   return (
@@ -144,8 +154,8 @@ export default async function RentalPage() {
           />
           <StatCard
             label="Active Rentals"
-            value={approved}
-            icon={Building2} // Can switch back to CheckCircle2 if imported
+            value={activeRentals}
+            icon={Building2}
             color="text-emerald-600"
             bg="bg-emerald-50"
           />
@@ -210,6 +220,7 @@ export default async function RentalPage() {
                 {rentals.map((rental) => {
                   const property = rental.property;
                   const coverImage = property?.images?.[0];
+                  const currentStatus = statusConfig[rental.status] || statusConfig.PENDING;
 
                   return (
                     <TableRow key={rental.id} className="group hover:bg-muted/40 transition-colors">
@@ -249,9 +260,10 @@ export default async function RentalPage() {
                       <TableCell>
                         <div className="space-y-1">
                           <span
-                            className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold ${rental?.status}`}
+                            className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold ${currentStatus.badge}`}
                           >
-                            {rental?.status}
+                            <span className={`h-1.5 w-1.5 rounded-full ${currentStatus.dot}`} />
+                            {currentStatus.label}
                           </span>
                           {rental.rejectionReason && (
                             <div className="flex items-center gap-1 text-[11px] text-rose-600 max-w-[200px] truncate">
@@ -304,8 +316,12 @@ export default async function RentalPage() {
                           {rental.status === "APPROVED" && (
                             <PaymentButton rentalRequestId={rental.id} />
                           )}
+
+                          {rental.status === "ACTIVE" && (
+                            <ReviewButton rentalRequestId={rental.id} />
+                          )}
                          
-                          <Button asChild  variant="outline" size="sm">
+                          <Button asChild variant="outline" size="sm">
                             <Link href={`/properties/${rental.propertyId}`}>
                               View
                               <ArrowRight className="h-3 w-3 ml-1" />

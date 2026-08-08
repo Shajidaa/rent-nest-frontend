@@ -109,7 +109,7 @@ const {
               <select
                 id="role"
                 {...register("role")}
-                className="w-full bg-slate-100 border-slate-300 focus-visible:ring-emerald-600 rounded-md px-3 py-2"
+                className="w-full bg-accent border-slate-300 focus-visible:ring-emerald-600 rounded-md px-3 py-2"
               >
                 <option className=  " border-slate-300 focus-visible:ring-emerald-600 pr-10" value="">Select Role</option>
                 <option value="TENANT">Tenant</option>

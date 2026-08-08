@@ -256,7 +256,7 @@ export default async function PaymentsPage() {
 
                                 <DialogFooter className="gap-2 sm:gap-0">
                                   {property?.id && (
-                                    <Button asChild className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white gap-1.5">
+                                    <Button asChild className="w-full sm:w-auto bg-primary text-white gap-1.5">
                                       <Link href={`/properties/${property.id}`}>
                                         Go to Property Listing
                                         <ExternalLink className="w-3.5 h-3.5" />
