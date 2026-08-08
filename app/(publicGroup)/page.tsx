@@ -19,6 +19,7 @@ import Banner from "./_components/Home/Banner";
 
 import Category from "./_components/Home/category";
 import FeaturedSection from "./_components/Home/FeaturedSection";
+import Contact from "./_components/Home/contact";
 
 export default async function HomePage() {
 
@@ -38,7 +39,8 @@ export default async function HomePage() {
     
 
       {/* ─────────────────── PROPERTY TYPES ─────────────────── */}
-   
+      {/* ─────────────────── Contact─────────────────── */}
+    <Contact/>
 
       {/* ─────────────────── WHY CHOOSE US ─────────────────── */}
       <section className="bg-white py-20 dark:bg-background">
@@ -138,7 +140,7 @@ export default async function HomePage() {
         </div>
       </section> */}
 
- 
+
     </div>
   );
 }
