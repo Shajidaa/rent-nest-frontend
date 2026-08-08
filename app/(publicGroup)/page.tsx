@@ -20,6 +20,7 @@ import Banner from "./_components/Home/Banner";
 import Category from "./_components/Home/category";
 import FeaturedSection from "./_components/Home/FeaturedSection";
 import Contact from "./_components/Home/contact";
+import OurTeamSection from "./_components/Home/OurTeamSection";
 
 export default async function HomePage() {
 
@@ -139,8 +140,8 @@ export default async function HomePage() {
           </div>
         </div>
       </section> */}
-
-
+    {/* ─────────────────── Our team member ─────────────────── */}
+<OurTeamSection/>
     </div>
   );
 }
