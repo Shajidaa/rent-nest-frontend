@@ -317,10 +317,10 @@ export default async function RentalPage() {
                             <PaymentButton rentalRequestId={rental.id} />
                           )}
 
-                          {rental.status === "ACTIVE" && (
+                          {/* {rental.status === "ACTIVE" && (
                             <ReviewButton rentalRequestId={rental.id} />
                           )}
-                         
+                          */}
                           <Button asChild variant="outline" size="sm">
                             <Link href={`/properties/${rental.propertyId}`}>
                               View
