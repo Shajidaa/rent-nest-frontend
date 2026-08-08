@@ -202,7 +202,8 @@ export default function Navbar({ ...user }: IUser) {
                 <div className="flex items-center justify-between px-5 py-4 border-b">
                   <Link href="/" className="flex items-center gap-2">
                     <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                      <KeyRound className="h-4 w-4" />
+             
+                              <Home className="h-4 w-4" />
                     </div>
                     <span className="font-bold text-base">
                       Nest<span className="text-primary">Rent</span>
@@ -261,7 +262,7 @@ export default function Navbar({ ...user }: IUser) {
                     ))}
                    
                   </nav>
-<ModeToggle/>
+
                   {/* Authenticated menu items */}
                   {user?.data && (
                     <nav className="flex flex-col gap-1">
@@ -310,7 +311,12 @@ export default function Navbar({ ...user }: IUser) {
                       </SheetClose>
                     </div>
                   )}
-                </div>
+                
+            
+              </div>
+              <div className="p-4">
+  <ModeToggle/>
+              </div>
 
               </SheetContent>
             </Sheet>
