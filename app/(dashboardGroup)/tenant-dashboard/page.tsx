@@ -79,14 +79,7 @@ export  default async function TenantDashboard() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-1">
-        {/* <Card className="col-span-4">
-          <CardHeader>
-            <CardTitle>Overview</CardTitle>
-          </CardHeader>
-          <CardContent className="pl-2">
-            <OverviewChart />
-          </CardContent>
-        </Card> */}
+      
 
         <Card >
           <CardHeader>

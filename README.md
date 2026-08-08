@@ -1,36 +1,131 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Rent Nest — Frontend
+
+A full-featured property rental platform built with Next.js 16. Connects landlords, tenants, and admins through role-based dashboards, property listings, rental requests, and Stripe-powered payments.
+
+---
+
+## Tech Stack
+
+- **Framework:** Next.js 16 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS v4
+- **UI Components:** shadcn/ui + Radix UI
+- **Forms:** React Hook Form + Zod
+- **Charts:** Recharts
+- **Image Carousel:** Embla Carousel
+- **Notifications:** Sonner
+- **Auth:** JWT (access + refresh tokens via httpOnly cookies)
+- **Package Manager:** pnpm
+
+---
+
+## Features
+
+### Public
+- Browse and search properties with filters
+- Property detail pages with image gallery, amenities, specs, and reviews
+- Advanced property search modal
+
+### Auth
+- Register and login with JWT-based authentication
+- Automatic token refresh via middleware
+- Role-based redirect on login (Tenant / Landlord / Admin)
+
+### Tenant Dashboard
+- View active rentals
+- Submit and track rental applications
+- Make payments via Stripe (success + cancel handling)
+- Leave reviews on completed rentals
+- Manage profile
+
+### Landlord Dashboard
+- Create and edit property listings
+- Manage incoming rental requests
+- Overview analytics
+
+### Admin Dashboard
+- Platform-wide management
+
+---
+
+## Project Structure
+
+```
+app/
+├── (authGroup)/          # Login, Register
+├── (dashboardGroup)/
+│   ├── admin-dashboard/
+│   ├── landlord-dashboard/
+│   └── tenant-dashboard/
+└── (publicGroup)/        # Home, Properties, Explore
+
+components/ui/shared/     # Navbar, Footer, Container, etc.
+lib/                      # Types, utilities, fetch helpers
+service/                  # getMe, logout, refreshToken
+utils/                    # JWT helpers
+proxy.ts                  # Middleware: auth guard + role-based routing
+```
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### 1. Clone and install
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repo-url>
+cd rent-nest-frontend
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Configure environment
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+cp .env.example .env
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Fill in your `.env`:
 
-## Learn More
+```env
+BACKEND_API_URL=https://your-backend-url.com
+NEXT_PUBLIC_BACKEND_API_URL=https://your-backend-url.com
+JWT_ACCESS_SECRET=your_access_secret
+JWT_REFRESH_SECRET=your_refresh_secret
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 3. Run the dev server
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+pnpm dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Open [http://localhost:3000](http://localhost:3000).
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Scripts
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Command        | Description              |
+|----------------|--------------------------|
+| `pnpm dev`     | Start development server |
+| `pnpm build`   | Production build         |
+| `pnpm start`   | Start production server  |
+| `pnpm lint`    | Run ESLint               |
+
+---
+
+## Environment Variables
+
+| Variable                      | Description                        |
+|-------------------------------|------------------------------------|
+| `BACKEND_API_URL`             | Backend base URL (server-side)     |
+| `NEXT_PUBLIC_BACKEND_API_URL` | Backend base URL (client-side)     |
+| `JWT_ACCESS_SECRET`           | Secret for verifying access tokens |
+| `JWT_REFRESH_SECRET`          | Secret for verifying refresh tokens|
+
+---
+
+## Backend
+
+The frontend proxies all `/api/*` requests to the deployed backend at `https://rent-nest-backend-vjpp.onrender.com`.
+This can be changed in `next.config.ts` under `rewrites`.

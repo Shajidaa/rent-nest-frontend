@@ -40,7 +40,7 @@ export default async function Rental() {
                     <div className="hidden md:block bg-background shadow-sm rounded-xl border border-gray-200 overflow-hidden">
                         <div className="overflow-x-auto">
                             <table className="min-w-full divide-y divide-gray-200 text-left">
-                                <thead className="bg-gray-50">
+                                <thead className="bg-background">
                                     <tr>
                                         <th scope="col" className="px-6 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Property</th>
                                         <th scope="col" className="px-6 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Location</th>
@@ -50,7 +50,7 @@ export default async function Rental() {
                                         <th scope="col" className="px-6 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody className="bg-white divide-y divide-gray-200 text-sm">
+                                <tbody className="bg-background divide-y divide-gray-200 text-sm">
                                     {rentedProperties.map((rental:any) => {
                                         const prop = rental.property;
                                         const imageUrl = prop?.images?.[0] || 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=150&q=80';
@@ -65,7 +65,7 @@ export default async function Rental() {
                                                             className="h-12 w-12 flex-shrink-0 rounded-lg object-cover bg-gray-100 border border-gray-200"
                                                         />
                                                         <div>
-                                                            <div className="font-semibold text-gray-900 max-w-xs truncate">{prop?.title}</div>
+                                                            <div className="font-semibold text-chart-4 max-w-xs truncate">{prop?.title}</div>
                                                             <div className="text-xs text-gray-500">{prop?.bedrooms} Bed • {prop?.bathrooms} Bath • {prop?.size} {prop?.sizeUnit}</div>
                                                         </div>
                                                     </div>
@@ -74,7 +74,7 @@ export default async function Rental() {
                                                     <div className="font-medium text-gray-900">{prop?.area}, {prop?.city}</div>
                                                     <div className="text-xs text-gray-500 max-w-xs truncate">{prop?.fullAddress}</div>
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap font-semibold text-gray-900">
+                                                <td className="px-6 py-4 whitespace-nowrap font-semibold ">
                                                     ৳{prop?.price_per_month?.toLocaleString()}
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-xs text-gray-600">
@@ -105,7 +105,7 @@ export default async function Rental() {
                             const imageUrl = prop?.images?.[0] || 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=150&q=80';
 
                             return (
-                                <div key={rental.id} className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 space-y-3">
+                                <div key={rental.id} className="bg-background rounded-xl shadow-sm border border-gray-200 p-4 space-y-3">
                                     <div className="flex items-start gap-3">
                                         <img 
                                             src={imageUrl} 

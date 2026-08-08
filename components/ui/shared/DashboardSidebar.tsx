@@ -13,7 +13,6 @@ import {
     KeyRound,
     BarChart3,
     MessageSquare,
-
     ClipboardList,
     Search,
     Star,
@@ -62,11 +61,8 @@ const roleNav: Record<string, NavGroup[]> = {
                 { label: "Overview", href: "/landlord-dashboard", icon: LayoutDashboard },
                 { label: "Create Properties", href: "/landlord-dashboard/create-property", icon: HomeIcon },
                 { label: "Properties", href: "/landlord-dashboard/requests", icon: Building2 },
-
-              
             ],
         },
-        
     ],
     TENANT: [
         {
@@ -119,7 +115,11 @@ function getInitials(name: string) {
 
 // ─── Sidebar ──────────────────────────────────────────────────────────────────
 
-export default function DashboardSidebar({ ...user }: IUser) {
+interface DashboardSidebarProps extends IUser {
+    onClose?: () => void; // Optional callback to close mobile drawer/sheet
+}
+
+export default function DashboardSidebar({ onClose, ...user }: DashboardSidebarProps) {
     const pathname = usePathname();
     const router = useRouter();
 
@@ -131,16 +131,21 @@ export default function DashboardSidebar({ ...user }: IUser) {
     const avatarUrl = profile?.profile?.profilePhoto ?? "";
 
     const handleLogout = async () => {
+        onClose?.();
         await logout();
         toast.success("Logged out successfully");
         router.push("/");
+    };
+
+    const handleLinkClick = () => {
+        onClose?.(); // Automatically closes the mobile drawer when any link is tapped
     };
 
     return (
         <aside className="flex h-full w-full flex-col">
             {/* ── Brand ── */}
             <div className="flex items-center gap-3 px-4 py-5">
-                <Link href="/" className="flex items-center gap-2 group">
+                <Link href="/" onClick={handleLinkClick} className="flex items-center gap-2 group">
                     <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm transition-transform group-hover:scale-105">
                         <Home className="h-4 w-4" />
                     </div>
@@ -150,56 +155,54 @@ export default function DashboardSidebar({ ...user }: IUser) {
                 </Link>
             </div>
 
-
-
             <Separator className="mb-2" />
 
-          {/* ── Nav Groups ── */}
-<nav className="flex flex-1 flex-col gap-4 overflow-y-auto px-3 py-2">
-    {navGroups.map((group) => (
-        <div key={group.group}>
-            <p className="mb-1 px-2 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
-                {group.group}
-            </p>
-            <div className="flex flex-col gap-0.5">
-                {group.items.map((item) => {
-                    const Icon = item.icon;
+            {/* ── Nav Groups ── */}
+            <nav className="flex flex-1 flex-col gap-4 overflow-y-auto px-3 py-2">
+                {navGroups.map((group) => (
+                    <div key={group.group}>
+                        <p className="mb-1 px-2 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+                            {group.group}
+                        </p>
+                        <div className="flex flex-col gap-0.5">
+                            {group.items.map((item) => {
+                                const Icon = item.icon;
 
-                    // Root routes definition
-                    const isDashboardRoot = [
-                        "/admin-dashboard",
-                        "/landlord-dashboard",
-                        "/tenant-dashboard",
-                    ].includes(item.href);
+                                const isDashboardRoot = [
+                                    "/admin-dashboard",
+                                    "/landlord-dashboard",
+                                    "/tenant-dashboard",
+                                ].includes(item.href);
 
-                    const isActive = isDashboardRoot
-                        ? pathname === item.href
-                        : pathname === item.href ||
-                          (item.href !== "/properties" && pathname.startsWith(item.href + "/"));
+                                const isActive = isDashboardRoot
+                                    ? pathname === item.href
+                                    : pathname === item.href ||
+                                      (item.href !== "/properties" && pathname.startsWith(item.href + "/"));
 
-                    return (
-                        <Link
-                            key={item.href}
-                            href={item.href}
-                            className={cn(
-                                "group flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
-                                isActive
-                                    ? "bg-primary text-primary-foreground shadow-sm"
-                                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                            )}
-                        >
-                            <span className="flex items-center gap-3">
-                                <Icon className="h-4 w-4 shrink-0" />
-                                {item.label}
-                            </span>
-                            {isActive && <ChevronRight className="h-3.5 w-3.5 opacity-70" />}
-                        </Link>
-                    );
-                })}
-            </div>
-        </div>
-    ))}
-</nav>
+                                return (
+                                    <Link
+                                        key={item.href}
+                                        href={item.href}
+                                        onClick={handleLinkClick}
+                                        className={cn(
+                                            "group flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                                            isActive
+                                                ? "bg-primary text-primary-foreground shadow-sm"
+                                                : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                                        )}
+                                    >
+                                        <span className="flex items-center gap-3">
+                                            <Icon className="h-4 w-4 shrink-0" />
+                                            {item.label}
+                                        </span>
+                                        {isActive && <ChevronRight className="h-3.5 w-3.5 opacity-70" />}
+                                    </Link>
+                                );
+                            })}
+                        </div>
+                    </div>
+                ))}
+            </nav>
 
             <Separator className="mt-2" />
 
@@ -207,6 +210,7 @@ export default function DashboardSidebar({ ...user }: IUser) {
             <div className="flex flex-col gap-0.5 px-3 py-3">
                 <Link
                     href={`/${role.toLowerCase()}-dashboard/profile`}
+                    onClick={handleLinkClick}
                     className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
                 >
                     <User className="h-4 w-4" />
