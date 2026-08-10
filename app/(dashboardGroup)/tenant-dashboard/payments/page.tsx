@@ -42,39 +42,39 @@ export default async function PaymentsPage() {
   return (
     <div className=" mx-auto py-10 px-4 ">
       <div className="flex flex-col gap-2 mb-8">
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900">Payment History</h1>
-        <p className="text-slate-500 text-sm">
+        <h1 className="text-3xl font-bold tracking-tight ">Payment History</h1>
+        <p className=" text-sm">
           View all your past transactions, payment statuses, and associated rental properties.
         </p>
       </div>
 
       <Card className="border-slate-200 shadow-sm">
-        <CardHeader className="bg-slate-50/50 border-b border-slate-100 py-4">
+        <CardHeader className="bg-background border-b border-slate-100 py-4">
           <div className="flex items-center gap-2">
-            <Receipt className="w-5 h-5 text-slate-600" />
-            <CardTitle className="text-lg font-semibold text-slate-800">Transactions</CardTitle>
+            <Receipt className="w-5 h-5 " />
+            <CardTitle className="text-lg font-semibold ">Transactions</CardTitle>
           </div>
           <CardDescription>A comprehensive list of payments made through your account.</CardDescription>
         </CardHeader>
         <CardContent className="p-0">
           {payments.length === 0 ? (
-            <div className="text-center py-16 text-slate-500">
-              <CreditCard className="w-12 h-12 mx-auto stroke-1 text-slate-300 mb-3" />
-              <p className="font-medium text-slate-700">No payment records found.</p>
-              <p className="text-xs text-slate-400 mt-1">When you make payments for rental requests, they will appear here.</p>
+            <div className="text-center py-16 ">
+              <CreditCard className="w-12 h-12 mx-auto stroke-1  mb-3" />
+              <p className="font-medium ">No payment records found.</p>
+              <p className="text-xs  mt-1">When you make payments for rental requests, they will appear here.</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <Table>
-                <TableHeader className="bg-slate-50">
+                <TableHeader className="bg-background">
                   <TableRow>
-                    <TableHead className="font-semibold text-slate-700">Property</TableHead>
-                    <TableHead className="font-semibold text-slate-700">Amount</TableHead>
-                    <TableHead className="font-semibold text-slate-700">Status</TableHead>
-                    <TableHead className="font-semibold text-slate-700">Method</TableHead>
-                    <TableHead className="font-semibold text-slate-700">Rental Period</TableHead>
-                    <TableHead className="font-semibold text-slate-700">Date</TableHead>
-                    <TableHead className="text-right font-semibold text-slate-700">Actions</TableHead>
+                    <TableHead className="font-semibold ">Property</TableHead>
+                    <TableHead className="font-semibold ">Amount</TableHead>
+                    <TableHead className="font-semibold ">Status</TableHead>
+                    <TableHead className="font-semibold ">Method</TableHead>
+                    <TableHead className="font-semibold ">Rental Period</TableHead>
+                    <TableHead className="font-semibold ">Date</TableHead>
+                    <TableHead className="text-right font-semibold ">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -88,7 +88,7 @@ export default async function PaymentsPage() {
                         {/* Property Details + Image */}
                         <TableCell className="py-4">
                           <div className="flex items-center gap-3">
-                            <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-slate-100 shrink-0 border border-slate-200">
+                            <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-background shrink-0 border border-slate-200">
                               {property?.images?.[0] ? (
                                 <img
                                
@@ -98,13 +98,13 @@ export default async function PaymentsPage() {
                                   className="w-full h-full object-cover"
                                 />
                               ) : (
-                                <div className="w-full h-full flex items-center justify-center text-slate-400">
+                                <div className="w-full h-full flex items-center justify-center ">
                                   <Building2 className="w-5 h-5" />
                                 </div>
                               )}
                             </div>
                             <div>
-                              <div className="font-medium text-slate-900 line-clamp-1">
+                              <div className="font-medium  line-clamp-1">
                                 {property?.title || 'Unknown Property'}
                               </div>
                               <div className="text-xs text-slate-500 flex items-center gap-1 mt-0.5">
@@ -116,7 +116,7 @@ export default async function PaymentsPage() {
                         </TableCell>
 
                         {/* Amount */}
-                        <TableCell className="font-semibold text-slate-900">
+                        <TableCell className="font-semibold ">
                           {formatCurrency(item.amount, item.currency)}
                         </TableCell>
 
@@ -134,7 +134,7 @@ export default async function PaymentsPage() {
                         </TableCell>
 
                         {/* Rental Dates */}
-                        <TableCell className="text-xs text-slate-600">
+                        <TableCell className="text-xs ">
                           {rentalReq?.startDate && rentalReq?.endDate ? (
                             <div className="flex items-center gap-1.5">
                               <Calendar className="w-3.5 h-3.5 text-slate-400 shrink-0" />
@@ -150,7 +150,7 @@ export default async function PaymentsPage() {
                         </TableCell>
 
                         {/* Created At Date */}
-                        <TableCell className="text-xs text-slate-500">
+                        <TableCell className="text-xs ">
                           {new Date(item.created_at).toLocaleDateString('en-GB', {
                             day: 'numeric',
                             month: 'short',
@@ -169,7 +169,7 @@ export default async function PaymentsPage() {
                                   size="sm" 
                                   className="h-8 gap-1.5 text-xs font-medium border-slate-200 hover:bg-slate-100"
                                 >
-                                  <Eye className="w-3.5 h-3.5 text-slate-500" />
+                                  <Eye className="w-3.5 h-3.5" />
                                   Details
                                 </Button>
                               </DialogTrigger>
@@ -187,13 +187,13 @@ export default async function PaymentsPage() {
                                 <div className="space-y-6 my-4 text-sm">
                                   {/* Payment Overview Card */}
                                   <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
-                                    <h4 className="font-semibold text-slate-900 border-b border-slate-200 pb-2 flex items-center gap-2">
+                                    <h4 className="font-semibold  border-b border-slate-200 pb-2 flex items-center gap-2">
                                       <CreditCard className="w-4 h-4 text-slate-600" /> Payment Information
                                     </h4>
                                     <div className="grid grid-cols-2 gap-3">
                                       <div>
                                         <span className="text-xs text-slate-500 block">Amount Paid</span>
-                                        <span className="font-bold text-slate-900 text-base">{formatCurrency(item.amount, item.currency)}</span>
+                                        <span className="font-bold  text-base">{formatCurrency(item.amount, item.currency)}</span>
                                       </div>
                                       <div>
                                         <span className="text-xs text-slate-500 block">Payment Status</span>
@@ -219,7 +219,7 @@ export default async function PaymentsPage() {
 
                                   {/* Rented Property Info Card */}
                                   <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
-                                    <h4 className="font-semibold text-slate-900 border-b border-slate-200 pb-2 flex items-center gap-2">
+                                    <h4 className="font-semibold  border-b border-slate-200 pb-2 flex items-center gap-2">
                                       <Building2 className="w-4 h-4 text-slate-600" /> Rented Property Details
                                     </h4>
                                     <div className="flex gap-4 items-start">
@@ -231,7 +231,7 @@ export default async function PaymentsPage() {
                                         />
                                       )}
                                       <div className="space-y-1">
-                                        <h5 className="font-semibold text-slate-900">{property?.title}</h5>
+                                        <h5 className="font-semibold ">{property?.title}</h5>
                                         <p className="text-xs text-slate-500">{property?.fullAddress}, {property?.city}</p>
                                         <p className="text-xs text-slate-600 mt-1 line-clamp-2">{property?.description}</p>
                                       </div>
@@ -273,7 +273,7 @@ export default async function PaymentsPage() {
                                 asChild 
                                 variant="ghost" 
                                 size="icon" 
-                                className="h-8 w-8 text-slate-500 hover:text-slate-900"
+                                className="h-8 w-8 text-slate-500 hover:"
                                 title="View Property Page"
                               >
                                 <Link href={`/properties/${property.id}`}>

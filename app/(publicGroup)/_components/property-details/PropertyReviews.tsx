@@ -72,9 +72,7 @@ const hasReviewed = rentalId
         <ReviewList reviews={reviews} />
       )}
 
-      {/* {rentalId && (
-        <ReviewForm propertyId={propertyId} rentalId={rentalId} />
-      )} */}
+    
       {rentalId && !hasReviewed && (
         <ReviewForm 
           propertyId={propertyId} 

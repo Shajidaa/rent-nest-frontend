@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Link from "next/link";
 import { fetchRental } from "../_action/rentalRequest";
 import PaymentButton from "../_components/PaymentButton";
@@ -26,6 +27,8 @@ import {
   TrendingUp,
   FileX,
   XCircle,
+  BadgeTurkishLira,
+  ExternalLink,
 } from "lucide-react";
 import { Rental, RentalResponse } from "@/lib/rental-type";
 
@@ -114,10 +117,12 @@ export default async function RentalPage() {
   const rentals: Rental[] = result?.data ?? [];
 
   const activeRentals = rentals.filter((r) => r.status === "APPROVED" || r.status === "PAID").length;
+
   const pending = rentals.filter((r) => r.status === "PENDING").length;
   const totalRent = rentals
-    .filter((r) => r.status === "APPROVED" || r.status === "PAID")
+    .filter((r) => r.status === "PAID")
     .reduce((sum, r) => sum + r.offeredRent, 0);
+// console.log(rentals);
 
   return (
     <div className="space-y-6">
@@ -164,7 +169,7 @@ export default async function RentalPage() {
           <StatCard
             label="Monthly Rent"
             value={formatCurrency(totalRent)}
-            icon={DollarSign}
+            icon={ BadgeTurkishLira}
             color="text-violet-600"
             bg="bg-violet-50"
           />
@@ -203,7 +208,7 @@ export default async function RentalPage() {
             <Table>
               <TableHeader>
                 <TableRow className="bg-muted/50">
-                  <TableHead className="w-[300px]">Property</TableHead>
+                  <TableHead className="w-75">Property</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Offered Rent</TableHead>
                   <TableHead>Details</TableHead>
@@ -312,14 +317,14 @@ export default async function RentalPage() {
                             <PaymentButton rentalRequestId={rental.id} />
                           )}
 
-                          {rental.status === "PAID" && (
+                          {/* {rental.status === "PAID" && (
                             <ReviewButton  propertyId={rental.propertyId} rentalId={rental.id} />
-                          )}
-                           
+                          )} */}
+                        
                           <Button asChild variant="outline" size="sm">
                             <Link href={`/properties/${rental.propertyId}`}>
-                              View
-                              <ArrowRight className="h-3 w-3 ml-1" />
+                                      <ExternalLink className="w-4 h-4" />
+                             
                             </Link>
                           </Button>
                         </div>

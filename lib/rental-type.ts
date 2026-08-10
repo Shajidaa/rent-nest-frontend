@@ -11,6 +11,7 @@ export type Rental = {
   endDate: string;
   updateAt: string;
   offeredRent: number;
+
   message: string;
   rejectionReason: string;
   numberOfGuests: number;

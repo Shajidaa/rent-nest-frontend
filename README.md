@@ -22,16 +22,19 @@ A full-featured property rental platform built with Next.js 16. Connects landlor
 ## Features
 
 ### Public
+
 - Browse and search properties with filters
 - Property detail pages with image gallery, amenities, specs, and reviews
 - Advanced property search modal
 
 ### Auth
+
 - Register and login with JWT-based authentication
 - Automatic token refresh via middleware
 - Role-based redirect on login (Tenant / Landlord / Admin)
 
 ### Tenant Dashboard
+
 - View active rentals
 - Submit and track rental applications
 - Make payments via Stripe (success + cancel handling)
@@ -39,11 +42,13 @@ A full-featured property rental platform built with Next.js 16. Connects landlor
 - Manage profile
 
 ### Landlord Dashboard
+
 - Create and edit property listings
 - Manage incoming rental requests
 - Overview analytics
 
 ### Admin Dashboard
+
 - Platform-wide management
 
 ---
@@ -68,64 +73,36 @@ proxy.ts                  # Middleware: auth guard + role-based routing
 
 ---
 
-## Getting Started
+````
 
-### 1. Clone and install
+###  Configure environment
 
-```bash
-git clone <repo-url>
-cd rent-nest-frontend
-pnpm install
-```
-
-### 2. Configure environment
-
-```bash
-cp .env.example .env
-```
-
-Fill in your `.env`:
 
 ```env
 BACKEND_API_URL=https://your-backend-url.com
 NEXT_PUBLIC_BACKEND_API_URL=https://your-backend-url.com
 JWT_ACCESS_SECRET=your_access_secret
 JWT_REFRESH_SECRET=your_refresh_secret
-```
-
-### 3. Run the dev server
-
-```bash
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000).
-
----
+````
 
 ## Scripts
 
-| Command        | Description              |
-|----------------|--------------------------|
-| `pnpm dev`     | Start development server |
-| `pnpm build`   | Production build         |
-| `pnpm start`   | Start production server  |
-| `pnpm lint`    | Run ESLint               |
+| Command      | Description              |
+| ------------ | ------------------------ |
+| `pnpm dev`   | Start development server |
+| `pnpm build` | Production build         |
+| `pnpm start` | Start production server  |
+| `pnpm lint`  | Run ESLint               |
 
 ---
 
 ## Environment Variables
 
-| Variable                      | Description                        |
-|-------------------------------|------------------------------------|
-| `BACKEND_API_URL`             | Backend base URL (server-side)     |
-| `NEXT_PUBLIC_BACKEND_API_URL` | Backend base URL (client-side)     |
-| `JWT_ACCESS_SECRET`           | Secret for verifying access tokens |
-| `JWT_REFRESH_SECRET`          | Secret for verifying refresh tokens|
+| Variable                      | Description                         |
+| ----------------------------- | ----------------------------------- |
+| `BACKEND_API_URL`             | Backend base URL (server-side)      |
+| `NEXT_PUBLIC_BACKEND_API_URL` | Backend base URL (client-side)      |
+| `JWT_ACCESS_SECRET`           | Secret for verifying access tokens  |
+| `JWT_REFRESH_SECRET`          | Secret for verifying refresh tokens |
 
 ---
-
-## Backend
-
-The frontend proxies all `/api/*` requests to the deployed backend at `https://rent-nest-backend-vjpp.onrender.com`.
-This can be changed in `next.config.ts` under `rewrites`.

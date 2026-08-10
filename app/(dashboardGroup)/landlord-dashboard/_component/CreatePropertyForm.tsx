@@ -62,8 +62,9 @@ export function CreatePropertyForm({ categories }: { categories: any[] }) {
 
       const res = await createProperty(payload);
       if (res.success) {
+         router.refresh();
         toast.success("Property published successfully!");
-        router.refresh();
+       
       } else {
         toast.error(res.error ?? "Failed to create property.");
       }

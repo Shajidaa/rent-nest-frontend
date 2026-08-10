@@ -8,7 +8,7 @@ export default async function LandlordDashboard() {
  
     const {total} = response || []
     
-  
+
     
   const stats = [
     {

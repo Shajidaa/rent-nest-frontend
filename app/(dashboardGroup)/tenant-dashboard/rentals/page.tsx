@@ -2,6 +2,7 @@
 import React from 'react';
 import { fetchRental } from '../_action/rentalRequest';
 import Link from 'next/link';
+import { ExternalLink } from 'lucide-react';
 
 export default async function Rental() {
     const result = await fetchRental();
@@ -56,7 +57,7 @@ export default async function Rental() {
                                         const imageUrl = prop?.images?.[0] || 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=150&q=80';
                                         
                                         return (
-                                            <tr key={rental.id} className="hover:bg-gray-50/75 transition-colors">
+                                            <tr key={rental.id} className=" transition-colors">
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <div className="flex items-center gap-3">
                                                         <img 
@@ -136,7 +137,9 @@ export default async function Rental() {
                                             </span>
                                         </div>
                                         <div>
-                                          <Link href={`/properties/${prop.id}`}>view</Link>
+                                          <Link href={`/properties/${prop.id}`}>     
+                                               <ExternalLink className="w-4 h-4" />
+                                               </Link>
                                         </div>
                                     </div>
                                 </div>

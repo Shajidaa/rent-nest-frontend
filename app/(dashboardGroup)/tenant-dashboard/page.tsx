@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Home, FileText, CreditCard, MessageSquare } from "lucide-react";
-import { OverviewChart } from "./_components/OverviewChart";
+
 import { fetchRental } from "./_action/rentalRequest";
 
 export  default async function TenantDashboard() {
