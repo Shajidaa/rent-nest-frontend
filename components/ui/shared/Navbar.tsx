@@ -48,8 +48,8 @@ const navLinks = [
 
 const userMenuItems = [
   { label: "Dashboard", icon: LayoutDashboard, action: "dashboard" },
-  { label: "Profile", icon: User, action: "profile" },
-  { label: "Settings", icon: Settings, action: "settings" },
+  // { label: "Profile", icon: User, action: "profile" },
+  // { label: "Settings", icon: Settings, action: "settings" },
 ]
 
 const roleDashboardMap: Record<string, string> = {

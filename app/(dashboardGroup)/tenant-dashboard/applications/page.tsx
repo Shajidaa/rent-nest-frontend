@@ -98,8 +98,8 @@ function StatCard({
   return (
     <Card className="flex-1 min-w-0">
       <CardContent className="flex items-center gap-4 p-5">
-        <div className={`rounded-xl p-3 ${bg} shrink-0`}>
-          <Icon className={`h-5 w-5 ${color}`} />
+        <div className={`rounded-xl md:p-3 hidden  ${bg} shrink-0`}>
+          <Icon className={`md:h-5 md:w-5  ${color}`} />
         </div>
         <div className="min-w-0">
           <p className="text-xs text-muted-foreground font-medium truncate">{label}</p>
@@ -144,7 +144,7 @@ export default async function RentalPage() {
 
       {/* Stats */}
       {rentals.length > 0 && (
-        <div className="flex flex-wrap gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <StatCard
             label="Total Rentals"
             value={rentals.length}
@@ -317,9 +317,9 @@ export default async function RentalPage() {
                             <PaymentButton rentalRequestId={rental.id} />
                           )}
 
-                          {/* {rental.status === "PAID" && (
+                          {rental.status === "PAID" && (
                             <ReviewButton  propertyId={rental.propertyId} rentalId={rental.id} />
-                          )} */}
+                          )}
                         
                           <Button asChild variant="outline" size="sm">
                             <Link href={`/properties/${rental.propertyId}`}>

@@ -7,8 +7,21 @@ export default async function LandlordDashboard() {
   
  
     const {total} = response || []
-    
+ const rentalList = Array.isArray(response) ? response : response?.data || [];
 
+  // Filter properties with status === "RENTAL" (or adjust based on your schema)
+  const getRentedProperties = (items: any[]) => {
+    return items.filter((res: any) => res.status === "RENTED");
+  };
+
+  const rentedProperties = getRentedProperties(rentalList);
+  
+  // Calculate total monthly income dynamically from rented properties
+  const totalIncome = rentedProperties.reduce(
+    (sum: number, item: any) => sum + (item?.price_per_month || 0), 
+    0
+  );
+  
     
   const stats = [
     {
@@ -20,14 +33,14 @@ export default async function LandlordDashboard() {
     },
     {
       title: "Occupied",
-      value: "9",
+  value: rentedProperties.length,
       icon: Clock,
       color: "text-blue-600",
       bg: "bg-blue-50",
     },
     {
       title: "Monthly Income",
-      value: "$24.5k",
+     value: `${totalIncome.toLocaleString()}`,
       icon: DollarSign,
       color: "text-orange-600",
       bg: "bg-orange-50",

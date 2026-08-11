@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import Link from 'next/link'
-import { Building, Delete, Edit, Edit2 } from 'lucide-react'
+import { Building, Delete, Edit, Edit2, View } from 'lucide-react'
 import DeleteButton from '../_component/DeleteButton'
 
 
@@ -126,6 +126,7 @@ export default async function RequestedProperties() {
                     </Link>
                    
                     <DeleteButton landId={property.id}/>
+                    
                     </div>
                     
                  

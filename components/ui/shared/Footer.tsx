@@ -6,22 +6,22 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter, FaGithub } from "react-icons/fa6";
 const footerLinks = {
     company: [
-        { label: "About Us", href: "/about" },
-        { label: "Careers", href: "/careers" },
-        { label: "Blog", href: "/blog" },
-        { label: "Press", href: "/press" },
+        { label: "About Us", href: "#" },
+        { label: "Careers", href: "#" },
+        { label: "Blog", href: "#" },
+        { label: "Press", href: "#" },
     ],
     properties: [
         { label: "Browse Properties", href: "/properties" },
         { label: "Explore Areas", href: "/explore" },
-        { label: "List Your Property", href: "/register" },
-        { label: "Pricing", href: "/pricing" },
+        
+      
     ],
     support: [
-        { label: "Help Center", href: "/help" },
-        { label: "Contact Us", href: "/contact" },
-        { label: "Privacy Policy", href: "/privacy" },
-        { label: "Terms of Service", href: "/terms" },
+        { label: "Help Center", href: "#" },
+        { label: "Contact Us", href: "#" },
+        { label: "Privacy Policy", href: "#" },
+        { label: "Terms of Service", href: "#" },
     ],
 };
 
@@ -39,7 +39,7 @@ export default function Footer() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
                     {/* Brand */}
                     <div className="space-y-4">
-                        <h2 className="text-lg font-bold tracking-tight">RentEase</h2>
+                        <h2 className="text-lg font-bold tracking-tight">NestRent</h2>
                         <p className="text-sm text-white/70 leading-relaxed">
                             Find your perfect rental property with ease. Connecting landlords and tenants across the country.
                         </p>

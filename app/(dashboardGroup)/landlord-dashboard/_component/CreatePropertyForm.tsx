@@ -72,16 +72,16 @@ export function CreatePropertyForm({ categories }: { categories: any[] }) {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-8 items-start">
+    <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-8 border-6 border-red-600 items-start">
       {/* Left: Form */}
-      <div className="space-y-6">
+      <div >
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <BasicDetailsCard form={form} categories={categories} />
           <LocationCard form={form} />
           <PricingSizeCard form={form} />
-          <RoomsOrientationCard form={form} />
-          <AmenitiesUtilitiesCard form={form} />
-          <MediaTenantCard form={form} isPending={isPending} />
+          {/* <RoomsOrientationCard form={form} /> */}
+          {/* <AmenitiesUtilitiesCard form={form} /> */}
+          {/* <MediaTenantCard form={form} isPending={isPending} /> */}
         </form>
       </div>
 

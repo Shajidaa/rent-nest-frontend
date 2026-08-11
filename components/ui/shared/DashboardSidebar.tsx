@@ -208,14 +208,14 @@ export default function DashboardSidebar({ onClose, ...user }: DashboardSidebarP
 
             {/* ── Bottom Actions ── */}
             <div className="flex flex-col gap-0.5 px-3 py-3">
-                <Link
+                {/* <Link
                     href={`/${role.toLowerCase()}-dashboard/profile`}
                     onClick={handleLinkClick}
                     className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
                 >
                     <User className="h-4 w-4" />
                     Profile
-                </Link>
+                </Link> */}
 
                 <button
                     onClick={handleLogout}
