@@ -25,7 +25,7 @@ export function MediaTenantCard({ form, isPending }: MediaTenantCardProps) {
   const formValues = watch();
 
   return (
-    <Card className="border-neutral-200">
+    <Card className="border-neutral-200 overflow-hidden">
       <CardHeader>
         <SectionTitle n="06" title="Media & tenant preference" icon={ImageIcon} />
       </CardHeader>

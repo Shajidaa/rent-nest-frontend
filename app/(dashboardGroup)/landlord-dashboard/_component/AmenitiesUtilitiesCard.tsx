@@ -1,4 +1,4 @@
-import { Card,  CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
@@ -13,7 +13,7 @@ export function AmenitiesUtilitiesCard({ form }: { form: UseFormReturn<CreatePro
   const { control } = form;
 
   return (
-    <Card className="border-neutral-200">
+    <Card className="border-neutral-200 overflow-hidden">
       <CardHeader>
         <SectionTitle n="05" title="Amenities & utilities" icon={Compass} />
       </CardHeader>

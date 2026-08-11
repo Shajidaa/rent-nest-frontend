@@ -12,7 +12,7 @@ export function PricingSizeCard({ form }: { form: UseFormReturn<CreatePropertyIn
   const { register, control, formState: { errors } } = form;
 
   return (
-    <Card className="border-neutral-200">
+    <Card className="border-neutral-200 overflow-hidden">
       <CardHeader>
         <SectionTitle n="03" title="Pricing & size" icon={KeyRound} />
       </CardHeader>

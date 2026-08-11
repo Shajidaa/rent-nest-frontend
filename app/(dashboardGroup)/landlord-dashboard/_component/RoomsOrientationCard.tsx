@@ -14,7 +14,7 @@ export function RoomsOrientationCard({ form }: { form: UseFormReturn<CreatePrope
   const { register, control, formState: { errors } } = form;
 
   return (
-    <Card className="border-neutral-200">
+    <Card className="border-neutral-200 overflow-hidden">
       <CardHeader>
         <SectionTitle n="04" title="Rooms & orientation" icon={BedDouble} />
       </CardHeader>

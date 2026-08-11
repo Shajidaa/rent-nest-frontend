@@ -16,11 +16,11 @@ export default function DashboardLayoutClient({
 }) {
     const [isOpen, setIsOpen] = useState(false);
     return (
-        <div className="flex h-screen overflow-hidden">
+        <div className="flex min-h-screen ">
             {/* ── Sidebar (Desktop) ── */}
             <aside className="hidden lg:flex lg:w-64 lg:flex-col lg:border-r lg:bg-card">
                 <DashboardSidebar {...user} />
-           
+
 
             </aside>
 
