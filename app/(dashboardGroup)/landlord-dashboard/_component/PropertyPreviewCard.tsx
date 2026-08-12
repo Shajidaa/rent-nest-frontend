@@ -14,7 +14,7 @@ export function PropertyPreviewCard({ form }: { form: UseFormReturn<CreateProper
   const mainImage = formValues.images?.[0];
 
   return (
-    <div className="lg:sticky border border-white lg:top-6">
+    <div className="lg:sticky  lg:top-6">
       <p className="text-xs text-neutral-400 uppercase tracking-widest font-semibold mb-3 px-1">Live preview</p>
       <Card className="overflow-hidden border-neutral-200 p-0">
         <div className="h-44 bg-neutral-100 flex items-center justify-center overflow-hidden">
