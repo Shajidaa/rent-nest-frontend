@@ -39,6 +39,7 @@ import { toast } from "sonner"
 import MyContainer from "./MyContainer"
 import { cn } from "@/lib/utils"
 import { ModeToggle } from "./ModeToggle"
+import { BorderBeam } from "../border-beam"
 
 const navLinks = [
   { name: "Home", href: "/", icon: Home },
@@ -177,11 +178,23 @@ export default function Navbar({ ...user }: IUser) {
               </DropdownMenu>
             ) : (
               <div className="flex items-center gap-2">
-                <Button variant="ghost" size="sm" asChild>
+                <Button className="relative overflow-hidden" variant="ghost" size="sm">
                   <Link href="/login">Sign in</Link>
+                   <BorderBeam
+        size={40}
+        initialOffset={20}
+        className="from-transparent via-primary to-transparent"
+        transition={{
+          type:"decay",
+          stiffness: 60,
+          damping: 20,
+        }}
+      />
                 </Button>
-                <Button size="sm" asChild>
+
+                <Button  size="sm">
                   <Link href="/register">Get Started</Link>
+       
                 </Button>
               </div>
             )}
@@ -300,13 +313,15 @@ export default function Navbar({ ...user }: IUser) {
                   ) : (
                     <div className="grid grid-cols-2 gap-2">
                       <SheetClose asChild>
-                        <Button variant="outline" asChild className="w-full">
+                        <Button variant="outline"  className="w-full">
                           <Link href="/login">Sign in</Link>
+       
                         </Button>
                       </SheetClose>
                       <SheetClose asChild>
-                        <Button asChild className="w-full">
+                        <Button className="w-full">
                           <Link href="/register">Get Started</Link>
+     
                         </Button>
                       </SheetClose>
                     </div>

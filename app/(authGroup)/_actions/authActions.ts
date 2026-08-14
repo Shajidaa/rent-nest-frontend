@@ -42,6 +42,9 @@ export const loginAction = async (
         sameSite: "lax",
       });
 
+      // if (success) {
+      //   return { success: true, redirectTo: redirectTo || "/dashboard" };
+      // }
       if (data.refreshToken) {
         cookieStore.set({
           name: "refreshToken",

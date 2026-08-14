@@ -2,6 +2,7 @@ import React from "react";
 import LoginForm from "../_component/LoginForm";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
+import { BorderBeam } from "@/components/ui/border-beam";
 
 
 export default function LoginPage() {
@@ -9,7 +10,7 @@ export default function LoginPage() {
     <main className="min-h-screen flex items-center justify-center bg-background px-4 py-12">
       <div className="w-full max-w-md">
             <div className="relative w-full max-w-md"> 
-          <Card className="w-full shadow-lg border-emerald-100">
+          <Card className="w-full relative  overflow-hidden shadow-lg border-emerald-100">
   <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-2xl font-bold tracking-tight text-emerald-900">
             Welcome to RentNest
@@ -27,6 +28,12 @@ export default function LoginPage() {
             </Link>
           </p>
         </CardFooter>
+              <BorderBeam
+                duration={8}
+                size={100}
+                
+                className="from-transparent via-green-500 to-transparent"
+              />
           </Card>
          </div>
       </div>

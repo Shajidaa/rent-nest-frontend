@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Toaster } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ui/theme-provider";
+import { ScrollProgress } from "@/components/ui/scroll-progress";
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
@@ -34,7 +35,9 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
-          </ThemeProvider></TooltipProvider>
+          </ThemeProvider>
+          </TooltipProvider>
+        
         </body>
     </html>
   );

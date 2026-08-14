@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import RegisterForm from "../_component/RegisterForm";
+import { BorderBeam } from "@/components/ui/border-beam";
 
 
 
@@ -11,7 +12,7 @@ export default function RegisterPage() {
 
   return (
     <div className="flex justify-center items-center min-h-[80vh] px-4 py-8">
-      <Card className="w-full max-w-md shadow-lg border-emerald-100">
+      <Card className="w-full relative  overflow-hidden max-w-md shadow-lg border-emerald-100">
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-2xl font-bold tracking-tight text-emerald-900">
             Register to RentNest 
@@ -19,6 +20,7 @@ export default function RegisterPage() {
           <CardDescription className="text-slate-500">
             Provide your details to create a new Tenant account
           </CardDescription>
+      
         </CardHeader>
         
     <RegisterForm/>
@@ -30,7 +32,14 @@ export default function RegisterPage() {
               Login
             </Link>
           </p>
+           
         </CardFooter>
+            <BorderBeam
+        duration={8}
+        size={100}
+        
+        className="from-transparent via-green-500 to-transparent"
+      />
       </Card>
     </div>
   );
