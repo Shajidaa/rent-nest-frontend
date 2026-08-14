@@ -3,24 +3,20 @@
 
 import axios from "axios";
 import { cookies } from "next/headers";
-import jwt, { JwtPayload } from "jsonwebtoken";
-import { redirect } from "next/navigation";
 
 export type ActionResponse = {
   success: boolean;
   message?: string;
+  accessToken?: string;
 };
 
 export const loginAction = async (
-  redirectTo: string,
   formData: FormData,
 ): Promise<ActionResponse> => {
   const rawData = {
     email: formData.get("email"),
     password: formData.get("password"),
   };
-
-  let redirectPath: string | null = null;
 
   try {
     const cookieStore = await cookies();
@@ -42,9 +38,6 @@ export const loginAction = async (
         sameSite: "lax",
       });
 
-      // if (success) {
-      //   return { success: true, redirectTo: redirectTo || "/dashboard" };
-      // }
       if (data.refreshToken) {
         cookieStore.set({
           name: "refreshToken",
@@ -58,23 +51,7 @@ export const loginAction = async (
       }
     }
 
-    const decodedToken = jwt.decode(data.accessToken) as JwtPayload;
-
-    if (
-      redirectTo &&
-      redirectTo.startsWith("/") &&
-      !redirectTo.startsWith("//")
-    ) {
-      redirectPath = redirectTo;
-    } else if (decodedToken?.role === "TENANT") {
-      redirectPath = "/tenant-dashboard";
-    } else if (decodedToken?.role === "ADMIN") {
-      redirectPath = "/admin-dashboard";
-    } else if (decodedToken?.role === "LANDLORD") {
-      redirectPath = "/landlord-dashboard";
-    } else {
-      redirectPath = "/";
-    }
+    return { success: true, accessToken: data?.accessToken };
   } catch (error: any) {
     if (error?.message === "NEXT_REDIRECT") throw error;
 
@@ -84,16 +61,9 @@ export const loginAction = async (
       message: error.response?.data?.message || "Invalid email or password",
     };
   }
-
-  if (redirectPath) {
-    redirect(redirectPath);
-  }
-
-  return { success: true };
 };
 
 export const registerAction = async (
-  redirectTo: string,
   formData: FormData,
 ): Promise<ActionResponse> => {
   const rawData = {
@@ -102,8 +72,6 @@ export const registerAction = async (
     email: formData.get("email"),
     password: formData.get("password"),
   };
-
-  let redirectPath: string | null = null;
 
   try {
     const cookieStore = await cookies();
@@ -138,23 +106,7 @@ export const registerAction = async (
       }
     }
 
-    const decodedToken = jwt.decode(data.accessToken) as JwtPayload;
-
-    if (
-      redirectTo &&
-      redirectTo.startsWith("/") &&
-      !redirectTo.startsWith("//")
-    ) {
-      redirectPath = redirectTo;
-    } else if (decodedToken?.role === "TENANT") {
-      redirectPath = "/tenant-dashboard";
-    } else if (decodedToken?.role === "ADMIN") {
-      redirectPath = "/admin-dashboard";
-    } else if (decodedToken?.role === "LANDLORD") {
-      redirectPath = "/landlord-dashboard";
-    } else {
-      redirectPath = "/";
-    }
+    return { success: true, accessToken: data?.accessToken };
   } catch (error: any) {
     if (error?.message === "NEXT_REDIRECT") throw error;
 
@@ -164,10 +116,4 @@ export const registerAction = async (
       message: error.response?.data?.message || "Invalid email or password",
     };
   }
-
-  if (redirectPath) {
-    redirect(redirectPath);
-  }
-
-  return { success: true };
 };

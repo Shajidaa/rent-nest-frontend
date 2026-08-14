@@ -1,9 +1,9 @@
 "use client";
-
+import { useRouter } from "next/navigation";
 import React, { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import {  z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,7 +12,7 @@ import { Loader2 } from "lucide-react";
 import { loginAction } from "../_actions/authActions";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-
+import jwt, { JwtPayload } from "jsonwebtoken";
 // 1. Define  Zod Schema
 const loginSchema = z.object({
   email: z.string().min(1, "Email is required").email("Please enter a valid email address"),
@@ -27,6 +27,9 @@ export default function LoginForm() {
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") ?? "";
 
+
+
+const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -35,7 +38,34 @@ export default function LoginForm() {
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (data: LoginFormData) => {
+//   const onSubmit = (data: LoginFormData) => {
+//     setServerError(null);
+
+//     startTransition(async () => {
+//       const formData = new FormData();
+//       formData.append("email", data.email);
+//       formData.append("password", data.password);
+
+//       const result = await loginAction("", formData);
+// if (result.success && result.redirectTo) {
+//   router.push(result.redirectTo);
+//   router.refresh();
+// }
+// console.log(result);
+
+//       if ( !result.success) {
+//         setServerError(result.message || "An unexpected error occurred");
+//       }
+//       // if (result.success) {
+//       //   toast.success(`Login success!`)
+//       // }
+
+//     });
+
+    
+//   };
+
+ const onSubmit = (data: LoginFormData) => {
     setServerError(null);
 
     startTransition(async () => {
@@ -43,21 +73,38 @@ export default function LoginForm() {
       formData.append("email", data.email);
       formData.append("password", data.password);
 
-      const result = await loginAction(redirectTo, formData);
+      const result = await loginAction(formData);
 
-      if ( !result.success) {
+      if (result.success && result.accessToken) {
+       const decodedToken = jwt.decode(result.accessToken) as JwtPayload;
+        let redirectPath = "/";
+
+        if (
+          redirectTo &&
+          redirectTo.startsWith("/") &&
+          !redirectTo.startsWith("//")
+        ) {
+          redirectPath = redirectTo;
+        } else if (decodedToken?.role === "TENANT") {
+          redirectPath = "/tenant-dashboard";
+        } else if (decodedToken?.role === "ADMIN") {
+          redirectPath = "/admin-dashboard";
+        } else if (decodedToken?.role === "LANDLORD") {
+          redirectPath = "/landlord-dashboard";
+        }
+
+        toast.success("Login successful!");
+        router.push(redirectPath);
+        router.refresh();
+      } else {
         setServerError(result.message || "An unexpected error occurred");
       }
-      if (result.success) {
-        toast.success(`Login success!`)
-      }
-
     });
-
-    
   };
 
-  return (
+
+
+return (
      
     <CardContent>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">

@@ -12,8 +12,8 @@ export async function fetchRentalRequest() {
       `${process.env.BACKEND_API_URL}/api/landlord-dashboard/requests`,
       {
         headers: {
-          "Content-Type": "application/json",
           Cookie: `accessToken=${accessToken}`,
+          "Content-Type": "application/json",
         },
       },
     );
@@ -33,8 +33,8 @@ export async function fetchPropertyRequests(propertyId: string) {
       `${process.env.BACKEND_API_URL}/api/landlord-dashboard/requests/${propertyId}`,
       {
         headers: {
-          "Content-Type": "application/json",
           Cookie: `accessToken=${accessToken}`,
+          "Content-Type": "application/json",
         },
       },
     );

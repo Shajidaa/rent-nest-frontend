@@ -11,8 +11,8 @@ import { Label } from "@/components/ui/label";
 import { Loader2,Eye, EyeOff} from "lucide-react";
 import { toast } from "sonner";
 import { registerAction } from "../_actions/authActions";
-import { useSearchParams } from "next/navigation";
-
+import { useRouter, useSearchParams } from "next/navigation";
+import jwt, { JwtPayload } from "jsonwebtoken";
 // Register Form Zod Schema
 const registerSchema = z.object({
   name: z.string().min(2, "Name must be at least 4 characters"),
@@ -33,7 +33,7 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
    const [isPending, startTransition] = useTransition();
    const searchParams = useSearchParams();
    const redirectTo = searchParams.get("redirectTo") ?? "";
- 
+ const router = useRouter();
 const {
     register,
     handleSubmit,
@@ -51,14 +51,32 @@ const {
          formData.append("email", data.email);
          formData.append("password", data.password);
    
-         const result = await registerAction(redirectTo, formData);
+         const result = await registerAction( formData);
    
-         if ( !result.success) {
-           setServerError(result.message || "An unexpected error occurred");
-         }
-         if (result.success) {
-           toast.success(`Register success!`)
-         }
+         if (result.success && result.accessToken) {
+              const decodedToken = jwt.decode(result.accessToken) as JwtPayload;
+               let redirectPath = "/";
+       
+               if (
+                 redirectTo &&
+                 redirectTo.startsWith("/") &&
+                 !redirectTo.startsWith("//")
+               ) {
+                 redirectPath = redirectTo;
+               } else if (decodedToken?.role === "TENANT") {
+                 redirectPath = "/tenant-dashboard";
+               } else if (decodedToken?.role === "ADMIN") {
+                 redirectPath = "/admin-dashboard";
+               } else if (decodedToken?.role === "LANDLORD") {
+                 redirectPath = "/landlord-dashboard";
+               }
+       
+               toast.success("Registration successful!");
+               router.push(redirectPath);
+               router.refresh();
+             } else {
+               setServerError(result.message || "An unexpected error occurred");
+             }
    
        });
     
