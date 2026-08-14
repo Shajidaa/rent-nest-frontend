@@ -8,6 +8,7 @@ import { Search, MapPin, Sparkles,  KeyRound } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
+
 export default function Banner() {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");

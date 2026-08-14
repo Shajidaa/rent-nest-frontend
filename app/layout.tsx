@@ -37,7 +37,7 @@ export default function RootLayout({
             {children}
           </ThemeProvider>
           </TooltipProvider>
-        
+        <ScrollProgress />
         </body>
     </html>
   );

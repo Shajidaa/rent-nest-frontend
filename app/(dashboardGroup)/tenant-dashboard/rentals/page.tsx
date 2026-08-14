@@ -19,12 +19,12 @@ export default async function Rental() {
     const rentedProperties = getRentedProperties(rentals);
 
     return (
-        <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className=" ">
             {/* Header Section */}
             <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
-                    <h1 className="text-2xl sm:text-3xl font-bold text-chart-4">My Rented Properties</h1>
-                    <p className="text-sm text-gray-500 mt-1">Manage and track your active property rentals</p>
+                    <h1 className="text-2xl sm:text-3xl font-bold ">My Rented Properties</h1>
+                    <p className="text-sm  mt-1">Manage and track your active property rentals</p>
                 </div>
                 <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold px-3 py-1.5 rounded-lg w-fit">
                     Total: {rentedProperties.length} Rented
@@ -32,23 +32,23 @@ export default async function Rental() {
             </div>
 
             {rentedProperties.length === 0 ? (
-                <div className="bg-background rounded-xl shadow-sm border border-gray-200 p-12 text-center">
-                    <p className="text-gray-500">No active rented properties found.</p>
+                <div className=" rounded-xl shadow-sm border border-gray-200 p-12 text-center">
+                    <p>No active rented properties found.</p>
                 </div>
             ) : (
                 <>
                     {/* Desktop & Tablet Table View */}
-                    <div className="hidden md:block bg-background shadow-sm rounded-xl border border-gray-200 overflow-hidden">
+                    <div className="hidden md:block  shadow-sm rounded-xl border border-gray-200 overflow-hidden">
                         <div className="overflow-x-auto">
                             <table className="min-w-full divide-y divide-gray-200 text-left">
-                                <thead className="bg-background">
+                                <thead className="">
                                     <tr>
-                                        <th scope="col" className="px-6 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Property</th>
-                                        <th scope="col" className="px-6 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Location</th>
-                                        <th scope="col" className="px-6 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Monthly Rent</th>
-                                        <th scope="col" className="px-6 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Duration</th>
-                                        <th scope="col" className="px-6 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
-                                        <th scope="col" className="px-6 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Action</th>
+                                        <th scope="col" className="px-6 py-3.5 text-xs font-semibold  uppercase tracking-wider">Property</th>
+                                        <th scope="col" className="px-6 py-3.5 text-xs font-semibold  uppercase tracking-wider">Location</th>
+                                        <th scope="col" className="px-6 py-3.5 text-xs font-semibold  uppercase tracking-wider">Monthly Rent</th>
+                                        <th scope="col" className="px-6 py-3.5 text-xs font-semibold  uppercase tracking-wider">Duration</th>
+                                        <th scope="col" className="px-6 py-3.5 text-xs font-semibold  uppercase tracking-wider">Status</th>
+                                        <th scope="col" className="px-6 py-3.5 text-xs font-semibold  uppercase tracking-wider">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody className="bg-background divide-y divide-gray-200 text-sm">
@@ -66,28 +66,28 @@ export default async function Rental() {
                                                             className="h-12 w-12 flex-shrink-0 rounded-lg object-cover bg-gray-100 border border-gray-200"
                                                         />
                                                         <div>
-                                                            <div className="font-semibold text-chart-4 max-w-xs truncate">{prop?.title}</div>
-                                                            <div className="text-xs text-gray-500">{prop?.bedrooms} Bed • {prop?.bathrooms} Bath • {prop?.size} {prop?.sizeUnit}</div>
+                                                            <div className="font-semibold  max-w-xs truncate">{prop?.title}</div>
+                                                            <div className="text-xs ">{prop?.bedrooms} Bed • {prop?.bathrooms} Bath • {prop?.size} {prop?.sizeUnit}</div>
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-gray-600">
-                                                    <div className="font-medium text-gray-900">{prop?.area}, {prop?.city}</div>
-                                                    <div className="text-xs text-gray-500 max-w-xs truncate">{prop?.fullAddress}</div>
+                                                <td className="px-6 py-4 whitespace-nowrap ">
+                                                    <div className="font-medium ">{prop?.area}, {prop?.city}</div>
+                                                    <div className="text-xs  max-w-xs truncate">{prop?.fullAddress}</div>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap font-semibold ">
                                                     ৳{prop?.price_per_month?.toLocaleString()}
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-xs text-gray-600">
-                                                    <div><span className="text-gray-400">From:</span> {new Date(rental.startDate).toLocaleDateString()}</div>
-                                                    <div><span className="text-gray-400">To:</span> {new Date(rental.endDate).toLocaleDateString()}</div>
+                                                <td className="px-6 py-4 whitespace-nowrap text-xs ">
+                                                    <div><span className="">From:</span> {new Date(rental.startDate).toLocaleDateString()}</div>
+                                                    <div><span className="">To:</span> {new Date(rental.endDate).toLocaleDateString()}</div>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <span className="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800">
                                                         {rental.status}
                                                     </span>
                                                 </td>
-                                                 <td className="px-6 py-4 whitespace-nowrap text-xs text-gray-600">
+                                                 <td className="px-6 py-4 whitespace-nowrap text-xs ">
                                             
                                                <Link href={`/properties/${prop.id}`}>view</Link>
                                                 </td>
